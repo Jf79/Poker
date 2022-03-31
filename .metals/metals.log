@@ -1,0 +1,252 @@
+2022.04.01 00:26:00 INFO  tracing is disabled for protocol LSP, to enable tracing of incoming and outgoing JSON messages create an empty file at c:\Users\User\poker\.metals\lsp.trace.json or C:\Users\User\AppData\Local\scalameta\metals\cache\lsp.trace.json
+2022.04.01 00:26:03 INFO  logging to file C:\Users\User\poker\.metals\metals.log
+2022.04.01 00:26:03 INFO  Started: Metals version 0.11.2 in workspace 'C:\Users\User\poker' for client Visual Studio Code 1.66.0.
+2022.04.01 00:26:03 INFO  Parse release: 12.0.2
+2022.04.01 00:26:08 INFO  time: initialize in 4.8s
+2022.04.01 00:26:09 WARN  Build server is not auto-connectable.
+2022.04.01 00:26:17 INFO  running 'C:\Program Files\Java\jdk-12.0.2\bin\java -Djline.terminal=jline.UnsupportedTerminal -Dsbt.log.noformat=true -Dfile.encoding=UTF-8 -jar C:\Users\User\AppData\Local\Temp\metals16018652642432076861\sbt-launch.jar -Dbloop.export-jar-classifiers=sources bloopInstall'
+2022.04.01 00:26:20 INFO  [info] welcome to sbt 1.6.2 (Oracle Corporation Java 12.0.2)
+2022.04.01 00:26:25 INFO  [info] loading settings for project poker-build-build from metals.sbt ...
+2022.04.01 00:26:27 INFO  [info] loading project definition from C:\Users\User\poker\project\project
+2022.04.01 00:26:32 INFO  [info] loading settings for project poker-build from metals.sbt ...
+2022.04.01 00:26:32 INFO  [info] loading project definition from C:\Users\User\poker\project
+2022.04.01 00:26:38 INFO  [success] Generated .bloop\poker-build.json
+2022.04.01 00:26:38 INFO  [success] Total time: 6 s, completed 01.04.2022, 00:26:38
+2022.04.01 00:26:40 INFO  [info] loading settings for project root from build.sbt ...
+2022.04.01 00:26:40 INFO  [info] set current project to Poker (in build file:/C:/Users/User/poker/)
+2022.04.01 00:26:41 INFO  [success] Generated .bloop\root.json
+2022.04.01 00:26:41 INFO  [success] Generated .bloop\root-test.json
+2022.04.01 00:26:41 INFO  [success] Total time: 1 s, completed 01.04.2022, 00:26:41
+2022.04.01 00:26:42 INFO  time: ran 'sbt bloopInstall' in 24s
+2022.04.01 00:26:42 INFO  Attempting to connect to the build server...
+2022.04.01 00:26:50 INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at C:\Users\User\poker\.metals\bsp.trace.json or C:\Users\User\AppData\Local\scalameta\metals\cache\bsp.trace.json
+2022.04.01 00:26:51 INFO  Attempting to connect to the build server...
+2022.04.01 00:26:51 INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at C:\Users\User\poker\project\.metals\bsp.trace.json or C:\Users\User\AppData\Local\scalameta\metals\cache\bsp.trace.json
+2022.04.01 00:26:51 INFO  time: Connected to build server in 9.07s
+2022.04.01 00:26:51 INFO  Connected to Build server: Bloop v1.4.13
+2022.04.01 00:26:51 INFO  time: Imported build in 0.28s
+2022.04.01 00:27:02 INFO  time: indexed workspace in 10s
+2022.04.01 00:27:22 INFO  compiling root (1 scala source)
+2022.04.01 00:27:29 INFO  time: compiled root in 6.39s
+2022.04.01 00:28:13 INFO  compiling root (1 scala source)
+2022.04.01 00:28:15 INFO  time: compiled root in 1.99s
+2022.04.01 00:32:05 WARN  no build target for: C:\Users\User\poker\src\main\pokerworksheet.sc
+2022.04.01 00:32:14 INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at C:\Users\User\poker\.metals\bsp.trace.json or C:\Users\User\AppData\Local\scalameta\metals\cache\bsp.trace.json
+2022.04.01 00:32:15 INFO  Ammonite: Downloaded 1 missing file(s) / 56
+
+2022.04.01 00:32:15 INFO  Ammonite: Downloaded 2 missing file(s) / 56
+
+2022.04.01 00:32:15 INFO  Ammonite: Downloaded 3 missing file(s) / 56
+
+2022.04.01 00:32:15 INFO  Ammonite: Downloaded 4 missing file(s) / 56
+
+2022.04.01 00:32:15 INFO  Ammonite: Downloaded 5 missing file(s) / 56
+
+2022.04.01 00:32:15 INFO  Ammonite: Downloaded 6 missing file(s) / 56
+
+2022.04.01 00:32:15 INFO  Ammonite: Downloaded 7 missing file(s) / 56
+
+2022.04.01 00:32:15 INFO  Ammonite: Downloaded 8 missing file(s) / 56
+
+2022.04.01 00:32:15 INFO  Ammonite: Downloaded 9 missing file(s) / 56
+
+2022.04.01 00:32:15 INFO  Ammonite: Downloaded 10 missing file(s) / 56
+
+2022.04.01 00:32:15 INFO  Ammonite: Downloaded 11 missing file(s) / 56
+
+2022.04.01 00:32:15 INFO  Ammonite: Downloaded 12 missing file(s) / 56
+
+2022.04.01 00:32:15 INFO  Ammonite: Downloaded 13 missing file(s) / 56
+
+2022.04.01 00:32:15 INFO  Ammonite: Downloaded 14 missing file(s) / 56
+
+2022.04.01 00:32:15 INFO  Ammonite: Downloaded 15 missing file(s) / 56
+
+2022.04.01 00:32:15 INFO  Ammonite: Downloaded 16 missing file(s) / 56
+
+2022.04.01 00:32:15 INFO  Ammonite: Downloaded 17 missing file(s) / 56
+
+2022.04.01 00:32:15 INFO  Ammonite: Downloaded 18 missing file(s) / 56
+
+2022.04.01 00:32:15 INFO  Ammonite: Downloaded 19 missing file(s) / 56
+
+2022.04.01 00:32:15 INFO  Ammonite: Downloaded 20 missing file(s) / 56
+
+2022.04.01 00:32:15 INFO  Ammonite: Downloaded 21 missing file(s) / 56
+
+2022.04.01 00:32:15 INFO  Ammonite: Downloaded 22 missing file(s) / 56
+
+2022.04.01 00:32:15 INFO  Ammonite: Downloaded 23 missing file(s) / 56
+
+2022.04.01 00:32:15 INFO  Ammonite: Downloaded 24 missing file(s) / 56
+
+2022.04.01 00:32:15 INFO  Ammonite: Downloaded 25 missing file(s) / 56
+
+2022.04.01 00:32:15 INFO  Ammonite: Downloaded 26 missing file(s) / 56
+
+2022.04.01 00:32:15 INFO  Ammonite: Downloaded 27 missing file(s) / 56
+
+2022.04.01 00:32:15 INFO  Ammonite: Downloaded 28 missing file(s) / 56
+
+2022.04.01 00:32:15 INFO  Ammonite: Downloaded 29 missing file(s) / 56
+
+2022.04.01 00:32:15 INFO  Ammonite: Downloaded 30 missing file(s) / 56
+
+2022.04.01 00:32:15 INFO  Ammonite: Downloaded 31 missing file(s) / 56
+
+2022.04.01 00:32:15 INFO  Ammonite: Downloaded 32 missing file(s) / 56
+
+2022.04.01 00:32:15 INFO  Ammonite: Downloaded 33 missing file(s) / 56
+
+2022.04.01 00:32:15 INFO  Ammonite: Downloaded 34 missing file(s) / 56
+
+2022.04.01 00:32:15 INFO  Ammonite: Downloaded 35 missing file(s) / 56
+
+2022.04.01 00:32:15 INFO  Ammonite: Downloaded 36 missing file(s) / 56
+
+2022.04.01 00:32:15 INFO  Ammonite: Downloaded 37 missing file(s) / 56
+
+2022.04.01 00:32:16 INFO  Ammonite: Downloaded 38 missing file(s) / 56
+
+2022.04.01 00:32:16 INFO  Ammonite: Downloaded 39 missing file(s) / 56
+
+2022.04.01 00:32:16 INFO  Ammonite: Downloaded 40 missing file(s) / 56
+
+2022.04.01 00:32:16 INFO  Ammonite: Downloaded 41 missing file(s) / 56
+
+2022.04.01 00:32:16 INFO  Ammonite: Downloaded 42 missing file(s) / 56
+
+2022.04.01 00:32:16 INFO  Ammonite: Downloaded 43 missing file(s) / 56
+
+2022.04.01 00:32:16 INFO  Ammonite: Downloaded 44 missing file(s) / 56
+
+2022.04.01 00:32:16 INFO  Ammonite: Downloaded 45 missing file(s) / 56
+
+2022.04.01 00:32:16 INFO  Ammonite: Downloaded 46 missing file(s) / 56
+
+2022.04.01 00:32:16 INFO  Ammonite: Downloaded 47 missing file(s) / 56
+
+2022.04.01 00:32:16 INFO  Ammonite: Downloaded 48 missing file(s) / 56
+
+2022.04.01 00:32:16 INFO  Ammonite: Downloaded 49 missing file(s) / 56
+
+2022.04.01 00:32:16 INFO  Ammonite: Downloaded 50 missing file(s) / 56
+
+2022.04.01 00:32:16 INFO  Ammonite: Downloaded 51 missing file(s) / 56
+
+2022.04.01 00:32:16 INFO  Ammonite: Downloaded 52 missing file(s) / 56
+
+2022.04.01 00:32:16 INFO  Ammonite: Downloaded 53 missing file(s) / 56
+
+2022.04.01 00:32:16 INFO  Ammonite: Downloaded 54 missing file(s) / 56
+
+2022.04.01 00:32:16 INFO  Ammonite: Downloaded 55 missing file(s) / 56
+
+2022.04.01 00:32:16 INFO  Ammonite: Downloaded 56 missing file(s) / 56
+
+2022.04.01 00:32:16 INFO  Ammonite: Downloaded 1 missing file(s) / 46
+
+2022.04.01 00:32:16 INFO  Ammonite: Downloaded 2 missing file(s) / 46
+
+2022.04.01 00:32:16 INFO  Ammonite: Downloaded 3 missing file(s) / 46
+
+2022.04.01 00:32:16 INFO  Ammonite: Downloaded 4 missing file(s) / 46
+
+2022.04.01 00:32:16 INFO  Ammonite: Downloaded 5 missing file(s) / 46
+
+2022.04.01 00:32:16 INFO  Ammonite: Downloaded 6 missing file(s) / 46
+
+2022.04.01 00:32:16 INFO  Ammonite: Downloaded 7 missing file(s) / 46
+
+2022.04.01 00:32:18 INFO  Ammonite: Downloaded 8 missing file(s) / 46
+
+2022.04.01 00:32:18 INFO  Ammonite: Downloaded 9 missing file(s) / 46
+
+2022.04.01 00:32:18 INFO  Ammonite: Downloaded 10 missing file(s) / 46
+
+2022.04.01 00:32:18 INFO  Ammonite: Downloaded 11 missing file(s) / 46
+
+2022.04.01 00:32:18 INFO  Ammonite: Downloaded 12 missing file(s) / 46
+
+2022.04.01 00:32:18 INFO  Ammonite: Downloaded 13 missing file(s) / 46
+
+2022.04.01 00:32:18 INFO  Ammonite: Downloaded 14 missing file(s) / 46
+
+2022.04.01 00:32:18 INFO  Ammonite: Downloaded 15 missing file(s) / 46
+
+2022.04.01 00:32:18 INFO  Ammonite: Downloaded 16 missing file(s) / 46
+
+2022.04.01 00:32:18 INFO  Ammonite: Downloaded 17 missing file(s) / 46
+
+2022.04.01 00:32:18 INFO  Ammonite: Downloaded 18 missing file(s) / 46
+
+2022.04.01 00:32:18 INFO  Ammonite: Downloaded 19 missing file(s) / 46
+
+2022.04.01 00:32:18 INFO  Ammonite: Downloaded 20 missing file(s) / 46
+
+2022.04.01 00:32:18 INFO  Ammonite: Downloaded 21 missing file(s) / 46
+
+2022.04.01 00:32:18 INFO  Ammonite: Downloaded 22 missing file(s) / 46
+
+2022.04.01 00:32:18 INFO  Ammonite: Downloaded 23 missing file(s) / 46
+
+2022.04.01 00:32:18 INFO  Ammonite: Downloaded 24 missing file(s) / 46
+
+2022.04.01 00:32:18 INFO  Ammonite: Downloaded 25 missing file(s) / 46
+
+2022.04.01 00:32:18 INFO  Ammonite: Downloaded 26 missing file(s) / 46
+
+2022.04.01 00:32:18 INFO  Ammonite: Downloaded 27 missing file(s) / 46
+
+2022.04.01 00:32:18 INFO  Ammonite: Downloaded 28 missing file(s) / 46
+
+2022.04.01 00:32:18 INFO  Ammonite: Downloaded 29 missing file(s) / 46
+
+2022.04.01 00:32:18 INFO  Ammonite: Downloaded 30 missing file(s) / 46
+
+2022.04.01 00:32:18 INFO  Ammonite: Downloaded 31 missing file(s) / 46
+
+2022.04.01 00:32:18 INFO  Ammonite: Downloaded 32 missing file(s) / 46
+
+2022.04.01 00:32:18 INFO  Ammonite: Downloaded 33 missing file(s) / 46
+
+2022.04.01 00:32:18 INFO  Ammonite: Downloaded 34 missing file(s) / 46
+
+2022.04.01 00:32:18 INFO  Ammonite: Downloaded 35 missing file(s) / 46
+
+2022.04.01 00:32:18 INFO  Ammonite: Downloaded 36 missing file(s) / 46
+
+2022.04.01 00:32:18 INFO  Ammonite: Downloaded 37 missing file(s) / 46
+
+2022.04.01 00:32:19 INFO  Ammonite: Downloaded 38 missing file(s) / 46
+
+2022.04.01 00:32:19 INFO  Ammonite: Downloaded 39 missing file(s) / 46
+
+2022.04.01 00:32:19 INFO  Ammonite: Downloaded 40 missing file(s) / 46
+
+2022.04.01 00:32:19 INFO  Ammonite: Downloaded 41 missing file(s) / 46
+
+2022.04.01 00:32:19 INFO  Ammonite: Downloaded 42 missing file(s) / 46
+
+2022.04.01 00:32:20 INFO  Ammonite: Downloaded 43 missing file(s) / 46
+
+2022.04.01 00:32:20 INFO  Ammonite: Downloaded 44 missing file(s) / 46
+
+2022.04.01 00:32:20 INFO  Ammonite: Downloaded 45 missing file(s) / 46
+
+2022.04.01 00:32:20 INFO  Ammonite: Downloaded 46 missing file(s) / 46
+
+2022.04.01 00:32:21 INFO  Ammonite: Starting BSP server
+
+2022.04.01 00:32:21 INFO  Connected to Ammonite Build server v2.5.2
+2022.04.01 00:32:28 WARN  no build target for: C:\Users\User\poker\src\main\pokerworksheet.sc
+2022.04.01 00:32:32 INFO  no build target found for C:\Users\User\poker\src\main\pokerworksheet.sc. Using presentation compiler with project's scala-library version: 3.1.1
+2022.04.01 00:32:34 INFO  Ammonite: Apr. 01, 2022 12:32:34 AM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint request
+WARNUNG: Unsupported request method: buildTarget/javacOptions
+
+2022.04.01 00:32:34 INFO  Java targets not supported by server
+2022.04.01 00:32:38 INFO  time: indexed workspace in 4.07s
+2022.04.01 00:32:40 INFO  compiling src/main/pokerworksheet.sc
+2022.04.01 00:32:45 INFO  time: compiled pokerworksheet.sc in 4.06s
+Apr. 01, 2022 12:43:15 VORM. org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFO: Unsupported notification method: $/setTrace

@@ -1,0 +1,12 @@
+[0m[[0m[0mdebug[0m] [0m[0m> Exec(run pokerworksheet.sc, Some(241a3eed-880d-449c-a586-856c56542322), Some(CommandSource(console0)))[0m
+[0m[[0m[0mdebug[0m] [0m[0mEvaluating tasks: Compile / run[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning task... Cancel: Signal, check cycles: false, forcegc: true[0m
+[0m[[0m[0mdebug[0m] [0m[0mjsonRpcNotify: JsonRpcNotificationMessage(2.0, build/taskStart, {"taskId":{"id":"6","parents":[]},"eventTime":1648765963888,"message":"Compiling root","dataKind":"compile-task","data":{"target":{"uri":"file:/C:/Users/User/poker/#root/Compile"}}})[0m
+[0m[[0m[0mdebug[0m] [0m[0mjsonRpcNotify: JsonRpcNotificationMessage(2.0, build/publishDiagnostics, {"textDocument":{"uri":"file:///C:/Users/User/poker/src/main/scala/Main.scala"},"buildTarget":{"uri":"file:/C:/Users/User/poker/#root/Compile"},"diagnostics":[],"reset":true})[0m
+[0m[[0m[0mdebug[0m] [0m[0mjsonRpcNotify: JsonRpcNotificationMessage(2.0, build/taskFinish, {"taskId":{"id":"6","parents":[]},"eventTime":1648765963904,"message":"Compiled root","status":1,"dataKind":"compile-report","data":{"target":{"uri":"file:/C:/Users/User/poker/#root/Compile"},"errors":0,"warnings":0,"time":16}})[0m
+[0m[[0m[0mdebug[0m] [0m[0mjsonRpcNotify: JsonRpcNotificationMessage(2.0, build/logMessage, {"type":3,"message":"running Poker pokerworksheet.sc"})[0m
+[0m[[0m[0mdebug[0m] [0m[0mjsonRpcNotify: JsonRpcNotificationMessage(2.0, build/logMessage, {"type":4,"message":"  Classpath:\n\tC:\\Users\\User\\poker\\target\\bg-jobs\\sbt_98539460\\job-2\\target\\048935ef\\7b97d34c\\poker_3-0.1.0-SNAPSHOT.jar\n\tC:\\Users\\User\\poker\\target\\bg-jobs\\sbt_98539460\\target\\e2bb441a\\97e76c14\\scala3-library_3-3.1.1.jar\n\tC:\\Users\\User\\poker\\target\\bg-jobs\\sbt_98539460\\target\\3c8356cd\\184a7a50\\scala-library-2.13.6.jar"})[0m
+[0m[[0m[32msuccess[0m] [0m[0mTotal time: 0 s, completed 01.04.2022, 00:32:43[0m
+[0m[[0m[0mdebug[0m] [0m[0m> Exec(shell, None, None)[0m
+[0m[[0m[0mdebug[0m] [0m[0mForcing garbage collection...[0m
+[0m[[0m[0mdebug[0m] [0m[0mUnhandled notification received: $/setTraceNotification: JsonRpcNotificationMessage(2.0, $/setTraceNotification, {"value":"off"})[0m

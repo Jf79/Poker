@@ -1,2 +1,15 @@
 *.class
 *.log
+.bloop
+.bsp
+project/metals.sbt
+.metals
+.vscode
+.tasty
+project/project/
+project/target/
+target/
+null/
+.history
+.scala_dependencies
+.cache-main

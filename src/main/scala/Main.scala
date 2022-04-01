@@ -1,18 +1,19 @@
-@main def hello: Unit = {
-    val card1 = new Card("A","Heart")
-    val card2 = new Card("K","Heart")
-    val card3 = new Card("Q","Heart")
-    val card4 = new Card("J","Heart")
-    val card5 = new Card("10","Heart")
+@main def run: Unit = {
+   val cards = createCards
+   cards.foreach(c => println(c.toString))
+} 
 
-    println("Hello world!")
-    println(msg)
+def createCards:Array[Card] = {
+    val cards = new Array[Card](5)
+    cards(0) = new Card("A","Heart")
+    cards(1) = new Card("K","Heart")
+    cards(2) = new Card("Q","Heart")
+    cards(3) = new Card("J","Heart")
+    cards(4) = new Card("10","Heart")
+    cards
 }
 
 case class Card(picture:String, symbol:String) {
     override def toString = picture + "("+symbol+")"
 }
-
-def msg = "I was compiled by Scala 3. :)"
-
 

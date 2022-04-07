@@ -1,5 +1,6 @@
 @main def run: Unit = {
   println("Welcome to Poker")
+  println("Test")
   val cards = createCards
   cards.foreach(c => println(c.toString))
 }

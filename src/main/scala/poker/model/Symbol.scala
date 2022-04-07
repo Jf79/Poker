@@ -1,4 +1,4 @@
-package poker.model
+package model
 
 enum Symbol {
     case HEART, DIAMOND, CLUB, SPADE

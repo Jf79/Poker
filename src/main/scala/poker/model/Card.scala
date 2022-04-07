@@ -1,4 +1,4 @@
-package poker.model
+package model
 
 case class Card(symbol: Symbol, picture: Picture){
 

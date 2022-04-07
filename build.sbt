@@ -5,8 +5,8 @@ lazy val root = project
   .settings(
     name := "Poker",
     version := "0.1.0-SNAPSHOT",
-
     scalaVersion := scala3Version,
-    libraryDependencies += "org.scalactic"  %% "scalactic" % "3.2.10"
-    libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.10" % "test",
+    libraryDependencies += "org.scalactic"  %% "scalactic" % "3.2.11",
+    libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.11" % "test"
   )
+  

@@ -1,4 +1,4 @@
-package scala.poker
+package poker
 import model.Card
 
 @main def run: Unit = {

@@ -1,7 +1,6 @@
 package model
 
-case class Card(symbol: Symbol, picture: Picture){
-
+case class Card(symbol: Symbol, picture: Picture, value: Integer) {
     override def toString = picture + "(" + symbol + ")"
 }
 

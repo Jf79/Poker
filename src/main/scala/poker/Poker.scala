@@ -2,19 +2,10 @@ package poker
 
 object start {
 
-    private var attribut : String = ""
-
     @main def run: Unit = {
     attribut = "Hallo"
     println("Welcome to Poker")
-    println(attribut)
-    val x = new Array[String](3)
-    x(0) = "a"
-    x(1) = "b"
-    x(2) = "c"
-    x(0) = "x"
-    println(x(0))
-    println("\u2764")
+    
     val cards = createCards
     cards.foreach(c => println(c.toString))
 }

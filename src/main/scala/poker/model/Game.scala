@@ -13,20 +13,19 @@ object Game {
         Picture.EIGHT, Picture.NINE, Picture.TEN, Picture.JACK, Picture.QUEEN, Picture.KING, Picture.ACE)
         pictures
     } 
-
-
+    
     def createCards() : Array[Card] = {
-       // Todo: create all 52 cards 
+       // Todo: create all 52 cards and return it
        null 
     }
 
     def getRandomCard(cards: Array[Card]) : Card = {
-        // Todo: get random card of the array cards
+        // Todo: return random card of the array cards and remove it from the array
         null
     }
 
     def getRandomCards(cards: Array[Card], n: Int) : Array[Card] = {
-        // Todo: get n random cards of the array cards, using the function getRandomCard
+        // Todo: get n random cards of the array cards, using the function getRandomCard(cards)
         null
     }
 

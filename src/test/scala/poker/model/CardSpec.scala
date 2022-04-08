@@ -7,8 +7,8 @@ import model._
 
 class CardSpec extends AnyWordSpec with Matchers { 
   "A Card" when {
+    val card = Card(Symbol.HEART, Picture.ACE, 14)
     "when its created" should {
-      val card = Card(Symbol.HEART, Picture.ACE, 14)
       "have symbol HEART" in {
         card.symbol should be(Symbol.HEART)
       }
@@ -16,12 +16,10 @@ class CardSpec extends AnyWordSpec with Matchers {
         card.picture should be(Picture.ACE)
       }
     }
-    "its printed" should {
-      val card = Card(Symbol.HEART, Picture.ACE, 14)
-      "show" in{
+    "when its printed" should {
+      "is printed" in {
         card.toString should be("A (HEART)")
       }
     }
   }
 }
-

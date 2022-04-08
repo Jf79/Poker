@@ -1,13 +1,16 @@
+package poker.model
+
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
-import poker.model
 
-class PictureSpec extends WordSpec with Matchers { 
+import model._
+
+class PictureSpec extends AnyWordSpec with Matchers { 
   "A Picture" when {
     "its printed" should {
       val picture = Picture.ACE
       "print A" in {
-        picutre.toString should be("A")
+        picture.toString should be("A")
       }
     }
   }

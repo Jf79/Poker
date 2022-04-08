@@ -19,12 +19,12 @@ object Game {
        null 
     }
 
-    def getRandomCard(cards: Array[Card]) : Card = {
-        // Todo: return random card of the array cards and remove it from the array
+    def getRandomCard(cards: Array[Card]) : (Card, Array[Card]) = {
+        // Todo: get random card of the array cards and remove it from the array
         null
     }
 
-    def getRandomCards(cards: Array[Card], n: Int) : Array[Card] = {
+    def getRandomCards(cards: Array[Card], n: Int) : (Array[Card], Array[Card]) = {
         // Todo: get n random cards of the array cards, using the function getRandomCard(cards)
         null
     }

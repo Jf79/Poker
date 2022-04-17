@@ -39,8 +39,11 @@ object Game {
     cards
   }
 
-  def getRandomCard(cards: Array[Card]): (Card, Array[Card]) = {
-    val indexCard = (math.random * (cards.length - 1)).toInt
+  def getRandomCard(
+      cards: Array[Card],
+      randomIndex: Int
+  ): (Card, Array[Card]) = {
+    val indexCard = (math.random * (randomIndex - 1)).toInt
     val card = cards(indexCard)
     val deck = new Array[Card](cards.length - 1)
     var index = 0
@@ -53,14 +56,20 @@ object Game {
     (card, deck)
   }
 
-  def getRandomCards(cards: Array[Card], n: Int): (Array[Card], Array[Card]) = {
+  def getRandomCards(
+      cards: Array[Card],
+      n: Int,
+      randomIndex: Int
+  ): (Array[Card], Array[Card]) = {
     // Todo: get n random cards of the array cards, using the function getRandomCard(cards)
     val hand = new Array[Card](5)
     var deck = cards
+    var rI = randomIndex
     for (i <- 0 to n - 1) {
-      val tuple = getRandomCard(deck)
+      val tuple = getRandomCard(deck, rI)
       hand(i) = tuple._1
       deck = tuple._2
+      rI -= 1
     }
     (hand, deck)
   }

@@ -25,4 +25,30 @@ class GameSpec extends AnyWordSpec with Matchers {
             }
         }
     }
+    "The Cards" when {
+        "the created" should {
+            val cards = Game.createCards()
+            val card = new Card(Symbol.HEART, Picture.TWO, 2)
+            "have 13 heart cards" in {
+                var hearts = 0
+                cards.foreach(c => if(c.symbol.equals(Symbol.HEART)){hearts+=1})
+                hearts should be(13)
+            }
+            "have 13 diamond cards" in {
+                var diamonds = 0
+                cards.foreach(c => if(c.symbol.equals(Symbol.DIAMOND)){diamonds+=1})
+                diamonds should be(13)
+            }
+            "have 13 spade cards" in {
+                var spades = 0
+                cards.foreach(c => if(c.symbol.equals(Symbol.SPADE)){spades+=1})
+                spades should be(13)
+            }
+            "have 13 club cards" in {
+                var clubs = 0
+                cards.foreach(c => if(c.symbol.equals(Symbol.CLUB)){clubs+=1})
+                clubs should be(13)
+            }
+        }
+    }
 }

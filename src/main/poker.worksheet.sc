@@ -7,3 +7,18 @@ val c = cards()
 c.signs
 c.values
 c.values(1)
+
+var numbers = new Array[Int](3)
+numbers(0) = 111
+numbers(1) = 111
+numbers(2) = 111
+println(numbers.forall(c => c.equals(1117)))
+
+
+numbers(0) = 111
+numbers(1) = 222
+numbers(2) = 333
+
+numbers.foreach(n => println(n))
+numbers = numbers.filter(!_.equals(333))
+numbers.foreach(n => println(n))

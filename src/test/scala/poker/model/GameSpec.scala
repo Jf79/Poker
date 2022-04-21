@@ -25,10 +25,9 @@ class GameSpec extends AnyWordSpec with Matchers {
             }
         }
     }
-    "The Cards" when {
-        "the created" should {
+    "The card deck" when {
+        "its created" should {
             val cards = Game.createCards()
-            val card = new Card(Symbol.HEART, Picture.TWO, 2)
             "have 13 heart cards" in {
                 var hearts = 0
                 cards.foreach(c => if(c.symbol.equals(Symbol.HEART)){hearts+=1})
@@ -48,6 +47,71 @@ class GameSpec extends AnyWordSpec with Matchers {
                 var clubs = 0
                 cards.foreach(c => if(c.symbol.equals(Symbol.CLUB)){clubs+=1})
                 clubs should be(13)
+            }
+            "have 4 TWOS" in {
+                var i = 0
+                cards.foreach(c => if(c.picture.equals(Picture.TWO)){i+=1})
+                i should be(4)
+            }
+            "have 4 THREES" in {
+                var i = 0
+                cards.foreach(c => if(c.picture.equals(Picture.THREE)){i+=1})
+                i should be(4)
+            }
+            "have 4 FOURS" in {
+                var i = 0
+                cards.foreach(c => if(c.picture.equals(Picture.FOUR)){i+=1})
+                i should be(4)
+            }
+            "have 4 FIVES" in {
+                var i = 0
+                cards.foreach(c => if(c.picture.equals(Picture.FIVE)){i+=1})
+                i should be(4)
+            }
+            "have 4 SIXS" in {
+                var i = 0
+                cards.foreach(c => if(c.picture.equals(Picture.SIX)){i+=1})
+                i should be(4)
+            }
+            "have 4 SEVENS" in {
+                var i = 0
+                cards.foreach(c => if(c.picture.equals(Picture.SEVEN)){i+=1})
+                i should be(4)
+            }
+            "have 4 EIGHTS" in {
+                var i = 0
+                cards.foreach(c => if(c.picture.equals(Picture.EIGHT)){i+=1})
+                i should be(4)
+            }
+            "have 4 NINES" in {
+                var i = 0
+                cards.foreach(c => if(c.picture.equals(Picture.NINE)){i+=1})
+                i should be(4)
+            }
+            "have 4 TENS" in {
+                var i = 0
+                cards.foreach(c => if(c.picture.equals(Picture.TEN)){i+=1})
+                i should be(4)
+            }
+            "have 4 JACKS" in {
+                var i = 0
+                cards.foreach(c => if(c.picture.equals(Picture.JACK)){i+=1})
+                i should be(4)
+            }
+            "have 4 QUEENS" in {
+                var i = 0
+                cards.foreach(c => if(c.picture.equals(Picture.QUEEN)){i+=1})
+                i should be(4)
+            }
+            "have 4 KINGS" in {
+                var i = 0
+                cards.foreach(c => if(c.picture.equals(Picture.KING)){i+=1})
+                i should be(4)
+            }
+            "have 4 ACES" in {
+                var i = 0
+                cards.foreach(c => if(c.picture.equals(Picture.ACE)){i+=1})
+                i should be(4)
             }
         }
     }

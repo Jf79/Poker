@@ -4,9 +4,48 @@ import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
 import model._
+import scala.util.Random
 
 
 class GameSpec extends AnyWordSpec with Matchers { 
+    "Multiple cards" when {
+        "there randomly drawn with getRandomCards(5)" should {
+            val cards = Game.createCards()
+            val tuple = Game.getRandomCards(cards, 5)
+            val hand = tuple._1
+            val deck = tuple._2
+            "the hand have five cards" in {
+                hand.length should be(5)
+            }
+            "the length of the deck be decreased by five" in {
+                deck.length should be(cards.length - 5)
+            }
+            "the five cards not longer be in the deck" in {
+                var exist = false;
+                deck.foreach(d => hand.foreach(h => if(d.equals(h)){exist = true}))
+                exist should be (false)
+            }
+        }
+    }
+    "A card" when {
+        "its randomly drawn with getRandomCard()" should {
+            val cards = Game.createCards()
+            val i = Random.nextInt(cards.length - 1)
+            val card = cards(i)
+            val returnValue = Game.getRandomCard(cards, i)
+            "be equals to the manually drawn card" in {
+                card should be(returnValue._1)
+            }
+            "decrease the number of cards by 1" in {
+                returnValue._2.length should be (cards.length-1)
+            }
+            "the drawn card no longer be in the deck" in {
+                var exist = false;
+                returnValue._2.foreach(c => if(c.equals(card)){exist = true}) 
+                exist should be (false)
+            }
+        }
+    }
     "The Symbols" when {
         "there created" should {
             val symbols = List(Symbol.HEART, Symbol.DIAMOND, Symbol.CLUB, Symbol.SPADE)

@@ -25,8 +25,11 @@ class TUISpec extends AnyWordSpec with Matchers {
             new Card(Symbol.HEART, Picture.FIVE , 5),
             new Card(Symbol.HEART, Picture.SIX , 6))
             val game = tui.printGame(new Player(cards, 100))
-            val test = "\n\n[1]\t\t[2]\t\t[3]\t\t[4]\t\t[5]\t\t\n" +
-              "2 (HEART)\t3 (HEART)\t4 (HEART)\t5 (HEART)\t6 (HEART)\t"
+            "print numbers and cards" in {
+                val test = "\n\n[1]\t\t[2]\t\t[3]\t\t[4]\t\t[5]\t\t\n" +
+                "2 (HEART)\t3 (HEART)\t4 (HEART)\t5 (HEART)\t6 (HEART)\t"
+                game should be(test)
+            }
         }
         "it prints the numbers it" should {
             val tui = new TUI()

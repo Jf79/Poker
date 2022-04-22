@@ -1,5 +1,7 @@
 package model
 
-case class Player (cards: Array[Card], money: Int) {
+case class Player (hand: Array[Card], money: Int) {
+    def this(money:Int) = this(new Array[Card](5), money)
+    def setHand(hand: Array[Card]):Player = new Player(hand, this.money)
     override def toString = "Money: " + money
 }

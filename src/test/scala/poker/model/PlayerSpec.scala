@@ -14,7 +14,7 @@ class PlayerSpec extends AnyWordSpec with Matchers {
         cards(4) = new Card(Symbol.HEART, Picture.ACE, 14);   
         val player = new Player(cards, 100)    
         "have 5 cards" in {
-            player.cards should be(cards)
+            player.hand should be(cards)
         }
         "have 100 $" in {
             player.money should be(100)

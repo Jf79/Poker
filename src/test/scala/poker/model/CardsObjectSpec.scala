@@ -4,9 +4,6 @@ import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import scala.util.Random
 
-
-import model._
-import Picture._
 import CardsObject._
 
 

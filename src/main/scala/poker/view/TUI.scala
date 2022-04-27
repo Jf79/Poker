@@ -1,9 +1,9 @@
 package view
 
-import java.lang.StringBuilder
 import scala.io.StdIn._
 import model._
-import model.Game._
+import poker.model._
+import poker.model.CardsObject._
 
 class TUI() {
   
@@ -15,62 +15,68 @@ class TUI() {
       println("Your remaining money: " + player.money)
     }
 
-    def gameLoop(player:Player) : Player = {
+    def gameLoop(player: Player) : Player = {
       var continue = true
       var thePlayer = player
       while(continue) {
         val deck = createDeck() 
         val randCardsAndDeck = getRandomCards(deck, 5)
         thePlayer = new Player(randCardsAndDeck._1, thePlayer.money)
-        println(printGame(thePlayer))
-        thePlayer = startRound(thePlayer, randCardsAndDeck._2)
+        thePlayer = startFirstRound(thePlayer, randCardsAndDeck._2)
         println(printGame(thePlayer))
         continue = checkInput(readLine("Do you wanna continue(c) or quit(q) ?\n"))
       }
       thePlayer
     }    
 
-    def startRound(player: Player, deck: Array[Card]): Player =
-      val newCards = checkInput(readLine("Which cards you wanna hold ?\n").split(" "), deck, player)
-      val money = player.money + 0
-      new Player(newCards, money)
+    
+    def startFirstRound(player: Player, deck: Array[Card]): Player =
+      println(printGame(player))
+      val newCards = processInput(readLine("Which cards you wanna hold ?\n").split(" "), deck, player)
+      player.setHand(newCards)
+    
 
-    def checkInput(input: Array[String], deck: Array[Card], player: Player): Array[Card] = 
+    def processInput(input: Array[String], deck: Array[Card], player: Player): Array[Card] = 
       val cards = new Array[Int](input.length)
-      var i = 0
-      for(c <- input)
-        cards(i) = c.toInt
-        i += 1
+      for(i <- 0  to input.length - 1)
+        cards(i) = input(i).toInt - 1
       holdCards(deck, cards, player)
     
-    def holdCards(deck:Array[Card], holdedCards:Array[Int], player: Player): Array[Card] = 
-      val newHand = Game.getRandomCards(deck, 5)._1
-      val oldHand = player.cards
-      for(h <- holdedCards)
-        newHand(h - 1) = oldHand(h - 1)
+    
+    def holdCards(deck: Array[Card], holdedCards: Array[Int], player: Player): Array[Card] = 
+      val newHand = player.hand.clone
+      val randCardsAndDeck = getRandomCards(deck, holdedCards.length)
+      var index = 0
+      for(i <- 0 to 4 if(!holdedCards.contains(i))) 
+          newHand(i) = randCardsAndDeck._1(index)
+          index += 1
       newHand
+    
 
     def checkInput(input: String): Boolean =
       input.equals("c")
 
+    
     def printGame(player: Player): String = 
-      var game = "\n"
-      game += printNumbers() + printCards(player.cards) + "\n\n"
+      var game = "\n\n" + printNumbers() + "\n\n" + printCards(player.hand) + "\n\n"
       game
 
+    
     def printCards(hand: Array[Card]): String =
-      var cards = "\n\n"
+      var cards = ""
       hand.foreach(h => cards += h.toString + "\t")
       cards
 
+    
     def printNumbers(): String =
-      var numbers = "\n"
+      var numbers = ""
       for(i <- 1 to 5)
         numbers += "["+ i +"]\t\t"
       numbers
 
+    
     def createDeck(): Array[Card] =
-      Game.createCards()
+      createCards()
     
 
 }

@@ -1,4 +1,5 @@
-package model
+package poker.model
+import model._
 
 case class Card(symbol: Symbol, picture: Picture, value: Integer) {
     override def toString = picture.toString + " (" + symbol + ")"

@@ -4,12 +4,12 @@ import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
 import model._
-import model.Picture
-import model.CardsObject._
+import Picture._
+import CardsObject._
 import scala.util.Random
 
 
-class CardsObjectSpec extends AnyWordSpec with Matchers { 
+class CardsObjectSpecTest extends AnyWordSpec with Matchers { 
     "Multiple cards" when {
         "there randomly drawn with getRandomCards(5)" should {
             val cards = createCards()

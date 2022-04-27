@@ -7,8 +7,7 @@ var numbers = new Array[Int](3)
 numbers(0) = 111
 numbers(1) = 111
 numbers(2) = 111
-println(numbers.forall(c => c.equals(1117)))
-
+println((1 to 5).map("["+ _.toString + "]\t\t").mkString)
 numbers(0) = 111
 numbers(1) = 222
 numbers(2) = 333

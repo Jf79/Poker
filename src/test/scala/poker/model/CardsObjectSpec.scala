@@ -4,6 +4,7 @@ import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
 import model._
+import model.Picture
 import model.CardsObject._
 import scala.util.Random
 
@@ -61,7 +62,7 @@ class CardsObjectSpec extends AnyWordSpec with Matchers {
             Picture.EIGHT,Picture.NINE,Picture.TEN,Picture.JACK,Picture.QUEEN, Picture.KING,
             Picture.ACE)
             "be (TWO,THREE,FOUR,FIVE,SIX,SEVEN,EIGHT,NINE,TEN,JACK,QUEEN,KING,ACE)" in {
-                pictures should be(Game.getPicutres())
+                pictures should be(getPicutres())
             }
         }
     }

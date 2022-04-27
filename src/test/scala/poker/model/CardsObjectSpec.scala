@@ -9,7 +9,7 @@ import CardsObject._
 import scala.util.Random
 
 
-class CardsObjectSpecTest extends AnyWordSpec with Matchers { 
+class CardsObject_Spec extends AnyWordSpec with Matchers { 
     "Multiple cards" when {
         "there randomly drawn with getRandomCards(5)" should {
             val cards = createCards()

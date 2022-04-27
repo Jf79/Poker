@@ -9,13 +9,16 @@ object CombinationObject {
     def hasPair(hand: Array[Card]): (Boolean, Array[Card]) =
         null
     
-    def hasTwoPair(hand: Array[Card]): (Boolean, Array[Card]) =
+    def hasTwoPair(hand: Array[Card]): (Boolean, Card) =
         null
 
     def hasThreeOfAKind(hand: Array[Card]): (Boolean, Array[Card]) =
         null
     
     def hasStraight(hand: Array[Card]): Boolean =
+        false
+
+    def hasFlush(hand: Array[Card]): Boolean =
         false
     
     def hasFullHouse(hand: Array[Card]): Boolean =

@@ -2,11 +2,12 @@ package poker.model
 
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
+import scala.util.Random
+
 
 import model._
 import Picture._
 import CardsObject._
-import scala.util.Random
 
 
 class CardsObject_Spec extends AnyWordSpec with Matchers { 

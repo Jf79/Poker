@@ -22,7 +22,7 @@ class TUI(controller: Controller) extends Observer :
       input match 
         case "q" =>
         case _ => {
-          println("The round started.\nGood luck.\n")
+          println("\nThe round started.\n")
           startRound(new Round(player, deck = createCards(), bet = 10))
           gameLoop(player)
         }
@@ -30,11 +30,11 @@ class TUI(controller: Controller) extends Observer :
     def startRound(round: Round) = 
       controller.setRound(round)
       controller.setPlayerCards()
-      controller.holdCards(processInput(readLine("Which cards you wanna hold ?\n").split(" ")))
+      controller.holdCards(processInput(readLine("\nWhich cards you wanna hold ?\n").split(" ")))
 
     def processInput(input: Array[String]) : Vector[Int] = 
-      val holded = Vector()
-      input.foreach(c => holded :+ c.toInt)
+      var holded : Vector[Int] = Vector()
+      input.foreach(i => if(!i.equals("")) holded = holded :+ i.toInt)
       holded
       
       

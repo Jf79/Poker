@@ -31,8 +31,8 @@ class RoundSpec extends AnyWordSpec with Matchers {
     }
     val oldHand = round.player.hand
     val newRound = round.holdCards(Vector(2, 3, 4))
-    "A round when you hold 2 cards, the player " should {
-        "have 3 new cards" in {
+    "A round when you hold 3 cards, the player " should {
+        "have 2 new cards" in {
             var newCards = 0
             oldHand.foreach(c => if(!newRound.player.hand.contains(c)) newCards += 1)
             newCards should be(2)

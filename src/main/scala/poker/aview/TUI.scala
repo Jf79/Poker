@@ -1,5 +1,5 @@
 package poker
-package view
+package aview
 
 import scala.io.StdIn._
 import model._
@@ -8,9 +8,9 @@ import util.Observer
 import controller.Controller
 
 class TUI(controller: Controller) extends Observer :
-    controller.add(this)
 
     def run = 
+      controller.add(this)
       val player = new Player(500)
       gameLoop(player)
       println(player.toString)
@@ -18,17 +18,19 @@ class TUI(controller: Controller) extends Observer :
     override def update = println(controller.toString)
 
     def gameLoop(player: Player) : Unit = 
-      val input = readLine("Do you wanna quit (q) ?")
+      val input = readLine("Do you wanna quit (q) ?\n")
       input match 
         case "q" =>
         case _ => {
+          println("The round started.\nGood luck.\n")
           startRound(new Round(player, deck = createCards(), bet = 10))
           gameLoop(player)
         }
       
     def startRound(round: Round) = 
       controller.setRound(round)
-      controller.holdCards(processInput(readLine("Which cards you wanna hold ?").split(" ")))
+      controller.setPlayerCards()
+      controller.holdCards(processInput(readLine("Which cards you wanna hold ?\n").split(" ")))
 
     def processInput(input: Array[String]) : Vector[Int] = 
       val holded = Vector()

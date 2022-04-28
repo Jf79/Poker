@@ -1,6 +1,6 @@
-package poker.model
+package poker
+package model
 
-import model._
 import scala.util.Random
 
 object CardsObject {

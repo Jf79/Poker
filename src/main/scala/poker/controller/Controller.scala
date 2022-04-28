@@ -11,7 +11,6 @@ case class Controller(var round: Round) extends Observable {
 
     def setRound(round: Round) = 
         this.round = round
-        notifyObservers
 
     def setPlayerCards() = 
         round = round.setPlayerCards()

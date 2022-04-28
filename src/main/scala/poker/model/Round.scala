@@ -7,30 +7,30 @@ import CardsObject._
 case class Round(var player: Player, var deck: Array[Card], bet: Int) {
 
     def setPlayerCards() : Round = 
-        val handAndDeck = getRandomCards(deck, 5)
-        player = player.setHand(handAndDeck._1)
-        deck = handAndDeck._2
-        this
+      val tuple = getRandomCards(deck, 5)
+      player = player.setHand(tuple._1)
+      deck = tuple._2
+      this
 
-    def holdCards(holdedCards: Vector[Int]): Round =
-        val cards = getRandomCards(deck, 5 - holdedCards.length)._1
-        val hand = player.hand.clone
-        var index = 0
-        for(i <- 0 to 4 if(!holdedCards.contains(i + 1)))
-            hand(i) = cards(index)
-            index += 1
-        player = player.setHand(hand)
-        this
+    def holdCards(holdedCards: Vector[Int]) : Round =
+      val cards = getRandomCards(deck, 5 - holdedCards.length)._1
+      player = player.setHand(replaceCards(holdedCards, cards, player.hand))
+      this
 
-    override def toString = 
-      "\n" + printNumbers() + "\n\n" + printCards() + "\n"
+    def replaceCards(holdedCards: Vector[Int], cards: Array[Card], hand: Array[Card]) : Array[Card] =
+      var i = 0
+      val newHand = hand.clone
+      for(c <- 1 to 5 if(!holdedCards.contains(c)))
+        newHand(c - 1) = cards(i); i += 1
+      newHand
     
-
-    def printNumbers(): String =
+    override def toString = 
+      "\n\n" + printNumbers + "\n\n" + printCards + "\n\n"
+    
+    def printNumbers : String =
       (1 to 5).map("["+ _.toString + "]\t\t").mkString
     
-
-    def printCards(): String =
+    def printCards : String =
       player.hand.map(_.toString + "\t").mkString
      
 

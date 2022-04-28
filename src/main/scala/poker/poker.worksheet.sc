@@ -1,8 +1,10 @@
 import poker.model._
+
 import poker.model.CardsObject._
 
 val card = new Card(Symbol.HEART, Picture.TWO, 2)
 card.toString
+println(new Card(Symbol.HEART, Picture.TWO, 2).equals(new Card(Symbol.HEART, Picture.TWO, 2)))
 var numbers = new Array[Int](3)
 numbers(0) = 111
 numbers(1) = 111
@@ -13,9 +15,7 @@ numbers(1) = 222
 numbers(2) = 333
 val a = new Array[Int](0)
 val deck = createCards()
-deck(12)
-val tui = new view.TUI()
-tui.printNumbers()
+
 
 numbers.foreach(n => println(n))
 numbers = numbers.filter(!_.equals(333))

@@ -6,7 +6,7 @@ import org.scalatest.wordspec.AnyWordSpec
 import model._
 
 class PictureSpec extends AnyWordSpec with Matchers { 
-  "A Picture" when {
+  "Picture.ACE" when {
     "its printed" should {
       val picture = Picture.ACE
       "print A" in {

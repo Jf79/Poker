@@ -11,6 +11,7 @@ class CardsObject_Spec extends AnyWordSpec with Matchers {
     "Multiple cards" when {
         "there randomly drawn with getRandomCards(5)" should {
             val cards = createCards()
+            println(cards.length)
             val tuple = getRandomCards(cards, 5)
             val hand = tuple._1
             val deck = tuple._2
@@ -43,24 +44,6 @@ class CardsObject_Spec extends AnyWordSpec with Matchers {
                 var exist = false;
                 returnValue._2.foreach(c => if(c.equals(card)){exist = true}) 
                 exist should be (false)
-            }
-        }
-    }
-    "The Symbols" when {
-        "there created" should {
-            val symbols = List(Symbol.HEART, Symbol.DIAMOND, Symbol.CLUB, Symbol.SPADE)
-            "be (HEART, DIAMOND, CLUB, SPADE)" in {
-                symbols should be(getSymbols())
-            }
-        }
-    }
-    "The Pictures" when {
-        "there created" should {
-            val pictures = List(Picture.TWO,Picture.THREE,Picture.FOUR,Picture.FIVE,Picture.SIX,Picture.SEVEN,
-            Picture.EIGHT,Picture.NINE,Picture.TEN,Picture.JACK,Picture.QUEEN, Picture.KING,
-            Picture.ACE)
-            "be (TWO,THREE,FOUR,FIVE,SIX,SEVEN,EIGHT,NINE,TEN,JACK,QUEEN,KING,ACE)" in {
-                pictures should be(getPicutres())
             }
         }
     }

@@ -1,67 +1,28 @@
 package poker
 package model
 
-import scala.util.Random
+import scala.util.Random.nextInt
 
-object CardsObject {
+object CardsObject :
 
-  def getSymbols(): List[Symbol] = {
-    val symbols = List(Symbol.HEART, Symbol.DIAMOND, Symbol.CLUB, Symbol.SPADE)
-    symbols
-  }
-
-  def getPicutres(): List[Picture] = {
-    val pictures = List(
-      Picture.TWO,
-      Picture.THREE,
-      Picture.FOUR,
-      Picture.FIVE,
-      Picture.SIX,
-      Picture.SEVEN,
-      Picture.EIGHT,
-      Picture.NINE,
-      Picture.TEN,
-      Picture.JACK,
-      Picture.QUEEN,
-      Picture.KING,
-      Picture.ACE
-    )
-    pictures
-  }
-
-  def createCards(): Array[Card] = {
-    val symbols = getSymbols()
-    val pictures = getPicutres()
+  def createCards(): Array[Card] = 
     val cards = new Array[Card](52)
-    var index = 0
-    for (i <- 0 to symbols.length - 1) {
-      for(j <- 0 to pictures.length - 1) {
-        cards(index) = new Card(symbols(i), pictures(j), j + 2) 
-        index += 1
-      }
-    }
+    for (i <- 0 to 51)
+      cards(i) = new Card(Symbol.values(i % 4), Picture.values(i % 13), (i % 13) + 2)
     cards
-  }
 
-  def getRandomCard(cards: Array[Card], rand: Int): (Card, Array[Card]) = {
+
+  def getRandomCard(cards: Array[Card], rand: Int): (Card, Array[Card]) = 
     val card = cards(rand)
-    var index = 0
     val newdeck = cards.filter(!_.equals(card))
     (card, newdeck)
-  }
 
-  def getRandomCards(cards: Array[Card], n: Int): (Array[Card], Array[Card]) = {
+
+  def getRandomCards(cards: Array[Card], n: Int): (Array[Card], Array[Card]) = 
     val randCards = new Array[Card](n)
-    var deck = cards
-    for (i <- 0 to n - 1) {
-      val rand = Random.nextInt(deck.length - 1)
-      val tuple = getRandomCard(deck, rand)
-      randCards(i) = tuple._1
+    var deck = cards.clone
+    for (i <- 1 to n) 
+      val tuple = getRandomCard(deck, nextInt(deck.length - 1))
+      randCards(i - 1) = tuple._1
       deck = tuple._2
-    }
     (randCards, deck)
-  }
-
-}
-
-

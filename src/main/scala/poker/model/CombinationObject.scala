@@ -5,7 +5,18 @@ import Combination._
 object CombinationObject :
 
   def findCombination(hand: Array[Card]): Option[Combination] =
-    ???
+    var combination = None
+    true match 
+      case hasRoyalFlush(hand) => Some(ROYAL_FLUSH)
+      case hasStraigthFlush(hand) => Some(STRAIGHT_FLUSH)
+      case hasFourOfAKind(hand) => Some(FOUR_OF_A_KIND)
+      case hasFullHouse(hand) => Some(FULL_HOUSE)
+      case hasFlush(hand) => Some(FLUSH)
+      case hasStraight(hand) => Some(STRAIGHT)
+      case hasThreeOfAKind(hand) => Some(THREE_OF_A_KIND)
+      case hasTwoPair(hand) => Some(TWO_PAIR)
+      case hasPair(hand) => Some(PAIR)
+    combination
 
   def hasPair(hand: Array[Card]): (Boolean, Array[Card]) =
     var result = false

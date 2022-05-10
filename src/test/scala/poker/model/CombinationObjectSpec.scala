@@ -8,6 +8,28 @@ import org.scalatest.wordspec.AnyWordSpec
 
 class CombinationObjectSpec extends AnyWordSpec with Matchers {
     
+    "The method findCombination" when {
+        val card1 = new Card(Symbol.HEART, Picture.FOUR, 4)
+        val card2 = new Card(Symbol.SPADE, Picture.FOUR, 4)
+        val card3 = new Card(Symbol.DIAMOND, Picture.KING, 13)
+        val card4 = new Card(Symbol.HEART, Picture.FIVE, 5)
+        val card5 = new Card(Symbol.SPADE, Picture.SIX, 6)
+        val card = new Card(Symbol.SPADE, Picture.SEVEN, 7)
+        "the hand has a valid combination" should {
+            val hand = Array(card1, card2, card3, card4, card5)
+            "return some"  in {
+                findCombination(hand) should be(Some)
+            }
+        }
+        "the hand hasn't a valid combination" should {
+            val hand = Array(card, card2, card3, card4, card5)
+            "return none"  in {
+                findCombination(hand) should be(None)
+            }
+        }
+    }
+
+
     "The method hasPair" when {
         val card1 = new Card(Symbol.HEART, Picture.FOUR, 4)
         val card2 = new Card(Symbol.SPADE, Picture.FOUR, 4)

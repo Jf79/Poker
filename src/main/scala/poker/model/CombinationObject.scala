@@ -4,6 +4,28 @@ import Combination._
 
 object CombinationObject:
 
+  def findCombination(hand: Array[Card]): Option[Combination] =
+    var combination: Option[Combination] = None
+    if (hasRoyalFlush(hand))
+      combination = Some(ROYAL_FLUSH)
+    else if (hasStraigthFlush(hand))
+      combination = Some(STRAIGHT_FLUSH)
+    else if (hasFourOfAKind(hand)._1)
+      combination = Some(FOUR_OF_A_KIND)
+    else if (hasFullHouse(hand))
+      combination = Some(FULL_HOUSE)
+    else if (hasFlush(hand))
+      combination = Some(FLUSH)
+    else if (hasStraight(hand))
+      combination = Some(STRAIGHT)
+    else if (hasThreeOfAKind(hand)._1)
+      combination = Some(THREE_OF_A_KIND)
+    else if (hasTwoPair(hand)._1)
+      combination = Some(TWO_PAIR)
+    else if (hasPair(hand)._1)
+      combination = Some(PAIR)
+    combination
+
   def hasPair(hand: Array[Card]): (Boolean, Array[Card]) =
     var result = false
     var cardsToReturn = hand
@@ -66,18 +88,3 @@ object CombinationObject:
 
   def hasRoyalFlush(hand: Array[Card]): Boolean =
     hasStraigthFlush(hand) && hand.sortWith(_.value < _.value)(4).value == 14
-
-  /* def findCombination(hand: Array[Card]): Option[Combination] =
-      var combination = None
-      true match
-        case hasRoyalFlush(hand)    => Some(ROYAL_FLUSH)
-        case hasStraigthFlush(hand) => Some(STRAIGHT_FLUSH)
-        case hasFourOfAKind(hand)   => Some(FOUR_OF_A_KIND)
-        case hasFullHouse(hand)     => Some(FULL_HOUSE)
-        case hasFlush(hand)         => Some(FLUSH)
-        case hasStraight(hand)      => Some(STRAIGHT)
-        case hasThreeOfAKind(hand)  => Some(THREE_OF_A_KIND)
-        case hasTwoPair(hand)       => Some(TWO_PAIR)
-        case hasPair(hand)          => Some(PAIR)
-      combination
-   */

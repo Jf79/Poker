@@ -1,5 +1,5 @@
+package poker
 package model
 
-case class Player (cards: Array[Card], money: Int) {
-    override def toString = "Money: " + money
-}
+case class Player(money: Int):
+  override def toString = "Remaining money: " + money

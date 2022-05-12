@@ -21,7 +21,7 @@ case class Controller(val player: Player, var round: Option[Round])
 
   def doAndPublish(createR: Array[Card] => Round, deck: Array[Card]): Unit =
     round = Some(createR(deck))
-    notifyObservers
+   // notifyObservers
   
   def doAndPublish(doThis: => Round): Unit =
     round = Some(doThis)

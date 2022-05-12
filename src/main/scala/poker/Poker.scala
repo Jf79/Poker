@@ -1,14 +1,16 @@
 package poker
 import model._
+import aview._
+import poker.controller.Controller
+import java.util.ResourceBundle.Control
 
-object start {
+object start :
 
-    @main def run: Unit = {
-    println("Welcome to Poker")
-    
-    val card = new Card(Symbol.HEART, Picture.TWO , 2) 
-    println(card)
-    
-  }
-}
+    @main def run: Unit = 
+      println("\nWelcome to Poker")
+      val player = new Player(100)
+      val controller = new Controller(player)
+      val tui = new TUI(controller)
+      tui.run
+  
 

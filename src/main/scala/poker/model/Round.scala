@@ -2,14 +2,23 @@ package poker
 package model
 
 import CardsObject._
+import util._
 
-case class Round(
-    var player: Player,
-    var deck: Array[Card],
-    bet: Int,
-    var hand: Option[Array[Card]]
-):
+case class Round(var player: Player, var deck: Array[Card], var bet: Option[Int], var hand: Option[Array[Card]]) 
+  extends Stateable:
 
+  override def handle(event: Event): Option[State] =
+    event match {
+      case bet: BetEvent         => state = Some(BetState(this))
+      case start: StartEvent     => state = Some(StartState(this))
+      case replace: ReplaceEvent => state = Some(ReplaceState(this))
+    }
+    state
+
+  def setBet(b: Int): Round = 
+    bet = Some(b)
+    this
+  
   def start(): Round =
     val tuple = getRandomCards(deck, 5)
     hand = Some(tuple._1);
@@ -21,28 +30,13 @@ case class Round(
     hand = Some(replaceCards(holdedCards, cards, hand.get))
     this
 
-  def replaceCards(
-      holdedCards: Vector[Int],
-      cards: Array[Card],
-      hand: Array[Card]
-  ): Array[Card] =
+  def replaceCards(holdedCards: Vector[Int], cards: Array[Card], hand: Array[Card]): Array[Card] =
     var i = 0
     val newHand = hand.clone
     for (c <- 1 to 5 if (!holdedCards.contains(c)))
       newHand(c - 1) = cards(i); i += 1
     newHand
 
-  def finish() =
-    ???
-
   override def toString =
-    var s = ""
-    if (!hand.isEmpty)
-      s = "\n\n" + printNumbers + "\n\n" + printCards + "\n\n"
-    s
+    state.get.toString()
 
-  def printNumbers: String =
-    (1 to 5).map("[" + _.toString + "]\t\t").mkString
-
-  def printCards: String =
-    hand.get.map(_.toString + "\t").mkString.replace("Some(", "")

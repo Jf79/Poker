@@ -2,8 +2,9 @@ package poker
 package aview
 
 import scala.io.StdIn._
-import util.Observer
 import controller.Controller
+import poker.util._
+import poker.model.ReplaceState
 
 class TUI(controller: Controller) extends Observer:
   controller.add(this)
@@ -24,8 +25,12 @@ class TUI(controller: Controller) extends Observer:
       }
 
   def startRound(bet: Int) =
-    controller.doAndPublish(controller.createRound, bet)
+    controller.doAndPublish(controller.createRound, controller.createDeck())
+    controller.handle(BetEvent())
+    controller.doAndPublish(controller.setBet, bet)
+    controller.handle(StartEvent())
     controller.doAndPublish(controller.start())
+    controller.handle(ReplaceEvent())
     controller.doAndPublish(
       controller.holdCards,
       processInput(readLine("\nWhich cards you wanna hold ?\n").split(" "))

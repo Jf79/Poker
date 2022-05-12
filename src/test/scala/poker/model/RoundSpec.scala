@@ -11,7 +11,7 @@ class RoundSpec extends AnyWordSpec with Matchers {
   val player = new Player(1000)
   val bet = 100
   val deck = createCards()
-  var round = new Round(player, deck, bet, None)
+  var round = new Round(player, deck, Some(bet), None)
 
   "A round when its created " should {
     "have a player with a 1000 $" in {

@@ -1,6 +1,6 @@
 package poker
 import model._
-import aview._
+import aview.TUI
 import poker.controller.Controller
 import java.util.ResourceBundle.Control
 

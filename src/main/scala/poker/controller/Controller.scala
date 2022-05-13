@@ -9,40 +9,42 @@ import model.Card
 import model.CardsObject._
 import model.Player
 import model.State
-import model.Type
+import model.RiskType
+import poker.util._
 
 case class Controller(val player: Player, var round: Option[Round])
-    extends Observable:
+  extends Observable:
 
-  def handle(event: Event): Option[State] =
-    round.get.handle(event)
+  // notifyObservers methods
 
-  def doAndPublish(setBet: Int => Round, bet: Int): Unit =
-    round = Some(setBet(bet))
+  def doAndPublish(createround: (Array[Card]) => Round, deck: Array[Card]): Unit =
+    round = Some(createround(deck))
     notifyObservers
 
-  def doAndPublish(createR: (Array[Card], String) => Round, deck: Array[Card], gameType: String): Unit =
-    round = Some(createR(deck, gameType))
-   // notifyObservers
-  
-  def doAndPublish(start: => Round): Unit =
-    round = Some(start)
-    notifyObservers
-
-  def doAndPublish(hold: Vector[Int] => Round, holdedCards: Vector[Int]): Unit =
-    round = Some(hold(holdedCards))
+  def doAndPublish(setbet: Int => Round, bet: Int): Unit =
+    round = Some(setbet(bet))
     notifyObservers
   
-  def createRound(deck: Array[Card], gameType: String): Round =
-    round = Some(new Round(player, deck, None, None, Type(gameType)))
+  def doAndPublish(setcards: => Round): Unit =
+    round = Some(setcards)
+    notifyObservers
+
+  def doAndPublish(holdcards: Vector[Int] => Round, holdedCards: Vector[Int]): Unit =
+    round = Some(holdcards(holdedCards))
+    notifyObservers
+  
+  // methods of round 
+  
+  def createRound(deck: Array[Card]): Round =
+    round = Some(new Round(player, deck, None, None, None))
     round.get
 
   def setBet(bet: Int) : Round = 
     round = Some(round.get.setBet(bet))
     round.get
   
-  def start(): Round =
-    round = Some(round.get.start())
+  def setCards(): Round =
+    round = Some(round.get.dealCards())
     round.get
 
   def holdCards(holdedCards: Vector[Int]): Round =
@@ -51,6 +53,21 @@ case class Controller(val player: Player, var round: Option[Round])
 
   def createDeck(): Array[Card] =
     createCards()
+  
+  // handle event methods
+  
+  def handleBetEvent(): State =
+    round.get.handle(BetEvent())
 
+  def handleCardsEvent(): State =
+    round.get.handle(DealCardsEvent())
+  
+  def handleReplaceEvent(): State =
+    round.get.handle(BetEvent())
+  
+  def handleEndEvent(): State =
+    round.get.handle(EndEvent())
+
+  // toString
   override def toString =
     round.get.toString

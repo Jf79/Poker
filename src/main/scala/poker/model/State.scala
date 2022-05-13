@@ -2,20 +2,33 @@ package poker
 package model
 
 import util.Event
-
-trait Stateable:
-    var state: Option[State] = None
-    def handle(e: Event): Option[State]
-
-trait State:
-    def toString(): String
-
-case class BetState(round: Round) extends State :
-    override def toString() = "\n" + round.gameType.message + "\nyour bet : " + round.bet.get + " $\n"
+import util.State
 
 case class StartState(round: Round) extends State :
-    override def toString() = (1 to 5).map("[" + _.toString + "]\t\t").mkString 
-        + "\n\n" +round.hand.get.map(_.toString + "\t").mkString
+    override def execute[T](arg : Option[T]) : Round = 
+        round.setBet(arg.get.asInstanceOf[Int])
+    
+    override def toString = "\nYour credit: " + round.player.money + " $\n"
+
+    
+case class RiskTypeState(round: Round) extends State :
+    override def execute[T](arg : Option[T]) : Round = 
+        round.setBet(arg.get.asInstanceOf[Int])
+    
+    override def toString = "\nYour credit: " + round.player.money + " $\n"
+
+
+case class BetState(round: Round) extends State :
+    override def execute[T](arg : Option[T]) : Round = 
+        round.setBet(arg.get.asInstanceOf[Int])
+
+    override def toString = "\n" + round.riskType.get.message + "\nyour bet : " 
+        + round.bet.get + " $\n"
+
 
 case class ReplaceState(round: Round) extends State:
-    override def toString() : String = "\n\n" + round.hand.get.map(_.toString + "\t").mkString + "\n\n"
+    override def execute[T](arg : Option[T]) : Round = 
+        round.setBet(arg.get.asInstanceOf[Int])
+
+    override def toString : String = 
+        "\n\n" + round.hand.get.map(_.toString + "\t").mkString + "\n\n"

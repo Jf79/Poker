@@ -4,7 +4,6 @@ package aview
 import scala.io.StdIn._
 import controller.Controller
 import util._
-import model.ReplaceState
 
 class TUI(controller: Controller) extends Observer:
   controller.add(this)
@@ -19,18 +18,17 @@ class TUI(controller: Controller) extends Observer:
     input match
       case "q" =>
       case _ => {
-        println("\nThe round started.\n")
-        startRound(10, "low")
+        executeRound(10, "low")
         gameLoop()
-      }
+      }  
 
-  def startRound(bet: Int, gameType: String) =
-    controller.doAndPublish(controller.createRound, controller.createDeck(), gameType)
-    controller.handle(BetEvent())
+  def executeRound(bet: Int, riskType: String) =
+    //controller.doAndPublish(controller.createRound, controller.createDeck)
+    controller.handleBetEvent()
     controller.doAndPublish(controller.setBet, bet)
-    controller.handle(StartEvent())
-    controller.doAndPublish(controller.start())
-    controller.handle(ReplaceEvent())
+    controller.handleBetEvent()
+    controller.doAndPublish(controller.setCards())
+    controller.handleBetEvent()
     controller.doAndPublish(
       controller.holdCards,
       processInput(readLine("\nWhich cards you wanna hold ?\n").split(" "))

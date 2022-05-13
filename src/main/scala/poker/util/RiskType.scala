@@ -1,8 +1,9 @@
 package poker
 package util
 
-trait Type :
+trait RiskType :
     def message: String
+    def setBet(bet: Int): Int
 
 
 

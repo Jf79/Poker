@@ -3,7 +3,7 @@ package poker.model
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
-import model._
+//import model._
 
 class CardSpec extends AnyWordSpec with Matchers { 
   "A Card" when {

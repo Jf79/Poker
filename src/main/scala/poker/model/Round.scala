@@ -4,7 +4,8 @@ package model
 import CardsObject._
 import util._
 
-case class Round(var player: Player, var deck: Array[Card], var bet: Option[Int], var hand: Option[Array[Card]]) 
+case class Round(var player: Player, var deck: Array[Card], var bet: Option[Int],
+  var hand: Option[Array[Card]], gameType: Type) 
   extends Stateable:
 
   override def handle(event: Event): Option[State] =
@@ -16,7 +17,10 @@ case class Round(var player: Player, var deck: Array[Card], var bet: Option[Int]
     state
 
   def setBet(b: Int): Round = 
-    bet = Some(b)
+    if(gameType.equals(HighRisk()) && b < 50)
+      bet = Some(50)
+    else
+      bet = Some(b)
     this
   
   def start(): Round =

@@ -3,8 +3,8 @@ package aview
 
 import scala.io.StdIn._
 import controller.Controller
-import poker.util._
-import poker.model.ReplaceState
+import util._
+import model.ReplaceState
 
 class TUI(controller: Controller) extends Observer:
   controller.add(this)
@@ -20,12 +20,12 @@ class TUI(controller: Controller) extends Observer:
       case "q" =>
       case _ => {
         println("\nThe round started.\n")
-        startRound(10)
+        startRound(10, "low")
         gameLoop()
       }
 
-  def startRound(bet: Int) =
-    controller.doAndPublish(controller.createRound, controller.createDeck())
+  def startRound(bet: Int, gameType: String) =
+    controller.doAndPublish(controller.createRound, controller.createDeck(), gameType)
     controller.handle(BetEvent())
     controller.doAndPublish(controller.setBet, bet)
     controller.handle(StartEvent())

@@ -11,7 +11,7 @@ trait State:
     def toString(): String
 
 case class BetState(round: Round) extends State :
-    override def toString() = "\nyour bet : " + round.bet.get + " $\n"
+    override def toString() = "\n" + round.gameType.message + "\nyour bet : " + round.bet.get + " $\n"
 
 case class StartState(round: Round) extends State :
     override def toString() = (1 to 5).map("[" + _.toString + "]\t\t").mkString 

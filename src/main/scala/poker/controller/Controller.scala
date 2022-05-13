@@ -3,11 +3,13 @@ package controller
 
 import util.Observable
 import util.Event
+import model.HighRisk
 import model.Round
 import model.Card
 import model.CardsObject._
 import model.Player
 import model.State
+import model.Type
 
 case class Controller(val player: Player, var round: Option[Round])
     extends Observable:
@@ -15,24 +17,24 @@ case class Controller(val player: Player, var round: Option[Round])
   def handle(event: Event): Option[State] =
     round.get.handle(event)
 
-  def doAndPublish(doThis: Int => Round, bet: Int): Unit =
-    round = Some(doThis(bet))
+  def doAndPublish(setBet: Int => Round, bet: Int): Unit =
+    round = Some(setBet(bet))
     notifyObservers
 
-  def doAndPublish(createR: Array[Card] => Round, deck: Array[Card]): Unit =
-    round = Some(createR(deck))
+  def doAndPublish(createR: (Array[Card], String) => Round, deck: Array[Card], gameType: String): Unit =
+    round = Some(createR(deck, gameType))
    // notifyObservers
   
-  def doAndPublish(doThis: => Round): Unit =
-    round = Some(doThis)
+  def doAndPublish(start: => Round): Unit =
+    round = Some(start)
     notifyObservers
 
-  def doAndPublish(doThis: Vector[Int] => Round, holdedCards: Vector[Int]): Unit =
-    round = Some(doThis(holdedCards))
+  def doAndPublish(hold: Vector[Int] => Round, holdedCards: Vector[Int]): Unit =
+    round = Some(hold(holdedCards))
     notifyObservers
   
-  def createRound(deck: Array[Card]): Round =
-    round = Some(new Round(player, deck, None, None))
+  def createRound(deck: Array[Card], gameType: String): Round =
+    round = Some(new Round(player, deck, None, None, Type(gameType)))
     round.get
 
   def setBet(bet: Int) : Round = 

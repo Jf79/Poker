@@ -14,17 +14,90 @@ class CombinationObjectSpec extends AnyWordSpec with Matchers {
     val card3 = new Card(Symbol.DIAMOND, Picture.KING, 13)
     val card4 = new Card(Symbol.HEART, Picture.FIVE, 5)
     val card5 = new Card(Symbol.SPADE, Picture.SIX, 6)
-    val card = new Card(Symbol.SPADE, Picture.SEVEN, 7)
-    "the hand has a valid combination" should {
+    var card = new Card(Symbol.HEART, Picture.SIX, 6)
+    "the hand has a pair" should {
       val hand = Array(card1, card2, card3, card4, card5)
-      "return some" in {
+      "return PAIR" in {
         findCombination(hand) should be(Some(PAIR))
       }
     }
-    "the hand hasn't a valid combination" should {
-      val hand = Array(card, card2, card3, card4, card5)
-      "return none" in {
-        findCombination(hand) should be(None)
+    "the hand has a two pair" should {
+      val hand = Array(card1, card2, card, card4, card5)
+      "return TWO_PAIR" in {
+        findCombination(hand) should be(Some(TWO_PAIR))
+      }
+    }
+    "the hand has three of a kind" should {
+      card = new Card(Symbol.DIAMOND, Picture.FOUR, 4)
+      val hand = Array(card1, card2, card, card4, card5)
+      "return THREE_OF_A_KIND" in {
+        findCombination(hand) should be(Some(THREE_OF_A_KIND))
+      }
+    }
+    "the hand has Straight" should {
+      val card1 = new Card(Symbol.HEART, Picture.TWO, 2)
+      val card2 = new Card(Symbol.CLUB, Picture.THREE, 3)
+      val card3 = new Card(Symbol.DIAMOND, Picture.FIVE, 5)
+      val card4 = new Card(Symbol.HEART, Picture.FOUR, 4)
+      val card5 = new Card(Symbol.SPADE, Picture.SIX, 6)
+      val hand = Array(card1, card2, card3, card4, card5)
+      "return STRAIGHT" in {
+        findCombination(hand) should be(Some(STRAIGHT))
+      }
+    }
+    "the hand has Flush" should {
+      val card1 = new Card(Symbol.HEART, Picture.TWO, 2)
+      val card2 = new Card(Symbol.HEART, Picture.THREE, 3)
+      val card3 = new Card(Symbol.HEART, Picture.FIVE, 5)
+      val card4 = new Card(Symbol.HEART, Picture.FOUR, 4)
+      val card5 = new Card(Symbol.HEART, Picture.KING, 13)
+      val hand = Array(card1, card2, card3, card4, card5)
+      "return FLUSH" in {
+        findCombination(hand) should be(Some(FLUSH))
+      }
+    }
+    "the hand has Full House" should {
+      val card1 = new Card(Symbol.HEART, Picture.FOUR, 4)
+      val card2 = new Card(Symbol.CLUB, Picture.FIVE, 5)
+      val card3 = new Card(Symbol.DIAMOND, Picture.FOUR, 4)
+      val card4 = new Card(Symbol.HEART, Picture.FIVE, 5)
+      val card5 = new Card(Symbol.SPADE, Picture.FIVE, 5)
+      val hand = Array(card1, card2, card3, card4, card5)
+      "return FULL_HOUSE" in {
+        findCombination(hand) should be(Some(FULL_HOUSE))
+      }
+    }
+    "the hand has Four of a Kind" should {
+      val card1 = new Card(Symbol.CLUB, Picture.FIVE, 5)
+      val card2 = new Card(Symbol.SPADE, Picture.FIVE, 5)
+      val card3 = new Card(Symbol.DIAMOND, Picture.KING, 13)
+      val card4 = new Card(Symbol.HEART, Picture.FIVE, 5)
+      val card5 = new Card(Symbol.DIAMOND, Picture.FIVE, 5)
+      val hand = Array(card1, card2, card3, card4, card5)
+      "return FOUR_OF_A_KIND" in {
+        findCombination(hand) should be(Some(FOUR_OF_A_KIND))
+      }
+    }
+    "the hand has Straight Flush" should {
+      val card1 = new Card(Symbol.HEART, Picture.TWO, 2)
+      val card2 = new Card(Symbol.HEART, Picture.THREE, 3)
+      val card3 = new Card(Symbol.HEART, Picture.FIVE, 5)
+      val card4 = new Card(Symbol.HEART, Picture.FOUR, 4)
+      val card5 = new Card(Symbol.HEART, Picture.SIX, 6)
+      val hand = Array(card1, card2, card3, card4, card5)
+      "return STRAIGHT_FLUSH" in {
+        findCombination(hand) should be(Some(STRAIGHT_FLUSH))
+      }
+    }
+    "the hand has Royal Flush" should {
+      val card1 = new Card(Symbol.HEART, Picture.TEN, 10)
+      val card2 = new Card(Symbol.HEART, Picture.ACE, 14)
+      val card3 = new Card(Symbol.HEART, Picture.QUEEN, 12)
+      val card4 = new Card(Symbol.HEART, Picture.JACK, 11)
+      val card5 = new Card(Symbol.HEART, Picture.KING, 13)
+      val hand = Array(card1, card2, card3, card4, card5)
+      "return ROYAL_FLUSH" in {
+        findCombination(hand) should be(Some(ROYAL_FLUSH))
       }
     }
   }

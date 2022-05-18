@@ -23,12 +23,9 @@ class TUI(controller: Controller) extends Observer:
       }  
 
   def executeRound(bet: Int, riskType: String) =
-    //controller.doAndPublish(controller.createRound, controller.createDeck)
-    controller.handleBetEvent()
+    controller.doAndPublish(controller.createRound, controller.createDeck())
     controller.doAndPublish(controller.setBet, bet)
-    controller.handleBetEvent()
-    controller.doAndPublish(controller.setCards())
-    controller.handleBetEvent()
+    controller.doAndPublish(controller.dealCards())
     controller.doAndPublish(
       controller.holdCards,
       processInput(readLine("\nWhich cards you wanna hold ?\n").split(" "))

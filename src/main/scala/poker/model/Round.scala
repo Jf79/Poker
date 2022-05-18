@@ -4,18 +4,20 @@ package model
 import CardsObject._
 import util._
 
-case class Round(var player: Player, var deck: Array[Card], var bet: Option[Int], 
-  var hand: Option[Array[Card]], var riskType: Option[RiskType]) extends Stateable:
+case class Round(player: Player, var deck: Array[Card]) extends Stateable:
   
-  // stateable
+  var bet: Option[Int] = None
+  var hand: Option[Array[Card]] = None
+  var riskType: Option[RiskType] = None
 
+  // stateable
   var state = StartState(this)
 
   override def handle(event: Event): State =
     event match {
       case bet: BetEvent         => state = BetState(this)
       case start: StartEvent     => state = StartState(this)
-      case replace: ReplaceEvent => state = ReplaceState(this)
+      case replace: HoldCardsEvent => state = HoldCardsState(this)
     }
     state
   

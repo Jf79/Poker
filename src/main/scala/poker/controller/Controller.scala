@@ -8,12 +8,13 @@ import model.Round
 import model.Card
 import model.CardsObject._
 import model.Player
-import model.State
+import util.State
 import model.RiskType
-import poker.util._
+import util._
 
-case class Controller(val player: Player, var round: Option[Round])
-  extends Observable:
+case class Controller(val player: Player) extends Observable:
+
+  var round: Option[Round] = None
 
   // notifyObservers methods
 
@@ -35,38 +36,27 @@ case class Controller(val player: Player, var round: Option[Round])
   
   // methods of round 
   
-  def createRound(deck: Array[Card]): Round =
-    round = Some(new Round(player, deck, None, None, None))
+  def createRound(deck: Array[Card]): Round =   // Start State
+    round = Some(new Round(player, deck))
     round.get
 
-  def setBet(bet: Int) : Round = 
-    round = Some(round.get.setBet(bet))
+  def chooseRiskType(risk: String): Round =   // Risk Type State
+    round = Some(round.get.setRiskType(risk))
     round.get
   
-  def setCards(): Round =
+  def setBet(bet: Int) : Round =  // Bet State
+    round.get
+  
+  def dealCards(): Round =  // Deal Cards State
     round = Some(round.get.dealCards())
     round.get
 
-  def holdCards(holdedCards: Vector[Int]): Round =
+  def holdCards(holdedCards: Vector[Int]): Round =  // Hold Cards State
     round = Some(round.get.holdCards(holdedCards))
     round.get
 
   def createDeck(): Array[Card] =
     createCards()
-  
-  // handle event methods
-  
-  def handleBetEvent(): State =
-    round.get.handle(BetEvent())
-
-  def handleCardsEvent(): State =
-    round.get.handle(DealCardsEvent())
-  
-  def handleReplaceEvent(): State =
-    round.get.handle(BetEvent())
-  
-  def handleEndEvent(): State =
-    round.get.handle(EndEvent())
 
   // toString
   override def toString =

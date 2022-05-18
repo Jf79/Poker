@@ -12,7 +12,7 @@ class TUISpec extends AnyWordSpec with Matchers {
       val array = Array("1", "2", "3", "4", "5")
       val vector = Vector(1, 2, 3, 4, 5)
       "return a Vector of integers " in {
-        val tui = new TUI(new Controller(null, None))
+        val tui = new TUI(new Controller(null))
         val result = tui.processInput(array)
         result should be(vector)
       }

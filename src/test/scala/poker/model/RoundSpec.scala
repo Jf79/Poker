@@ -18,7 +18,7 @@ class RoundSpec extends AnyWordSpec with Matchers {
       round.player.money should be(1000)
     }
   }
-  
+  round = round.dealCards()
   "A round when it set the player cards " should {
     "have a hand with 5 cards" in {
       round.hand.get.length should be(5)

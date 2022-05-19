@@ -42,6 +42,7 @@ case class Controller(val player: Player) extends Observable:
 
   def chooseRiskType(risk: String): Round =   // Risk Type State
     round = Some(round.get.setRiskType(risk))
+    //round = round.get.state.execute(round.get.setRiskType, risk)
     round.get
   
   def setBet(bet: Int) : Round =  // Bet State

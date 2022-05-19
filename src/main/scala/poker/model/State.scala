@@ -24,7 +24,7 @@ case class RiskTypeState(round: Round) extends State :
     override def execute() : Option[_] = throw new UnsupportedOperationException
     override def execute[T](arg: => T) : Option[T] = throw new UnsupportedOperationException
     override def execute[T, V](setRiskType: V => T, arg : V) : Option[T] = 
-        if(arg.equals("high") && round.player.money < 30)
+        if(RiskType(arg.toString).equals(new HighRisk) && round.player.money < 30)
             message = "\nYou dont have enough credit to play High Risk."
             stateable.handle(new RiskTypeEvent)
             throw new IllegalArgumentException()

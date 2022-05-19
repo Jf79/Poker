@@ -14,7 +14,7 @@ class StateSpec extends AnyWordSpec with Matchers {
         val state = new StartState(round)
         "its created" should {
             "have a round" in {
-                state.round should be(round)
+                state.stateable should be(round)
             }
         }
         "its executed" should {

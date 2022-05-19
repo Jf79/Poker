@@ -10,8 +10,9 @@ case class StartState(round: Round) extends State :
     var message = ""
     
     override def execute() : Option[_] = 
-        message = "\nThe Round started.\nGood Luck.\n"
+        message = "\nThe Round started.\nYour credit: " + round.player.money + " $"
         stateable.handle(new RiskTypeEvent)
+        round.updateMessage = message
         Some(round)
     override def execute[T](arg: => T) : Option[T] = throw new UnsupportedOperationException
     override def execute[T, V](doThis: V => T, arg : V) : Option[T] = throw new UnsupportedOperationException
@@ -30,9 +31,9 @@ case class RiskTypeState(round: Round) extends State :
             throw new IllegalArgumentException()
         val temp: T = setRiskType(arg)
         message = "\nYou choose: " + round.riskType.get.message
+        round.updateMessage = message
         stateable.handle(new BetEvent)
         Some(temp)
-    override def toString = message
 
 
 case class BetState(round: Round) extends State :
@@ -48,36 +49,36 @@ case class BetState(round: Round) extends State :
         stateable.handle(new DealCardsEvent)
         val temp : T = setBet(arg)
         message += "\nYour bet : " + round.bet.get + " $\n"
+        round.updateMessage = message
         Some(temp)
-
-    override def toString = message
-
 
 case class DealCardsState(round: Round) extends State:
     var stateable  = round
+    var message = ""
     override def execute() : Option[_] = throw new UnsupportedOperationException    
     override def execute[T](dealCards: => T) : Option[T] = 
         stateable.handle(new HoldCardsEvent)
-        Some(dealCards)
+        val temp: Option[T] = Some(dealCards)
+        message = "\n\n" + (1 to 5).map("["+ _.toString + "]\t\t").mkString
+        message += "\n\n" + round.hand.get.map(_.toString + "\t").mkString + "\n\n"
+        round.updateMessage = message
+        temp
     override def execute[T, V](doThis: V => T, arg : V) : Option[T] = throw new UnsupportedOperationException
-    override def toString : String = 
-        "\n\n" + (1 to 5).map("["+ _.toString + "]\t\t").mkString + 
-        "\n" + round.hand.get.map(_.toString + "\t").mkString + "\n\n"
 
 case class HoldCardsState(round: Round) extends State:
     var stateable  = round
+    var message = ""
     override def execute() : Option[_] = throw new UnsupportedOperationException    
     override def execute[T](arg: => T) : Option[T] = throw new UnsupportedOperationException
     override def execute[T, V](holdCards: V => T, arg : V) : Option[T] = 
+        val temp: Option[T] = Some(holdCards(arg))
+        message = "\n\n" + round.hand.get.map(_.toString + "\t").mkString + "\n\n"
+        round.updateMessage = message
         stateable.handle(new EndEvent)
-        Some(holdCards(arg))
-    override def toString : String = 
-        "\n\n" + round.hand.get.map(_.toString + "\t").mkString + "\n\n"
-
+        temp
 
 case class EndState(round: Round) extends State:
     var stateable  = round
     override def execute() : Option[_] = None    
     override def execute[T](arg: => T) : Option[T] = None
     override def execute[T, V](doThis: V => T, arg : V) : Option[T] = None
-    override def toString : String = "THE END"

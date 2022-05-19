@@ -7,9 +7,9 @@ case class HighRisk() extends RiskType :
     override def message: String = "High Risk Round !"
     
     override def setBet(bet : Int): Int = 
-        if(bet < 20) 
-            return 20
-        bet
+        if(bet >= 30) 
+            return bet
+        return 30
 
 case class LowRisk() extends RiskType :
     override def message: String = "Low Risk Round !"

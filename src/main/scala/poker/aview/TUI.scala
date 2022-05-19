@@ -9,18 +9,24 @@ class TUI(controller: Controller) extends Observer:
   controller.add(this)
 
   def run =
+    println("\nWelcome to Poker\n")
     gameLoop()
 
   override def update = println(controller.toString)
 
   def gameLoop(): Unit =
-    val input = readLine("Do you wanna quit (q) ?\n")
-    input match
-      case "q" =>
-      case _ => {
-        executeRound(10, "low")
-        gameLoop()
-      }  
+    controller.hasEnoughCredit() match {
+      case false => println("You dont have enough credit to play")
+      case true => {
+        val input = readLine("Do you wanna quit (q) ?\n")
+        input match
+        case "q" =>
+        case _ => {
+          executeRound(10, "low")
+          gameLoop()
+        } 
+      }
+    } 
 
   def executeRound(bet: Int, riskType: String) =
     controller.doAndPublish(controller.createRound, controller.createDeck())

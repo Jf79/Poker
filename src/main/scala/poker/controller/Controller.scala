@@ -58,6 +58,9 @@ case class Controller(val player: Player) extends Observable:
   def createDeck(): Array[Card] =
     createCards()
 
+  def hasEnoughCredit(): Boolean = 
+    round.get.hasEnoughCredit()
+
   // toString
   override def toString =
     round.get.toString

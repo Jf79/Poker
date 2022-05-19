@@ -15,12 +15,16 @@ case class Round(player: Player, var deck: Array[Card]) extends Stateable:
 
   override def handle(event: Event): State =
     event match {
-      case bet: BetEvent         => state = BetState(this)
-      case start: StartEvent     => state = StartState(this)
-      case replace: HoldCardsEvent => state = HoldCardsState(this)
+      case bet: BetEvent  => state = BetState(this)
+      case risk: RiskTypeEvent  => state = RiskTypeState(this)
+      case deal: DealCardsEvent => state = DealCardsState(this)
+      case replace: HoldCardsEvent  => state = HoldCardsState(this)
+      case end: EndEvent  => state = EndState(this)
     }
     state
   
+  def hasEnoughCredit() : Boolean =  player.money > 0
+
   // riskType state
 
   def setRiskType(risk: String): Round =
@@ -55,7 +59,7 @@ case class Round(player: Player, var deck: Array[Card]) extends Stateable:
     for (c <- 1 to 5 if (!holdedCards.contains(c)))
       newHand(c - 1) = cards(i); i += 1
     newHand
-
+  
   // toString
 
   override def toString =

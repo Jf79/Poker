@@ -11,6 +11,7 @@ import model.Player
 import util.State
 import model.RiskType
 import util._
+import model.{BetState, RiskTypeState, DealCardsState, HoldCardsState, EndState}
 
 case class Controller(val player: Player) extends Observable:
 
@@ -22,12 +23,16 @@ case class Controller(val player: Player) extends Observable:
     round = Some(createround(deck))
     notifyObservers
 
+  def doAndPublish(chooserisktype: String => Round, risk: String): Unit =
+    round = Some(chooserisktype(risk))
+    notifyObservers
+
   def doAndPublish(setbet: Int => Round, bet: Int): Unit =
     round = Some(setbet(bet))
     notifyObservers
   
-  def doAndPublish(setcards: => Round): Unit =
-    round = Some(setcards)
+  def doAndPublish(dealcards: => Round): Unit =
+    round = Some(dealcards)
     notifyObservers
 
   def doAndPublish(holdcards: Vector[Int] => Round, holdedCards: Vector[Int]): Unit =
@@ -36,25 +41,32 @@ case class Controller(val player: Player) extends Observable:
   
   // methods of round 
   
-  def createRound(deck: Array[Card]): Round =   // Start State
-    round = Some(new Round(player, deck))
+  def startRound(deck: Array[Card]): Round =   // Start State
+    round = createRound(deck)
+    round = round.get.state.execute().asInstanceOf[Option[Round]]
     round.get
+  
+  def createRound(deck: Array[Card]): Option[Round] = 
+    Some(new Round(player, deck))
 
   def chooseRiskType(risk: String): Round =   // Risk Type State
-    round = Some(round.get.setRiskType(risk))
-    //round = round.get.state.execute(round.get.setRiskType, risk)
+    round = round.get.state.execute(round.get.setRiskType, risk)
     round.get
   
   def setBet(bet: Int) : Round =  // Bet State
+    round = round.get.state.execute(round.get.setBet, bet)
     round.get
   
   def dealCards(): Round =  // Deal Cards State
-    round = Some(round.get.dealCards())
+    round = round.get.state.execute(round.get.dealCards())
     round.get
 
   def holdCards(holdedCards: Vector[Int]): Round =  // Hold Cards State
-    round = Some(round.get.holdCards(holdedCards))
+    round = round.get.state.execute(round.get.holdCards, holdedCards)
     round.get
+
+  def getStateOfRound() : State =
+    round.get.state
 
   def createDeck(): Array[Card] =
     createCards()
@@ -62,6 +74,10 @@ case class Controller(val player: Player) extends Observable:
   def hasEnoughCredit(): Boolean = 
     round.get.hasEnoughCredit()
 
+  def getAllStates: Array[State] = 
+    Array(RiskTypeState(round.get), BetState(round.get), DealCardsState(round.get), HoldCardsState(round.get), 
+    EndState(round.get))
+  
   // toString
   override def toString =
     round.get.toString

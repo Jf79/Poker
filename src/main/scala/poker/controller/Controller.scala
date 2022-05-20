@@ -42,12 +42,8 @@ case class Controller(val player: Player) extends Observable:
   // methods of round 
   
   def startRound(deck: Array[Card]): Round =   // Start State
-    round = createRound(deck)
-    round = round.get.state.execute().asInstanceOf[Option[Round]]
+    round = new Round(player, deck).state.execute().asInstanceOf[Option[Round]]
     round.get
-  
-  def createRound(deck: Array[Card]): Option[Round] = 
-    Some(new Round(player, deck))
 
   def chooseRiskType(risk: String): Round =   // Risk Type State
     round = round.get.state.execute(round.get.setRiskType, risk)

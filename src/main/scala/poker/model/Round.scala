@@ -4,26 +4,58 @@ package model
 import CardsObject._
 import util._
 
-case class Round(var player: Player, var deck: Array[Card], var bet: Option[Int], var hand: Option[Array[Card]]) 
-  extends Stateable:
+case class Round(player: Player, var deck: Array[Card]) extends Stateable:
 
-  override def handle(event: Event): Option[State] =
+  var bet: Option[Int] = None
+  var hand: Option[Array[Card]] = None
+  var riskType: Option[RiskType] = None
+  var updateMessage: String = ""
+  // stateable
+  var state = StartState(this)
+
+  def copyRound() : Round = 
+    val copiedRound = new Round(new Player(player.money), deck.clone)
+    if(bet.isEmpty) copiedRound.bet = None
+    else copiedRound.bet = Some(bet.get)
+    if(hand.isEmpty) copiedRound.hand = None
+    else copiedRound.hand = Some(hand.get)
+    if(riskType.isEmpty) copiedRound.riskType = None
+    else copiedRound.riskType = Some(riskType.get)
+    copiedRound.state = State(state.toString, copiedRound)
+    copiedRound.updateMessage = new String(updateMessage)
+    copiedRound
+
+  override def handle(event: Event): State =
     event match {
-      case bet: BetEvent         => state = Some(BetState(this))
-      case start: StartEvent     => state = Some(StartState(this))
-      case replace: ReplaceEvent => state = Some(ReplaceState(this))
+      case risk: RiskTypeEvent  => state = RiskTypeState(this)
+      case bet: BetEvent  => state = BetState(this)
+      case deal: DealCardsEvent => state = DealCardsState(this)
+      case replace: HoldCardsEvent  => state = HoldCardsState(this)
+      case end: EndEvent  => state = EndState(this)
     }
     state
+  
+  // riskType state
 
-  def setBet(b: Int): Round = 
-    bet = Some(b)
+  def setRiskType(risk: String): Round =
+    riskType = Some(RiskType(risk))
     this
   
-  def start(): Round =
+  // bet state
+  
+  def setBet(b: Int): Round = 
+    bet = Some(riskType.get.setBet(b))
+    this
+  
+  // cards state
+
+  def dealCards(): Round =
     val tuple = getRandomCards(deck, 5)
     hand = Some(tuple._1);
     deck = tuple._2
     this
+  
+  // replace state 
 
   def holdCards(holdedCards: Vector[Int]): Round =
     val cards = getRandomCards(deck, 5 - holdedCards.length)._1
@@ -36,7 +68,8 @@ case class Round(var player: Player, var deck: Array[Card], var bet: Option[Int]
     for (c <- 1 to 5 if (!holdedCards.contains(c)))
       newHand(c - 1) = cards(i); i += 1
     newHand
+  
+  def hasEnoughCredit() : Boolean =  player.money > 0
 
-  override def toString =
-    state.get.toString()
+  override def toString = updateMessage
 

@@ -27,13 +27,6 @@ class StateSpec extends AnyWordSpec with Matchers {
                 newRound.state.isInstanceOf[RiskTypeState] should be(true)
             }
         }
-        "its toString() method its called" should {
-            "return the current state information" in {
-               val state = new StartState(round)
-               state.execute()
-               state.toString should be("\nThe Round started.\nGood Luck.\n") 
-            }
-        }
     }
 
     "A RiskTypeState" when {
@@ -55,9 +48,6 @@ class StateSpec extends AnyWordSpec with Matchers {
             }
             "return a round with a Bet state" in {
                 newRound.get.state.isInstanceOf[BetState] should be(true)
-            }
-            "the toString method should return current state information" in {
-                state.toString should be("\nYou choose: " + newRound.get.riskType.get.message)
             }
         }
         "its executed with the argument 'low'" should {
@@ -89,9 +79,6 @@ class StateSpec extends AnyWordSpec with Matchers {
             "set the Round to RiskTypeState again" in {
                 round.state.isInstanceOf[RiskTypeState] should be (true)
             }
-            "print the error message by calling toString()" in {
-                state.toString should be("\nYou dont have enough credit to play High Risk.")
-            }
         }
     }
 
@@ -119,13 +106,6 @@ class StateSpec extends AnyWordSpec with Matchers {
                 val newRound : Round = state.execute(round.setBet, 20).get.asInstanceOf[Round]
                 newRound.state.isInstanceOf[DealCardsState] should be(true)
             }
-            "its toString() method return the current state information" in {
-                val round = new Round(player, deck)
-                round.setRiskType("low")
-                val state = new BetState(round)
-                val newRound : Round = state.execute(round.setBet, 20).get.asInstanceOf[Round]
-                state.toString should be("\nYour bet : " + newRound.bet.get + " $\n") 
-            }
         }
         "its executed with a to high bet " should {
             val round = new Round(new Player(5), deck)
@@ -137,9 +117,6 @@ class StateSpec extends AnyWordSpec with Matchers {
             "set the Round to RiskTypeState again" in {
                 round.state.isInstanceOf[BetState] should be (true)
             }
-            "its toString() method return the current state information" in {
-                state.toString should be("\nYou dont have enough credit.\nPlease reduce your bet.") 
-            } 
         }
     }
 
@@ -163,15 +140,6 @@ class StateSpec extends AnyWordSpec with Matchers {
                 val state = new DealCardsState(round)
                 val newRound : Round = state.execute(round.dealCards()).get.asInstanceOf[Round]
                 newRound.state.isInstanceOf[HoldCardsState] should be(true)
-            }
-        }
-        "its toString() method its called" should {
-            val round = new Round(player, deck)
-            val state = new DealCardsState(round)
-            val newRound : Round = state.execute(round.dealCards()).get.asInstanceOf[Round]
-            "return the current state information" in {
-               state.toString should be("\n\n" + (1 to 5).map("["+ _.toString + "]\t\t").mkString + 
-                            "\n" + newRound.hand.get.map(_.toString + "\t").mkString + "\n\n") 
             }
         }
     }
@@ -198,16 +166,6 @@ class StateSpec extends AnyWordSpec with Matchers {
                 val state = new HoldCardsState(round)
                 val newRound : Round = state.execute(round.holdCards, vector).get.asInstanceOf[Round]
                 newRound.state.isInstanceOf[EndState] should be(true)
-            }
-        }
-        "its toString() method its called" should {
-            val round = new Round(player, deck)
-            round.dealCards()
-            val state = new HoldCardsState(round)
-            val vector: Vector[Int] = Vector()
-            val newRound : Round = state.execute(round.holdCards, vector).get.asInstanceOf[Round]
-            "return the current state information" in {
-               state.toString should be("\n\n" + newRound.hand.get.map(_.toString + "\t").mkString + "\n\n") 
             }
         }
     }

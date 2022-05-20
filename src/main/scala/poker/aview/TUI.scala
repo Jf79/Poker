@@ -7,6 +7,9 @@ import util._
 import poker.model.BetState
 import poker.model.StartState
 import poker.model.RiskTypeState
+import poker.model.DealCardsState
+import poker.model.HoldCardsState
+import poker.model.EndState
 
 class TUI(controller: Controller) extends Observer:
   controller.add(this)
@@ -32,18 +35,19 @@ class TUI(controller: Controller) extends Observer:
   def start() = 
     var running = true
     createRound()
-    val allStates : Array[State] = controller.getAllStates
+    val states : Array[State] = controller.getAllStates
     while(running) {
+      if(readLine("Undo ? (J)(N)").equalsIgnoreCase("J")) controller.undo()
       val state = controller.getStateOfRound()
-      if(state.equals(allStates(0))) 
+      if(state.getClass.equals(states(0).getClass)) 
         chooseRiskType()
-      else if(state.equals(allStates(1))) 
+      else if(state.getClass.equals(states(1).getClass)) 
         setBet()
-      else if(state.equals(allStates(2))) 
+      else if(state.getClass.equals(states(2).getClass)) 
         dealCards()
-      else if(state.equals(allStates(3))) 
+      else if(state.getClass.equals(states(3).getClass)) 
         holdCards()
-      else if(state.equals(allStates(4))) 
+      else if(state.getClass.equals(states(4).getClass)) 
         running = false
     }
 

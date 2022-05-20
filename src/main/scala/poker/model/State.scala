@@ -16,7 +16,7 @@ case class StartState(round: Round) extends State :
         Some(round)
     override def execute[T](arg: => T) : Option[T] = throw new UnsupportedOperationException
     override def execute[T, V](doThis: V => T, arg : V) : Option[T] = throw new UnsupportedOperationException
-    override def toString = message
+    override def toString = "Start"
 
     
 case class RiskTypeState(round: Round) extends State :
@@ -34,7 +34,7 @@ case class RiskTypeState(round: Round) extends State :
         round.updateMessage = message
         stateable.handle(new BetEvent)
         Some(temp)
-
+    override def toString = "Risk"
 
 case class BetState(round: Round) extends State :
     var stateable  = round
@@ -51,6 +51,7 @@ case class BetState(round: Round) extends State :
         message += "\nYour bet : " + round.bet.get + " $\n"
         round.updateMessage = message
         Some(temp)
+    override def toString = "Bet"
 
 case class DealCardsState(round: Round) extends State:
     var stateable  = round
@@ -64,6 +65,7 @@ case class DealCardsState(round: Round) extends State:
         round.updateMessage = message
         temp
     override def execute[T, V](doThis: V => T, arg : V) : Option[T] = throw new UnsupportedOperationException
+    override def toString = "Deal"
 
 case class HoldCardsState(round: Round) extends State:
     var stateable  = round
@@ -76,9 +78,25 @@ case class HoldCardsState(round: Round) extends State:
         round.updateMessage = message
         stateable.handle(new EndEvent)
         temp
+   
+    override def toString = "Hold"
+
 
 case class EndState(round: Round) extends State:
     var stateable  = round
     override def execute() : Option[_] = None    
     override def execute[T](arg: => T) : Option[T] = None
     override def execute[T, V](doThis: V => T, arg : V) : Option[T] = None
+
+    override def toString = "End"
+
+object State :
+    def apply (game: String, round : Round) = 
+        game match {
+            case "End" => new EndState(round)
+            case "Hold" => new HoldCardsState(round)
+            case "Deal" => new DealCardsState(round)
+            case "Bet" => new BetState(round)
+            case "Risk" => new RiskTypeState(round)
+            case "Start" => new StartState(round)
+        }

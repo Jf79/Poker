@@ -5,14 +5,25 @@ import CardsObject._
 import util._
 
 case class Round(player: Player, var deck: Array[Card]) extends Stateable:
-  
+
   var bet: Option[Int] = None
   var hand: Option[Array[Card]] = None
   var riskType: Option[RiskType] = None
   var updateMessage: String = ""
-
   // stateable
   var state = StartState(this)
+
+  def copyRound() : Round = 
+    val copiedRound = new Round(new Player(player.money), deck.clone)
+    if(bet.isEmpty) copiedRound.bet = None
+    else copiedRound.bet = Some(bet.get)
+    if(hand.isEmpty) copiedRound.hand = None
+    else copiedRound.hand = Some(hand.get)
+    if(riskType.isEmpty) copiedRound.riskType = None
+    else copiedRound.riskType = Some(riskType.get)
+    copiedRound.state = State(state.toString, copiedRound)
+    copiedRound.updateMessage = new String(updateMessage)
+    copiedRound
 
   override def handle(event: Event): State =
     event match {

@@ -13,8 +13,9 @@ import model.RiskType
 import util._
 import model.{BetState, RiskTypeState, DealCardsState, HoldCardsState, EndState}
 
-case class Controller(val player: Player) extends Observable:
+case class Controller(player: Player) extends Observable:
 
+  val undoManager = new UndoManager[Round]
   var round: Option[Round] = None
 
   // notifyObservers methods
@@ -50,7 +51,8 @@ case class Controller(val player: Player) extends Observable:
     round.get
   
   def setBet(bet: Int) : Round =  // Bet State
-    round = round.get.state.execute(round.get.setBet, bet)
+    //round = round.get.state.execute(round.get.setBet, bet)
+    round = Some(undoManager.doStep(round.get, BetCommand(bet)))
     round.get
   
   def dealCards(): Round =  // Deal Cards State
@@ -73,6 +75,11 @@ case class Controller(val player: Player) extends Observable:
   def getAllStates: Array[State] = 
     Array(RiskTypeState(round.get), BetState(round.get), DealCardsState(round.get), HoldCardsState(round.get), 
     EndState(round.get))
+  
+  def clearUndoManager() = 
+    undoManager.clear()
+  
+  def undo() = round = Some(undoManager.undoStep(round.get))
   
   // toString
   override def toString =

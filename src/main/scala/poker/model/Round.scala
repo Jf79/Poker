@@ -15,15 +15,14 @@ case class Round(player: Player, var deck: Array[Card]) extends Stateable:
 
   def copyRound() : Round = 
     val copiedRound = new Round(new Player(player.money), deck.clone)
-    if(bet.isEmpty) copiedRound.bet = None
-    else copiedRound.bet = Some(bet.get)
-    if(hand.isEmpty) copiedRound.hand = None
-    else copiedRound.hand = Some(hand.get)
-    if(riskType.isEmpty) copiedRound.riskType = None
-    else copiedRound.riskType = Some(riskType.get)
+    copiedRound.bet = returnCopy(bet)
+    copiedRound.hand = returnCopy(hand)
+    copiedRound.riskType = returnCopy(riskType)
     copiedRound.state = State(state.toString, copiedRound)
     copiedRound.updateMessage = new String(updateMessage)
     copiedRound
+
+  def returnCopy[T](arg: Option[T]): Option[T] = if(arg.isEmpty) return None else return arg
 
   override def handle(event: Event): State =
     event match {
@@ -51,8 +50,7 @@ case class Round(player: Player, var deck: Array[Card]) extends Stateable:
 
   def dealCards(): Round =
     val tuple = getRandomCards(deck, 5)
-    hand = Some(tuple._1);
-    deck = tuple._2
+    hand = Some(tuple._1); deck = tuple._2
     this
   
   // replace state 

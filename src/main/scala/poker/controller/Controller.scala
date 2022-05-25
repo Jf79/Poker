@@ -71,10 +71,6 @@ case class Controller(player: Player) extends Observable:
 
   def hasEnoughCredit(): Boolean = 
     round.get.hasEnoughCredit()
-
-  def getAllStates: Array[State] = 
-    Array(RiskTypeState(round.get), BetState(round.get), DealCardsState(round.get), HoldCardsState(round.get), 
-    EndState(round.get))
   
   def clearUndoManager() = 
     undoManager.clear()

@@ -3,7 +3,7 @@ package util
 
 trait RiskType :
     def message: String
-    def setBet(bet: Int): Int
+    def setBet(bet: Int, credit: Int): Int
 
 
 

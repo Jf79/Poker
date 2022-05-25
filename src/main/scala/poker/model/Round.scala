@@ -37,13 +37,13 @@ case class Round(player: Player, var deck: Array[Card]) extends Stateable:
   // riskType state
 
   def setRiskType(risk: String): Round =
-    riskType = Some(RiskType(risk))
+    riskType = Some(RiskType(risk, player.money))
     this
   
   // bet state
   
   def setBet(b: Int): Round = 
-    bet = Some(riskType.get.setBet(b))
+    bet = Some(riskType.get.setBet(b, player.money))
     this
   
   // cards state

@@ -4,6 +4,9 @@ package model
 import CardsObject._
 import util._
 
+import scala.util.{Try, Success, Failure}
+
+
 case class Round(player: Player, var deck: Array[Card]) extends Stateable:
 
   var bet: Option[Int] = None
@@ -35,17 +38,31 @@ case class Round(player: Player, var deck: Array[Card]) extends Stateable:
     state
   
   // riskType state
+  
+  def setRiskType(risk: String): Try[Round] =
+    val riskTypeTry = Try {RiskType(risk, player.money)}
+    handleTryRiskType(riskTypeTry)
 
-  def setRiskType(risk: String): Round =
-    riskType = Some(RiskType(risk, player.money))
-    this
+  def handleTryRiskType(rType : Try[RiskType]): Try[Round] = 
+    var roundTry: Try[Round] = Success(this)
+    if(rType.isSuccess) riskType = Some(rType.get)
+    else roundTry = Failure(rType.failed.get)
+    roundTry
+
+  // bet state 
+
+  def setBet(b: Int): Try[Round] = 
+    val betTry = Try{riskType.get.setBet(b, player.money)}
+    handleTryBet(betTry)
   
-  // bet state
-  
-  def setBet(b: Int): Round = 
-    bet = Some(riskType.get.setBet(b, player.money))
-    this
-  
+  def handleTryBet(bType : Try[Int]) = 
+    var roundTry: Try[Round] = Success(this)
+    if(bType.isSuccess) 
+      bet = Some(bType.get)
+    else 
+      roundTry = Failure(bType.failed.get)
+    roundTry
+
   // cards state
 
   def dealCards(): Round =
@@ -55,10 +72,10 @@ case class Round(player: Player, var deck: Array[Card]) extends Stateable:
   
   // replace state 
 
-  def holdCards(holdedCards: Vector[Int]): Round =
+  def holdCards(holdedCards: Vector[Int]): Try[Round] =
     val cards = getRandomCards(deck, 5 - holdedCards.length)._1
     hand = Some(replaceCards(holdedCards, cards, hand.get))
-    this
+    Success(this)
 
   def replaceCards(holdedCards: Vector[Int], cards: Array[Card], hand: Array[Card]): Array[Card] =
     var i = 0

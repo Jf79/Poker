@@ -3,6 +3,7 @@ package model
 
 import util.State
 import util.Stateable
+import scala.util.{Try, Success, Failure}
 
 
 case class StartState(round: Round) extends State :
@@ -10,12 +11,12 @@ case class StartState(round: Round) extends State :
     var message = ""
     
     override def execute() : Option[_] = 
-        message = "\nThe Round started.\nYour credit: " + round.player.money + " $"
+        message = "\nThe Round started.\nYour credit: " + round.player.money + " $\n"
         stateable.handle(new RiskTypeEvent)
         round.updateMessage = message
         Some(round)
     override def execute[T](arg: => T) : Option[T] = throw new UnsupportedOperationException
-    override def execute[T, V](doThis: V => T, arg : V) : Option[T] = throw new UnsupportedOperationException
+    override def execute[V](doThis: V => Try[Round], arg : V) : Option[Round] = throw new UnsupportedOperationException
     override def toString = "Start"
 
     
@@ -24,16 +25,16 @@ case class RiskTypeState(round: Round) extends State :
     var message = ""
     override def execute() : Option[_] = throw new UnsupportedOperationException
     override def execute[T](arg: => T) : Option[T] = throw new UnsupportedOperationException
-    override def execute[T, V](setRiskType: V => T, arg : V) : Option[T] = 
-        if(RiskType(arg.toString).equals(new HighRisk) && round.player.money < 30)
-            message = "\nYou dont have enough credit to play High Risk."
-            stateable.handle(new RiskTypeEvent)
-            throw new IllegalArgumentException()
-        val temp: T = setRiskType(arg)
-        message = "\nYou choose: " + round.riskType.get.message
-        round.updateMessage = message
-        stateable.handle(new BetEvent)
-        Some(temp)
+    override def execute[V](setRiskType: V => Try[Round], arg : V) : Option[Round] = 
+        var returnValue = round
+        val riskTypeTry = setRiskType(arg)
+        if (riskTypeTry.isSuccess)
+            riskTypeTry.get.updateMessage = "\nYou choose: " + round.riskType.get.message + "\n"
+            stateable.handle(new BetEvent)
+            returnValue = riskTypeTry.get
+        else
+            returnValue.updateMessage = riskTypeTry.failed.get.getMessage
+        Some(returnValue)
     override def toString = "Risk"
 
 case class BetState(round: Round) extends State :
@@ -41,16 +42,16 @@ case class BetState(round: Round) extends State :
     var message = ""
     override def execute() : Option[_] = throw new UnsupportedOperationException
     override def execute[T](arg: => T) : Option[T] = throw new UnsupportedOperationException
-    override def execute[T, V](setBet: V => T, arg : V) : Option[T] = 
-        if(round.player.money < arg.asInstanceOf[Int])
-            message = "\nYou dont have enough credit.\nPlease reduce your bet."
-            stateable.handle(new BetEvent)
-            throw new IllegalArgumentException
-        stateable.handle(new DealCardsEvent)
-        val temp : T = setBet(arg)
-        message += "\nYour bet : " + round.bet.get + " $\n"
-        round.updateMessage = message
-        Some(temp)
+    override def execute[V](setBet: V => Try[Round], arg : V) : Option[Round] = 
+        var returnValue = round
+        val betTry = setBet(arg)
+        if (betTry.isSuccess)
+            betTry.get.updateMessage = "\nYour bet : " + round.bet.get + " $\n"
+            stateable.handle(new DealCardsEvent)
+            returnValue = betTry.get
+        else
+            round.updateMessage = betTry.failed.get.getMessage
+        Some(returnValue)
     override def toString = "Bet"
 
 case class DealCardsState(round: Round) extends State:
@@ -64,7 +65,7 @@ case class DealCardsState(round: Round) extends State:
         message += "\n\n" + round.hand.get.map(_.toString + "\t").mkString + "\n\n"
         round.updateMessage = message
         temp
-    override def execute[T, V](doThis: V => T, arg : V) : Option[T] = throw new UnsupportedOperationException
+    override def execute[V](doThis: V => Try[Round], arg : V) : Option[Round] = throw new UnsupportedOperationException
     override def toString = "Deal"
 
 case class HoldCardsState(round: Round) extends State:
@@ -72,12 +73,12 @@ case class HoldCardsState(round: Round) extends State:
     var message = ""
     override def execute() : Option[_] = throw new UnsupportedOperationException    
     override def execute[T](arg: => T) : Option[T] = throw new UnsupportedOperationException
-    override def execute[T, V](holdCards: V => T, arg : V) : Option[T] = 
-        val temp: Option[T] = Some(holdCards(arg))
+    override def execute[V](holdCards: V => Try[Round], arg : V) : Option[Round] = 
+        val temp = holdCards(arg)
         message = "\n\n" + round.hand.get.map(_.toString + "\t").mkString + "\n\n"
         round.updateMessage = message
         stateable.handle(new EndEvent)
-        temp
+        Some(temp.get)
    
     override def toString = "Hold"
 
@@ -86,7 +87,7 @@ case class EndState(round: Round) extends State:
     var stateable  = round
     override def execute() : Option[_] = None    
     override def execute[T](arg: => T) : Option[T] = None
-    override def execute[T, V](doThis: V => T, arg : V) : Option[T] = None
+    override def execute[V](doThis: V => Try[Round], arg : V) : Option[Round] = None
 
     override def toString = "End"
 

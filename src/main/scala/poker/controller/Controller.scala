@@ -63,7 +63,7 @@ case class Controller(player: Player) extends Observable:
     round = round.get.state.execute(round.get.holdCards, holdedCards)
     round.get
 
-  def getStateOfRound() : State =
+  def getStateOfRound(): State =
     round.get.state
 
   def createDeck(): Array[Card] =

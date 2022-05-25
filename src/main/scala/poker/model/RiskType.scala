@@ -9,12 +9,13 @@ case class HighRisk() extends RiskType :
 
     def this(credit: Int) = 
         this()
-        if(credit < MIN_BET) throw new Exception("You don't have enough credit to play HighRisk")
+        if(credit < MIN_BET) throw new Exception("\nYou don't have enough credit to play HighRisk.\n")
+        
      
     override def message: String = "High Risk Round !"
     
     override def setBet(bet: Int, credit: Int): Int = 
-        if(credit < bet) throw new Exception("\nYou dont have enough credit.\nPlease reduce your bet.")
+        if(credit < bet) throw new Exception("\nYou dont have enough credit.\nPlease reduce your bet.\n")
         if(bet >= MIN_BET) return bet
         MIN_BET
 

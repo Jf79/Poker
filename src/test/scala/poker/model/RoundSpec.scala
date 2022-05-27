@@ -4,8 +4,8 @@ package model
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import CardsObject._
-import Symbol._
-import Picture._
+import util.Symbol
+import util.Picture
 
 class RoundSpec extends AnyWordSpec with Matchers {
   val player = new Player(1000)
@@ -29,14 +29,14 @@ class RoundSpec extends AnyWordSpec with Matchers {
   "The method setRiskType" when {
     "its called with 'high'" should {
       val round = new Round(new Player(300), createCards())
-      val newRound = round.setRiskType("high")
+      val newRound = round.setRiskType("high").get
       "choose the HighRisk strategy" in {
-        newRound.riskType.get should be(new HighRisk(null))
+        newRound.riskType.get should be(new HighRisk(30))
       }
     }
     "its called with 'low'" should {
       val round = new Round(new Player(300), createCards())
-      val newRound = round.setRiskType("low")
+      val newRound = round.setRiskType("low").get
       "choose the LowRisk strategy" in {
         newRound.riskType.get should be(new LowRisk())
       }
@@ -46,7 +46,7 @@ class RoundSpec extends AnyWordSpec with Matchers {
     val bet = 5
     "its called at LowRisk" should {
       val round = new Round(new Player(300), createCards())
-      val newRound = round.setRiskType("low")
+      val newRound = round.setRiskType("low").get
       newRound.setBet(bet)
       "set bet to the value of argument" in {
         newRound.bet.get should be(bet)
@@ -54,7 +54,7 @@ class RoundSpec extends AnyWordSpec with Matchers {
     }
     "its called at HighRisk" should {
       val round = new Round(new Player(300), createCards())
-      val newRound = round.setRiskType("high")
+      val newRound = round.setRiskType("high").get
       newRound.setBet(bet)
       "set bet to the value of argument, but at least 30 $" in {
         newRound.bet.get should be(30)
@@ -80,7 +80,7 @@ class RoundSpec extends AnyWordSpec with Matchers {
       round.dealCards()
       val oldHand = round.hand.get.clone
       "replace all cards" in {
-        val newRound = round.holdCards(Vector())
+        val newRound = round.holdCards(Vector()).get
         newRound.hand.get should not be(oldHand)
       }
     }
@@ -89,7 +89,7 @@ class RoundSpec extends AnyWordSpec with Matchers {
       round.dealCards()
       val oldHand = round.hand.get.clone
       "hold all cards" in {
-        val newRound = round.holdCards(Vector(1, 2, 3, 4, 5))
+        val newRound = round.holdCards(Vector(1, 2, 3, 4, 5)).get
         newRound.hand.get should be(oldHand)
       }
     }

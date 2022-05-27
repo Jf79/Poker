@@ -29,13 +29,29 @@ class RiskTypeSpec extends AnyWordSpec with Matchers {
                 val t = Try{riskType.setBet(30, 10)}
                 t.isFailure should be (true)
             }
+        }
+        "you call the setBet() method, with not enough credit it" should {
+            val riskType = RiskType("high", 40)
             "not throw an Exception" in {
                 val t = Try{riskType.setBet(10, 10)}
                 t.isSuccess should be (true)
             }
         }
     }
-    /*"Low Risk Type" when {
-        "you create it "
-    }*/
+    "Low Risk Type" when {
+       "you call the setBet() method, with enough credit it" should {
+            val riskType = RiskType("low", 40)
+            "not throw an Exception" in {
+                val t = Try{riskType.setBet(10, 10)}
+                t.isSuccess should be (true)
+            }
+        }
+        "you call the setBet() method, with not enough credit it" should {
+            val riskType = RiskType("low", 40)
+            "throw an Exception" in {
+                val t = Try{riskType.setBet(11, 10)}
+                t.isFailure should be (true)
+            }
+        }
+    }
 }

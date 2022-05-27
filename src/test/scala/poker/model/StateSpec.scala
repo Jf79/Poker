@@ -1,6 +1,7 @@
 package poker
 package model
 
+import scala.util.Try
 import CardsObject._
 import org.scalatest._
 import org.scalatest.wordspec.AnyWordSpec
@@ -40,9 +41,7 @@ class StateSpec extends AnyWordSpec with Matchers {
         "its executed " should {
             val round = new Round(player, deck)
             val state = new RiskTypeState(round)
-            val newRound : Option[Round] = state.
-            execute[Round, String](round.setRiskType,"low").
-            asInstanceOf[Option[Round]]
+            val newRound : Option[Round] = state.execute[String](round.setRiskType,"low")
             "return a round" in {
                 newRound should not be(None)
             }
@@ -53,29 +52,25 @@ class StateSpec extends AnyWordSpec with Matchers {
         "its executed with the argument 'low'" should {
             val round = new Round(player, deck)
             val state = new RiskTypeState(round)
-            val newRound : Option[Round] = state.execute[Round, String](round.setRiskType,"low").
-            asInstanceOf[Option[Round]]
+            val newRound : Option[Round] = state.execute[String](round.setRiskType,"low")
             "set the riskType of the round to low" in {
-                newRound.get.riskType.get should be (RiskType("low", null))
+                newRound.get.riskType.get should be (RiskType("low", 0))
             }
         }
         "its executed with the argument 'high'" should {
             val round = new Round(player, deck)
             val state = new RiskTypeState(round)
-            val newRound : Option[Round] = state.
-            execute[Round, String](round.setRiskType,"high").
-            asInstanceOf[Option[Round]]
+            val newRound : Option[Round] = state.execute[String](round.setRiskType,"high")
             "set the riskType of the round to high" in {
-                newRound.get.riskType.get should be(RiskType("high", null))
+                newRound.get.riskType.get should be(RiskType("high", 40))
             }
         }
         "its executed with the argument 'high' and not enough money" should {
             val round = new Round(new Player(5), deck)
+            round.handle(new RiskTypeEvent)
             val state = new RiskTypeState(round)
-            "throw an IllegalArgumentException" in {
-                an [IllegalArgumentException] should be thrownBy 
-                state.execute[Round, String](round.setRiskType,"high")        
-            }
+            val roundd = state.execute[String](round.setRiskType,"high")
+            println(roundd.get.updateMessage)
             "set the Round to RiskTypeState again" in {
                 round.state.isInstanceOf[RiskTypeState] should be (true)
             }
@@ -109,13 +104,12 @@ class StateSpec extends AnyWordSpec with Matchers {
         }
         "its executed with a to high bet " should {
             val round = new Round(new Player(5), deck)
+            round.handle(new BetEvent)
             round.setRiskType("low")
             val state = new BetState(round)
-            "throw an IllegalArgumentException" in {
-                an [IllegalArgumentException] should be thrownBy state.execute(round.setBet, 20)
-            }
+            val nRound = state.execute(round.setBet, 20).get
             "set the Round to RiskTypeState again" in {
-                round.state.isInstanceOf[BetState] should be (true)
+                nRound.state.isInstanceOf[BetState] should be (true)
             }
         }
     }
@@ -157,14 +151,14 @@ class StateSpec extends AnyWordSpec with Matchers {
             val state = new HoldCardsState(round)
             val vector: Vector[Int] = Vector()
             "return a round" in {
-                val newRound : Option[Round] = state.execute(round.holdCards, vector).asInstanceOf[Option[Round]]
+                val newRound : Option[Round] = state.execute(round.holdCards, vector)
                 newRound should not be(None)
             }
             "return a round with a EndState state" in {
                 val round = new Round(player, deck)
                 round.dealCards()
                 val state = new HoldCardsState(round)
-                val newRound : Round = state.execute(round.holdCards, vector).get.asInstanceOf[Round]
+                val newRound : Round = state.execute(round.holdCards, vector).get
                 newRound.state.isInstanceOf[EndState] should be(true)
             }
         }

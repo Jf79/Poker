@@ -3,6 +3,8 @@ package controller
 
 import util.Observable
 import util.Event
+import util.GameEvent._
+
 import model.HighRisk
 import model.Round
 import model.Card
@@ -22,23 +24,23 @@ case class Controller(player: Player) extends Observable:
 
   def doAndPublish(createround: (Array[Card]) => Round, deck: Array[Card]): Unit =
     round = Some(createround(deck))
-    notifyObservers
+    notifyObservers(PLAY)
 
   def doAndPublish(chooserisktype: String => Round, risk: String): Unit =
     round = Some(chooserisktype(risk))
-    notifyObservers
+    notifyObservers(PLAY)
 
   def doAndPublish(setbet: Int => Round, bet: Int): Unit =
     round = Some(setbet(bet))
-    notifyObservers
+    notifyObservers(PLAY)
   
   def doAndPublish(dealcards: => Round): Unit =
     round = Some(dealcards)
-    notifyObservers
+    notifyObservers(PLAY)
 
   def doAndPublish(holdcards: Vector[Int] => Round, holdedCards: Vector[Int]): Unit =
     round = Some(holdcards(holdedCards))
-    notifyObservers
+    notifyObservers(PLAY)
   
   // methods of round 
   

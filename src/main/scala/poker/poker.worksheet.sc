@@ -1,10 +1,13 @@
 import poker.model._
-
+import java.io
 import poker.model.CardsObject._
 
 val array = Array(10,20,30,40,50)
 array.indexOf(5)
+val out = new java.io.PrintStream(System.out, true, "UTF-8");
+out.print("\u2660\uFE0F")
 
+/*
 
 val card = new Card(Symbol.HEART, Picture.TWO, 2)
 card.toString
@@ -24,3 +27,4 @@ val deck = createCards()
 numbers.foreach(n => println(n))
 numbers = numbers.filter(!_.equals(333))
 numbers.foreach(n => println(n))
+*/

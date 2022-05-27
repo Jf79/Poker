@@ -7,7 +7,8 @@ lazy val root = project
     version := "0.1.0-SNAPSHOT",
     scalaVersion := scala3Version,
     libraryDependencies += "org.scalactic"  %% "scalactic" % "3.2.11",
-    libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.11" % "test"
+    libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.11" % "test",
+    libraryDependencies += "org.scala-lang.modules" %% "scala-swing" % "3.0.0"
   )
   
 jacocoReportSettings := JacocoReportSettings(

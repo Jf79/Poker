@@ -1,6 +1,8 @@
 package poker
 package model
 
+import util.Symbol
+import util.Picture
 import scala.util.Random.nextInt
 
 object CardsObject:
@@ -8,8 +10,7 @@ object CardsObject:
   def createCards(): Array[Card] =
     val cards = new Array[Card](52)
     for (i <- 0 to 51)
-      cards(i) =
-        new Card(Symbol.values(i % 4), Picture.values(i % 13), (i % 13) + 2)
+      cards(i) = new Card(Symbol.values(i % 4), Picture.values(i % 13), (i % 13) + 2)
     cards
 
   def getRandomCard(cards: Array[Card], rand: Int): (Card, Array[Card]) =

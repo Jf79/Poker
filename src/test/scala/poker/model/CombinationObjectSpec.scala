@@ -1,6 +1,9 @@
 package poker
 package model
 
+import util.Symbol
+import util.Picture
+
 import CombinationObject._
 import Combination._
 import org.scalatest.matchers.should.Matchers

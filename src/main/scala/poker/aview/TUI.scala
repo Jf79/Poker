@@ -3,6 +3,7 @@ package aview
 
 import scala.io.StdIn._
 import controller.Controller
+import util.GameEvent
 import util._
 
 class TUI(controller: Controller) extends Observer:
@@ -12,7 +13,7 @@ class TUI(controller: Controller) extends Observer:
         println("\nWelcome to Poker\n")
         gameLoop()
 
-    override def update = println(controller.toString)
+    override def update(event: GameEvent) = println(controller.toString)
 
     def gameLoop(): Unit =
         val input = readLine("Do you wanna quit (q) ?\n")

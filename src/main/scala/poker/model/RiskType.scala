@@ -31,8 +31,8 @@ case class LowRisk() extends RiskType :
 object RiskType :
     def apply (game: String, credit: Int) = 
         game match {
-            case "low" => new LowRisk()
             case "high" => new HighRisk(credit)
+            case _ => new LowRisk()
         }
 
 

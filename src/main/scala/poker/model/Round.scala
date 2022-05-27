@@ -83,6 +83,9 @@ case class Round(player: Player, var deck: Array[Card]) extends Stateable:
     for (c <- 1 to 5 if (!holdedCards.contains(c)))
       newHand(c - 1) = cards(i); i += 1
     newHand
+
+  // end state
+  //def checkCombination()
   
   def hasEnoughCredit() : Boolean =  player.money > 0
 

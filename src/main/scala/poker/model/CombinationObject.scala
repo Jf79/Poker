@@ -4,14 +4,16 @@ import Combination._
 
 object CombinationObject:
 
-  def findCombination(hand: Array[Card]): Option[Combination] =
+  def findCombination(hand: Array[Card]): (Option[Combination], Option[Array[Card]]) =
     var combination: Option[Combination] = None
+    var leftCards: Option[Array[Card]] = None
     if (hasRoyalFlush(hand))
       combination = Some(ROYAL_FLUSH)
     else if (hasStraigthFlush(hand))
       combination = Some(STRAIGHT_FLUSH)
     else if (hasFourOfAKind(hand)._1)
       combination = Some(FOUR_OF_A_KIND)
+      leftCards = Some(Array(hasFourOfAKind(hand)._2))
     else if (hasFullHouse(hand))
       combination = Some(FULL_HOUSE)
     else if (hasFlush(hand))
@@ -20,15 +22,19 @@ object CombinationObject:
       combination = Some(STRAIGHT)
     else if (hasThreeOfAKind(hand)._1)
       combination = Some(THREE_OF_A_KIND)
+      leftCards = Some(hasThreeOfAKind(hand)._2)
     else if (hasTwoPair(hand)._1)
       combination = Some(TWO_PAIR)
+      leftCards = Some(hasThreeOfAKind(hand)._2)
     else if (hasPair(hand)._1)
       combination = Some(PAIR)
-    combination
+    else 
+      combination = Some(NOTHING)
+    (combination, leftCards)
 
   def hasPair(hand: Array[Card]): (Boolean, Array[Card]) =
     var result = false
-    var cardsToReturn = hand
+    var cardsToReturn = hand.clone
     hand.foreach(c =>
       if (hand.filter(_.picture == c.picture).length == 2 && !result)
         cardsToReturn = hand.filter(_.picture != c.picture)
@@ -43,7 +49,7 @@ object CombinationObject:
 
   def hasThreeOfAKind(hand: Array[Card]): (Boolean, Array[Card]) =
     var result = false
-    var cardsToReturn = hand
+    var cardsToReturn = hand.clone
     hand.foreach(c =>
       if (hand.filter(_.picture == c.picture).length == 3 && !result)
         cardsToReturn = hand.filter(_.picture != c.picture)
@@ -75,7 +81,7 @@ object CombinationObject:
 
   def hasFourOfAKind(hand: Array[Card]): (Boolean, Card) =
     var result = false
-    var cardToReturn = hand
+    var cardToReturn = hand.clone
     hand.foreach(c =>
       if (hand.filter(_.picture == c.picture).length == 4 && !result)
         result = true

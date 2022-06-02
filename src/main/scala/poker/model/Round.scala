@@ -2,6 +2,7 @@ package poker
 package model
 
 import CardsObject._
+import CombinationObject._
 import util._
 
 import scala.util.{Try, Success, Failure}
@@ -13,6 +14,10 @@ case class Round(player: Player, var deck: Array[Card]) extends Stateable:
   var hand: Option[Array[Card]] = None
   var riskType: Option[RiskType] = None
   var updateMessage: String = ""
+  var combination: Option[Combination] = None
+  var combinationHand: Option[Array[Card]] = None
+  var outcome: Int = 0
+
   // stateable
   var state = StartState(this)
 
@@ -25,7 +30,7 @@ case class Round(player: Player, var deck: Array[Card]) extends Stateable:
     copiedRound.updateMessage = new String(updateMessage)
     copiedRound
 
-  def returnCopy[T](arg: Option[T]): Option[T] = if(arg.isEmpty) return None else return arg
+  def returnCopy[T](arg: Option[T]): Option[T] = if(arg.isEmpty) return None else return Some(arg.get)
 
   override def handle(event: Event): State =
     event match {
@@ -33,7 +38,7 @@ case class Round(player: Player, var deck: Array[Card]) extends Stateable:
       case bet: BetEvent  => state = BetState(this)
       case deal: DealCardsEvent => state = DealCardsState(this)
       case replace: HoldCardsEvent  => state = HoldCardsState(this)
-      case end: EndEvent  => state = EndState(this)
+      case end: EvaluationEvent  => state = EvaluationState(this)
     }
     state
   
@@ -55,12 +60,10 @@ case class Round(player: Player, var deck: Array[Card]) extends Stateable:
     val betTry = Try{riskType.get.setBet(b, player.money)}
     handleTryBet(betTry)
   
-  def handleTryBet(bType : Try[Int]) = 
+  def handleTryBet(bType : Try[Int]) : Try[Round] = 
     var roundTry: Try[Round] = Success(this)
-    if(bType.isSuccess) 
-      bet = Some(bType.get)
-    else 
-      roundTry = Failure(bType.failed.get)
+    if(bType.isSuccess) bet = Some(bType.get)
+    else roundTry = Failure(bType.failed.get)
     roundTry
 
   // cards state
@@ -84,8 +87,26 @@ case class Round(player: Player, var deck: Array[Card]) extends Stateable:
       newHand(c - 1) = cards(i); i += 1
     newHand
 
-  // end state
-  //def checkCombination()
+  // evaluation state
+
+  def evaluation(): Round = 
+    val comb = checkCombination()
+    outcome = comb.get.getMultFactor * bet.get
+    player.money = player.money + outcome
+    this
+    
+
+  def checkCombination(): Option[Combination] =
+    val tuple = findCombination(hand.get)
+    combination = tuple._1
+    combinationHand = filterCombination(tuple)
+    combination
+        
+  def filterCombination(tuple: (Option[Combination], Option[Array[Card]])) : Option[Array[Card]]=
+    if(!tuple._1.equals(Combination.NOTHING) && !tuple._2.isEmpty)
+      val leftCards = tuple._2.get
+      return Some(hand.get.filterNot(leftCards.contains(_)))
+    None
   
   def hasEnoughCredit() : Boolean =  player.money > 0
 

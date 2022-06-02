@@ -13,7 +13,7 @@ import model.Player
 import util.State
 import model.RiskType
 import util._
-import model.{BetState, RiskTypeState, DealCardsState, HoldCardsState, EndState}
+import model.{BetState, RiskTypeState, DealCardsState, HoldCardsState, EvaluationState}
 
 case class Controller(player: Player) extends Observable:
 
@@ -34,8 +34,8 @@ case class Controller(player: Player) extends Observable:
     round = Some(setbet(bet))
     notifyObservers(PLAY)
   
-  def doAndPublish(dealcards: => Round): Unit =
-    round = Some(dealcards)
+  def doAndPublish(doThis: => Round): Unit = // dealcards and evaluation
+    round = Some(doThis)
     notifyObservers(PLAY)
 
   def doAndPublish(holdcards: Vector[Int] => Round, holdedCards: Vector[Int]): Unit =
@@ -63,6 +63,10 @@ case class Controller(player: Player) extends Observable:
 
   def holdCards(holdedCards: Vector[Int]): Round =  // Hold Cards State
     round = round.get.state.execute(round.get.holdCards, holdedCards)
+    round.get
+  
+  def evaluation(): Round = 
+    round = round.get.state.execute(round.get.evaluation())
     round.get
 
   def getStateOfRound(): State =

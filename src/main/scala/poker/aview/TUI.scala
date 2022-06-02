@@ -18,7 +18,8 @@ class TUI(controller: Controller) extends Observer:
     def gameLoop(): Unit =
         val input = readLine("Do you wanna quit (q) ?\n")
         input match {
-            case "q" =>
+            case "q" => 
+                
             case _ => {
                 start()
                 controller.hasEnoughCredit() match 
@@ -38,7 +39,10 @@ class TUI(controller: Controller) extends Observer:
                 case "Bet" => setBet()
                 case "Deal" => dealCards()
                 case "Hold" => holdCards()
-                case "End" => running = false
+                case "Evaluation" => {
+                    evaluation()
+                    running = false
+                }
             }
         }
 
@@ -47,18 +51,20 @@ class TUI(controller: Controller) extends Observer:
     def chooseRiskType() = 
         val risk = readLine("\nWhich type of game you wanna play (LowRisk) or (HighRisk) ?\n")
         controller.doAndPublish(controller.chooseRiskType, risk)
-        //checkUndo()
+        checkUndo()
     
     def setBet() = 
         val bet = readLine("\nPlease place your bet :\n").toInt
         controller.doAndPublish(controller.setBet, bet)
-        //checkUndo()
+        checkUndo()
     
     def dealCards() = controller.doAndPublish(controller.dealCards())
 
     def holdCards() = 
         val input = processInput(readLine("\nWhich cards you wanna hold ?\n").split(" "))
         controller.doAndPublish(controller.holdCards, input)
+
+    def evaluation() = controller.doAndPublish(controller.evaluation())
 
     def checkUndo() = if(readLine("\nUndo ? (Y)(N)\n").equalsIgnoreCase("Y")) controller.undo()
 

@@ -77,24 +77,32 @@ case class HoldCardsState(round: Round) extends State:
         val temp = holdCards(arg)
         message = "\n\n" + round.hand.get.map(_.toString + "\t").mkString + "\n\n"
         round.updateMessage = message
-        stateable.handle(new EndEvent)
+        stateable.handle(new EvaluationEvent)
         Some(temp.get)
    
     override def toString = "Hold"
 
 
-case class EndState(round: Round) extends State:
+case class EvaluationState(round: Round) extends State:
     var stateable  = round
     override def execute() : Option[_] = None    
-    override def execute[T](arg: => T) : Option[T] = None
+    override def execute[T](evaluation: => T) : Option[T] = 
+        val t = evaluation
+        val r = t.asInstanceOf[Round]
+        if(round.combination.get.equals(Combination.NOTHING))
+            round.updateMessage = "\nYou didnt won anything.\nGood Luck next time.\n"
+        else
+            round.updateMessage = r.combination.get.toString + " !\nYou won " + r.outcome + " $\n"
+        Some(t)
+
     override def execute[V](doThis: V => Try[Round], arg : V) : Option[Round] = None
 
-    override def toString = "End"
+    override def toString = "Evaluation"
 
 object State :
     def apply (game: String, round : Round) = 
         game match {
-            case "End" => new EndState(round)
+            case "Evaluation" => new EvaluationState(round)
             case "Hold" => new HoldCardsState(round)
             case "Deal" => new DealCardsState(round)
             case "Bet" => new BetState(round)

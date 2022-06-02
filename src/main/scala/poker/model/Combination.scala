@@ -2,6 +2,8 @@ package poker
 package model
 
 enum Combination(multFactor: Int):
+  def getMultFactor: Int = multFactor
+  case NOTHING extends Combination(-1)
   case PAIR extends Combination(1)
   case TWO_PAIR extends Combination(2)
   case THREE_OF_A_KIND extends Combination(3)

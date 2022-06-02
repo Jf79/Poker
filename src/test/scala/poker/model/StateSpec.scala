@@ -159,7 +159,7 @@ class StateSpec extends AnyWordSpec with Matchers {
                 round.dealCards()
                 val state = new HoldCardsState(round)
                 val newRound : Round = state.execute(round.holdCards, vector).get
-                newRound.state.isInstanceOf[EndState] should be(true)
+                newRound.state.isInstanceOf[EvaluationState] should be(true)
             }
         }
     }

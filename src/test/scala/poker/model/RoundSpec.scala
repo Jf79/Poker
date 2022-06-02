@@ -161,7 +161,7 @@ class RoundSpec extends AnyWordSpec with Matchers {
     }
     "its called with an EndEvent" should {
       "return a BetState" in {
-        round.handle(new EndEvent) should be(new EndState(round))
+        round.handle(new EvaluationEvent) should be(new EvaluationState(round))
       }
     }
   }

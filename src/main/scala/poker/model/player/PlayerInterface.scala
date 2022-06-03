@@ -7,5 +7,5 @@ trait PlayerInterface :
     def getMoney(): Int
 
 object CreatePlayer :
-    def apply (money: Int) = new Player(money)
+    def apply (money: Int): PlayerInterface = new Player(money)
 

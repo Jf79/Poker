@@ -10,3 +10,4 @@ case class BetEvent() extends Event
 case class DealCardsEvent() extends Event
 case class HoldCardsEvent() extends Event
 case class EvaluationEvent() extends Event
+case class EndEvent() extends Event

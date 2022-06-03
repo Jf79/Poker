@@ -13,12 +13,11 @@ import model.card.CardInterface
 import controller.ControllerInterface
 
 
-import model.Card
+
 import util.CardsObject._
 import util.State
 import util._
 import model.round.{BetState, RiskTypeState, DealCardsState, HoldCardsState, EvaluationState}
-import poker.model.card.CardInterface
 import controller.ControllerInterface
 
 case class Controller(player: PlayerInterface) extends ControllerInterface:
@@ -50,6 +49,12 @@ case class Controller(player: PlayerInterface) extends ControllerInterface:
   
   // methods of round 
   
+  def startIntro(): Unit = notifyObservers(INTRO)
+
+  def startTheGame(): Unit = notifyObservers(START)
+
+  def endTheGame(): Unit = notifyObservers(EXIT)
+
   def startRound(deck: Array[CardInterface]): RoundInterface =   // Start State
     round = CreateRound(player, deck).state.execute().asInstanceOf[Option[RoundInterface]]
     round.get
@@ -73,8 +78,9 @@ case class Controller(player: PlayerInterface) extends ControllerInterface:
   
   def evaluation(): RoundInterface = 
     round = round.get.state.execute(round.get.evaluation())
+    println("player credit(controller) " + player.getMoney())
     round.get
-
+  
   def getStateOfRound(): State =
     round.get.state
 
@@ -82,7 +88,7 @@ case class Controller(player: PlayerInterface) extends ControllerInterface:
     createCards()
 
   def hasEnoughCredit(): Boolean = 
-    round.get.hasEnoughCredit()
+    player.getMoney() > 0
   
   def clearUndoManager() = 
     undoManager.clear()

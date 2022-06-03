@@ -24,7 +24,7 @@ trait RoundInterface extends Stateable:
 
 
 object CreateRound :
-    def apply (player: PlayerInterface, deck: Array[CardInterface]) = new Round(player, deck)
+    def apply (player: PlayerInterface, deck: Array[CardInterface]): RoundInterface = new Round(player, deck)
         
 
   

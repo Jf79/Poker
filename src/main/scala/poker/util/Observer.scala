@@ -2,7 +2,7 @@ package poker
 package util
 
 enum GameEvent:
-  case PLAY,EXIT
+  case INTRO,START,PLAY,EXIT
 
 trait Observer: // View
   def update(e: GameEvent): Unit

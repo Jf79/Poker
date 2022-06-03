@@ -9,6 +9,7 @@ trait CardInterface:
     val symbol: Symbol
     val picture: Picture
     val value: Int
+    def toString(): String
 
 object CreateCard :
-    def apply (s: Symbol, p: Picture, v: Int) = new Card(s, p, v)
+    def apply (s: Symbol, p: Picture, v: Int): CardInterface = new Card(s, p, v)

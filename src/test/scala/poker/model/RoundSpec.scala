@@ -9,14 +9,41 @@ import org.scalatest.wordspec.AnyWordSpec
 import util.CardsObject._
 import util.Symbol
 import util.Picture
+import poker.model.round.RiskType
+import poker.model.round.BetEvent
 
 class RoundSpec extends AnyWordSpec with Matchers {
-  /*val player = new Player(1000)
+  val player = new Player(1000)
   val bet = 100
   val deck = createCards()
   var round = new Round(player, deck)
+  round.bet = Some(10)
+  round.dealCards()
+  round.riskType = Some(RiskType("low", 10))
+  round.updateMessage = "hello"
 
-  "A round" when {
+  "A Round" when {
+    "you call the copy() method" should {
+      val newRound = round.copyRound().asInstanceOf[Round]
+      round.bet = Some(20)
+      round.dealCards()
+      round.riskType = Some(RiskType("high", 50))
+      round.updateMessage = "helloooooooooo"
+      round.player.addMoney(100)
+      println(newRound.bet.get)
+      newRound.hand.get.foreach(c => println(c.toString))
+      round.hand.get.foreach(c => println(c.toString))
+      println(newRound.riskType.get.message)
+      println(newRound.updateMessage)
+      println(newRound.player.getMoney())
+      println(round.player.getMoney())
+      round.handle(new BetEvent)
+      println(round.state.toString)
+      println(newRound.state.toString)
+    }
+  }
+
+  /*"A round" when {
     "its created" should {
       "have a player with money" in {
         round.player.money should be(1000)

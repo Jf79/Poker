@@ -96,15 +96,27 @@ case class EvaluationState(round: Round) extends State:
             round.updateMessage = "\nYou didnt won anything.\nGood Luck next time.\n"
         else
             round.updateMessage = r.combination.get.toString + " !\nYou won " + r.outcome + " $\n"
+        stateable.handle(new EndEvent)
         Some(t)
 
     override def execute[V](doThis: V => Try[RoundInterface], arg : V) : Option[RoundInterface] = None
 
     override def toString = "Evaluation"
 
+case class EndState(round: Round) extends State:
+    var stateable  = round
+    override def execute() : Option[_] = throw new UnsupportedOperationException    
+    override def execute[T](evaluation: => T) : Option[T] = throw new UnsupportedOperationException
+
+    override def execute[V](doThis: V => Try[RoundInterface], arg : V) : Option[RoundInterface] = 
+        throw new UnsupportedOperationException
+
+    override def toString = "End"
+
 object State :
     def apply (game: String, round : Round) = 
         game match {
+            case "End" => new EndState(round)
             case "Evaluation" => new EvaluationState(round)
             case "Hold" => new HoldCardsState(round)
             case "Deal" => new DealCardsState(round)

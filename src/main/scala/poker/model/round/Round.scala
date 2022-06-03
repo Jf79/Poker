@@ -5,11 +5,11 @@ package round
 import util.CardsObject._
 import util.CombinationObject._
 import util._
+import model.player.CreatePlayer
 import player.PlayerInterface
 import card.CardInterface
 
 import scala.util.{Try, Success, Failure}
-import poker.model.player.CreatePlayer
 
 
 case class Round(player: PlayerInterface, var deck: Array[CardInterface]) extends RoundInterface:
@@ -26,12 +26,14 @@ case class Round(player: PlayerInterface, var deck: Array[CardInterface]) extend
   var state = StartState(this)
 
   override def copyRound() : RoundInterface = 
-    val copiedRound = new Round(CreatePlayer(player.getMoney()), deck.clone)
+    val copiedRound = new Round(player, deck.clone)
     copiedRound.bet = returnCopy(bet)
     copiedRound.hand = returnCopy(hand)
     copiedRound.riskType = returnCopy(riskType)
     copiedRound.state = State(state.toString, copiedRound)
     copiedRound.updateMessage = new String(updateMessage)
+    copiedRound.combination = returnCopy(combination)
+    copiedRound.combinationHand = returnCopy(combinationHand)
     copiedRound
 
   def returnCopy[T](arg: Option[T]): Option[T] = if(arg.isEmpty) return None else return Some(arg.get)
@@ -42,7 +44,8 @@ case class Round(player: PlayerInterface, var deck: Array[CardInterface]) extend
       case bet: BetEvent  => state = BetState(this)
       case deal: DealCardsEvent => state = DealCardsState(this)
       case replace: HoldCardsEvent  => state = HoldCardsState(this)
-      case end: EvaluationEvent  => state = EvaluationState(this)
+      case evaluation: EvaluationEvent  => state = EvaluationState(this)
+      case end: EndEvent  => state = EndState(this)
     }
     state
   
@@ -97,6 +100,7 @@ case class Round(player: PlayerInterface, var deck: Array[CardInterface]) extend
     val comb = checkCombination()
     outcome = comb.get.getMultFactor * bet.get
     player.addMoney(outcome)
+        println("Player credit: " + player.getMoney())
     this
     
 

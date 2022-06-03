@@ -17,7 +17,7 @@ import util.Observer
 import util.Symbol._
 
 import model.Card
-import controller.Controller
+import controller.controller.ControllerInterface
 import scala.swing.Button
 import scala.swing.BorderPanel
 import scala.swing.event.MouseClicked
@@ -25,7 +25,7 @@ import java.awt.Rectangle
 import java.awt.Point
 
 
-class GUI(controller: Controller) extends Frame with Observer:
+class GUI(controller: ControllerInterface) extends Frame with Observer:
     controller.add(this)
 
     val WIDTH = 1400
@@ -44,7 +44,7 @@ class GUI(controller: Controller) extends Frame with Observer:
     size = new Dimension(WIDTH, HEIGHT)
     contents = new FlowPanel {
         preferredSize = new Dimension(WIDTH, HEIGHT)
-        contents += new Button{
+        contents += new Button {
             this.text = "Start"
             this.background = YELLOW
             this.visible = true

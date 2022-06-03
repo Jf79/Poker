@@ -4,7 +4,7 @@ package aview
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import controller.Controller
-import model.CardsObject._
+import util.CardsObject._
 
 class TUISpec extends AnyWordSpec with Matchers {
   "The TUI " when {

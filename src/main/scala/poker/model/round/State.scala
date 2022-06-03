@@ -1,8 +1,11 @@
 package poker
 package model
+package round
 
 import util.State
 import util.Stateable
+import util.Combination._
+
 import scala.util.{Try, Success, Failure}
 
 
@@ -11,12 +14,12 @@ case class StartState(round: Round) extends State :
     var message = ""
     
     override def execute() : Option[_] = 
-        message = "\nThe Round started.\nYour credit: " + round.player.money + " $\n"
+        message = "\nThe Round started.\nYour credit: " + round.player.getMoney() + " $\n"
         stateable.handle(new RiskTypeEvent)
         round.updateMessage = message
         Some(round)
     override def execute[T](arg: => T) : Option[T] = throw new UnsupportedOperationException
-    override def execute[V](doThis: V => Try[Round], arg : V) : Option[Round] = throw new UnsupportedOperationException
+    override def execute[V](doThis: V => Try[RoundInterface], arg : V) : Option[RoundInterface] = throw new UnsupportedOperationException
     override def toString = "Start"
 
     
@@ -25,8 +28,8 @@ case class RiskTypeState(round: Round) extends State :
     var message = ""
     override def execute() : Option[_] = throw new UnsupportedOperationException
     override def execute[T](arg: => T) : Option[T] = throw new UnsupportedOperationException
-    override def execute[V](setRiskType: V => Try[Round], arg : V) : Option[Round] = 
-        var returnValue = round
+    override def execute[V](setRiskType: V => Try[RoundInterface], arg : V) : Option[RoundInterface] = 
+        var returnValue: RoundInterface = round
         val riskTypeTry = setRiskType(arg)
         if (riskTypeTry.isSuccess)
             riskTypeTry.get.updateMessage = "\nYou choose: " + round.riskType.get.message + "\n"
@@ -42,8 +45,8 @@ case class BetState(round: Round) extends State :
     var message = ""
     override def execute() : Option[_] = throw new UnsupportedOperationException
     override def execute[T](arg: => T) : Option[T] = throw new UnsupportedOperationException
-    override def execute[V](setBet: V => Try[Round], arg : V) : Option[Round] = 
-        var returnValue = round
+    override def execute[V](setBet: V => Try[RoundInterface], arg : V) : Option[RoundInterface] = 
+        var returnValue:RoundInterface = round
         val betTry = setBet(arg)
         if (betTry.isSuccess)
             betTry.get.updateMessage = "\nYour bet : " + round.bet.get + " $\n"
@@ -65,7 +68,7 @@ case class DealCardsState(round: Round) extends State:
         message += "\n\n" + round.hand.get.map(_.toString + "\t").mkString + "\n\n"
         round.updateMessage = message
         temp
-    override def execute[V](doThis: V => Try[Round], arg : V) : Option[Round] = throw new UnsupportedOperationException
+    override def execute[V](doThis: V => Try[RoundInterface], arg : V) : Option[RoundInterface] = throw new UnsupportedOperationException
     override def toString = "Deal"
 
 case class HoldCardsState(round: Round) extends State:
@@ -73,7 +76,7 @@ case class HoldCardsState(round: Round) extends State:
     var message = ""
     override def execute() : Option[_] = throw new UnsupportedOperationException    
     override def execute[T](arg: => T) : Option[T] = throw new UnsupportedOperationException
-    override def execute[V](holdCards: V => Try[Round], arg : V) : Option[Round] = 
+    override def execute[V](holdCards: V => Try[RoundInterface], arg : V) : Option[RoundInterface] = 
         val temp = holdCards(arg)
         message = "\n\n" + round.hand.get.map(_.toString + "\t").mkString + "\n\n"
         round.updateMessage = message
@@ -89,13 +92,13 @@ case class EvaluationState(round: Round) extends State:
     override def execute[T](evaluation: => T) : Option[T] = 
         val t = evaluation
         val r = t.asInstanceOf[Round]
-        if(round.combination.get.equals(Combination.NOTHING))
+        if(round.combination.get.equals(NOTHING))
             round.updateMessage = "\nYou didnt won anything.\nGood Luck next time.\n"
         else
             round.updateMessage = r.combination.get.toString + " !\nYou won " + r.outcome + " $\n"
         Some(t)
 
-    override def execute[V](doThis: V => Try[Round], arg : V) : Option[Round] = None
+    override def execute[V](doThis: V => Try[RoundInterface], arg : V) : Option[RoundInterface] = None
 
     override def toString = "Evaluation"
 

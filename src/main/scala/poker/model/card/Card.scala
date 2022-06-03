@@ -3,7 +3,8 @@ package model
 
 import util.Symbol
 import util.Picture
+import poker.model.card.CardInterface
 
-case class Card(symbol: Symbol, picture: Picture, value: Integer) {
+case class Card(symbol: Symbol, picture: Picture, value: Int) extends CardInterface:
   override def toString = "" + picture.toString + " (" + symbol.toString + ")"
-}
+

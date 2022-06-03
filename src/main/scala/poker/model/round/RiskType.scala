@@ -1,8 +1,12 @@
 package poker
 package model
+package round
 
 import util.RiskType
-import CombinationObject._
+import util.Combination
+import util.CombinationObject._
+import card.CardInterface
+
 
 case class HighRisk() extends RiskType :
     
@@ -20,7 +24,7 @@ case class HighRisk() extends RiskType :
         if(bet >= MIN_BET) return bet
         MIN_BET
 
-    override def checkCombination(hand: Array[Card]): Option[Combination] = 
+    override def checkCombination(hand: Array[CardInterface]): Option[Combination] = 
         val c = findCombination(hand)._1
         if(!c.isEmpty) return c
         None
@@ -34,7 +38,7 @@ case class LowRisk() extends RiskType :
             throw new Exception("\nYou dont have enough credit.\nPlease reduce your bet.")
         bet
 
-    override def checkCombination(hand: Array[Card]): Option[Combination] = 
+    override def checkCombination(hand: Array[CardInterface]): Option[Combination] = 
         val comb = findCombination(hand)
         val leftCards = comb._2
         if(!comb._1.isEmpty && !leftCards.isEmpty)
@@ -42,7 +46,7 @@ case class LowRisk() extends RiskType :
                 return None
         comb._1
     
-    def isUsefulPair(c: Combination, hand: Array[Card], leftCards: Array[Card]) : Boolean = 
+    def isUsefulPair(c: Combination, hand: Array[CardInterface], leftCards: Array[CardInterface]) : Boolean = 
         if(c.equals(Combination.PAIR))
             val pair = hand.filterNot(leftCards.contains(_))
             if(pair(0).value < 11)

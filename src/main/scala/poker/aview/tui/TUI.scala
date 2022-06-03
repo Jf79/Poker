@@ -5,8 +5,9 @@ import scala.io.StdIn._
 import controller.Controller
 import util.GameEvent
 import util._
+import controller.controller.ControllerInterface
 
-class TUI(controller: Controller) extends Observer:
+class TUI(controller: ControllerInterface) extends Observer:
     controller.add(this)
 
     def run =

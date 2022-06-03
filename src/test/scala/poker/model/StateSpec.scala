@@ -2,13 +2,13 @@ package poker
 package model
 
 import scala.util.Try
-import CardsObject._
+import util.CardsObject._
 import org.scalatest._
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers
 
 class StateSpec extends AnyWordSpec with Matchers {
-    val player = new Player(300)
+   /* val player = new Player(300)
     val deck = createCards()    
     "A StartState" when {
         val round = new Round(player, deck)
@@ -162,7 +162,7 @@ class StateSpec extends AnyWordSpec with Matchers {
                 newRound.state.isInstanceOf[EvaluationState] should be(true)
             }
         }
-    }
+    }*/
 }
 
 

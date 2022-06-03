@@ -1,5 +1,5 @@
 package poker
-package model
+package util
 
 enum Combination(multFactor: Int):
   def getMultFactor: Int = multFactor

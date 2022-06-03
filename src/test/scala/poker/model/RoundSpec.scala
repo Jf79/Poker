@@ -1,14 +1,17 @@
 package poker
 package model
 
+import player.Player
+import round.Round
+import round.State._
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
-import CardsObject._
+import util.CardsObject._
 import util.Symbol
 import util.Picture
 
 class RoundSpec extends AnyWordSpec with Matchers {
-  val player = new Player(1000)
+  /*val player = new Player(1000)
   val bet = 100
   val deck = createCards()
   var round = new Round(player, deck)
@@ -164,6 +167,6 @@ class RoundSpec extends AnyWordSpec with Matchers {
         round.handle(new EvaluationEvent) should be(new EvaluationState(round))
       }
     }
-  }
+  }*/
 
 }

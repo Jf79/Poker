@@ -1,8 +1,9 @@
-package poker.model
+package poker
+package model
 
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
-//import model._
+import player.Player
 
 class PlayerSpec extends AnyWordSpec with Matchers {
   "A Player" when {

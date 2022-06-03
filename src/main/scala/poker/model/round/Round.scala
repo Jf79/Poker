@@ -1,28 +1,32 @@
 package poker
 package model
+package round
 
-import CardsObject._
-import CombinationObject._
+import util.CardsObject._
+import util.CombinationObject._
 import util._
+import player.PlayerInterface
+import card.CardInterface
 
 import scala.util.{Try, Success, Failure}
+import poker.model.player.CreatePlayer
 
 
-case class Round(player: Player, var deck: Array[Card]) extends Stateable:
+case class Round(player: PlayerInterface, var deck: Array[CardInterface]) extends RoundInterface:
 
   var bet: Option[Int] = None
-  var hand: Option[Array[Card]] = None
+  var hand: Option[Array[CardInterface]] = None
   var riskType: Option[RiskType] = None
   var updateMessage: String = ""
   var combination: Option[Combination] = None
-  var combinationHand: Option[Array[Card]] = None
+  var combinationHand: Option[Array[CardInterface]] = None
   var outcome: Int = 0
 
   // stateable
   var state = StartState(this)
 
-  def copyRound() : Round = 
-    val copiedRound = new Round(new Player(player.money), deck.clone)
+  override def copyRound() : RoundInterface = 
+    val copiedRound = new Round(CreatePlayer(player.getMoney()), deck.clone)
     copiedRound.bet = returnCopy(bet)
     copiedRound.hand = returnCopy(hand)
     copiedRound.riskType = returnCopy(riskType)
@@ -32,7 +36,7 @@ case class Round(player: Player, var deck: Array[Card]) extends Stateable:
 
   def returnCopy[T](arg: Option[T]): Option[T] = if(arg.isEmpty) return None else return Some(arg.get)
 
-  override def handle(event: Event): State =
+  def handle(event: Event): State =
     event match {
       case risk: RiskTypeEvent  => state = RiskTypeState(this)
       case bet: BetEvent  => state = BetState(this)
@@ -44,8 +48,8 @@ case class Round(player: Player, var deck: Array[Card]) extends Stateable:
   
   // riskType state
   
-  def setRiskType(risk: String): Try[Round] =
-    val riskTypeTry = Try {RiskType(risk, player.money)}
+  override def setRiskType(risk: String): Try[RoundInterface] =
+    val riskTypeTry = Try {RiskType(risk, player.getMoney())}
     handleTryRiskType(riskTypeTry)
 
   def handleTryRiskType(rType : Try[RiskType]): Try[Round] = 
@@ -56,8 +60,8 @@ case class Round(player: Player, var deck: Array[Card]) extends Stateable:
 
   // bet state 
 
-  def setBet(b: Int): Try[Round] = 
-    val betTry = Try{riskType.get.setBet(b, player.money)}
+  override def setBet(b: Int): Try[RoundInterface] = 
+    val betTry = Try{riskType.get.setBet(b, player.getMoney())}
     handleTryBet(betTry)
   
   def handleTryBet(bType : Try[Int]) : Try[Round] = 
@@ -68,19 +72,19 @@ case class Round(player: Player, var deck: Array[Card]) extends Stateable:
 
   // cards state
 
-  def dealCards(): Round =
+  override def dealCards(): RoundInterface =
     val tuple = getRandomCards(deck, 5)
     hand = Some(tuple._1); deck = tuple._2
     this
   
   // replace state 
 
-  def holdCards(holdedCards: Vector[Int]): Try[Round] =
+  override def holdCards(holdedCards: Vector[Int]): Try[RoundInterface] =
     val cards = getRandomCards(deck, 5 - holdedCards.length)._1
     hand = Some(replaceCards(holdedCards, cards, hand.get))
     Success(this)
 
-  def replaceCards(holdedCards: Vector[Int], cards: Array[Card], hand: Array[Card]): Array[Card] =
+  def replaceCards(holdedCards: Vector[Int], cards: Array[CardInterface], hand: Array[CardInterface]): Array[CardInterface] =
     var i = 0
     val newHand = hand.clone
     for (c <- 1 to 5 if (!holdedCards.contains(c)))
@@ -89,10 +93,10 @@ case class Round(player: Player, var deck: Array[Card]) extends Stateable:
 
   // evaluation state
 
-  def evaluation(): Round = 
+  override def evaluation(): Round = 
     val comb = checkCombination()
     outcome = comb.get.getMultFactor * bet.get
-    player.money = player.money + outcome
+    player.addMoney(outcome)
     this
     
 
@@ -102,13 +106,13 @@ case class Round(player: Player, var deck: Array[Card]) extends Stateable:
     combinationHand = filterCombination(tuple)
     combination
         
-  def filterCombination(tuple: (Option[Combination], Option[Array[Card]])) : Option[Array[Card]]=
+  def filterCombination(tuple: (Option[Combination], Option[Array[CardInterface]])) : Option[Array[CardInterface]]=
     if(!tuple._1.equals(Combination.NOTHING) && !tuple._2.isEmpty)
       val leftCards = tuple._2.get
       return Some(hand.get.filterNot(leftCards.contains(_)))
     None
   
-  def hasEnoughCredit() : Boolean =  player.money > 0
+  override def hasEnoughCredit() : Boolean =  player.getMoney() > 0
 
   override def toString = updateMessage
 

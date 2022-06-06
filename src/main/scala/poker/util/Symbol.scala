@@ -13,7 +13,7 @@ enum Symbol:
 
   def paint : String = 
     this match 
-      case HEART => "♠"
+      case HEART => "♥"
       case SPADE => "♠"
       case DIAMOND => "♦"
       case CLUB => "♣"

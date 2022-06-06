@@ -19,8 +19,8 @@ case class IntroButton(topL: Point, topR: Point, bottomR: Point, bottomL: Point,
 
     def drawString(g: Graphics2D): Unit = 
         g.setColor(BLACK)
-        g.setFont(new Font(Font.SANS_SERIF, Font.HANGING_BASELINE, 70))
-        g.drawString(text, topL.x + (width/4.5).toInt, bottomL.y - (height/4.5).toInt)
+        g.setFont(new Font("Times Roman", Font.PLAIN, 70))
+        g.drawString(text, topL.x + (width/10).toInt, bottomL.y - (height/4.5).toInt)
 
 
     def repaint(g: Graphics2D): Unit = 
@@ -33,9 +33,12 @@ case class IntroButton(topL: Point, topR: Point, bottomR: Point, bottomL: Point,
         drawString(g)
 
 
-    def isEntered(p: Point): Boolean = 
-        if(p.x > topL.x && p.y > topL.y && p.x < topR.x && p.y < bottomL.y) return true
-        return false
+    override def isEntered(p: Point): Boolean = p.x > topL.x && p.y > topL.y && p.x < topR.x && p.y < bottomL.y
+       
+    override def enter(): Unit = changedColor = color
+
+    override def leaved(): Unit = changedColor = color.darker
 
     override def clicked(c: ControllerInterface): Unit = 
         if(visible) c.startTheGame()
+

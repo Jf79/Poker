@@ -11,6 +11,19 @@ import java.awt.Graphics2D
 
 import util.Combination
 
+case class MessageBoard(topL: Point, topR: Point, bottomR: Point, bottomL: Point, color: Color) 
+    extends MyContent:
+
+    val stroke = new BasicStroke(4)
+    val edges = 30
+
+    def repaint(g: Graphics2D): Unit =  
+        g.setColor(Color.BLACK)
+        g.fillRoundRect(topL.x, topL.y, topR.x - topL.x, bottomR.y - topR.y, edges, edges) 
+        g.setStroke(stroke)
+        g.setColor(color.darker)
+        g.drawRoundRect(topL.x, topL.y, topR.x - topL.x, bottomR.y - topR.y, edges, edges) 
+
 
 case class BoardRow(topL: Point, topR: Point, bottomR: Point, bottomL: Point, color: Color) 
     extends MyContent:
@@ -18,20 +31,22 @@ case class BoardRow(topL: Point, topR: Point, bottomR: Point, bottomL: Point, co
     val stroke = new BasicStroke(4)
 
     def repaint(g: Graphics2D): Unit =  
-        g.setColor(Color.BLUE)
-        g.setStroke(stroke)
+        g.setColor(Color.BLACK)
         g.fillRect(topL.x, topL.y, topR.x - topL.x, bottomR.y - topR.y)
+        g.setColor(color)
+        g.setStroke(stroke)
+        g.drawRect(topL.x, topL.y, topR.x - topL.x, bottomR.y - topR.y)
 
 case class BoardColumn(topL: Point, topR: Point, bottomR: Point, bottomL: Point, color: Color) 
     extends MyContent:
 
     def repaint(g: Graphics2D, stroke: BasicStroke, click: Int): Unit = 
-        if(click > 1)
+        /*if(click > 1)
             g.setColor(Color.RED.darker)
-            g.fillRect(topL.x, topL.y, width, height)
+            g.fillRect(topL.x, topL.y, width, height)*/
         g.setColor(color.darker)
         g.setStroke(stroke)
-        printf("topL.x: %d, topL.y: %d, bottomL.x: %d, bottomL.y: %d\n",topL.x, topL.y, bottomL.x, bottomL.y)
+        //printf("topL.x: %d, topL.y: %d, bottomL.x: %d, bottomL.y: %d\n",topL.x, topL.y, bottomL.x, bottomL.y)
         g.drawLine(topL.x, topL.y, bottomL.x, bottomL.y)
 
 
@@ -69,8 +84,8 @@ case class CombinationBoard(topL: Point, topR: Point, bottomR: Point, bottomL: P
         p.x > topL.x && p.y > topL.y && p.x < topR.x && p.y < bottomL.y
     
     def repaint(g: Graphics2D, bet: Int, combination: Combination): Unit = 
-        println("columnCombWidth: " + columnCombWidth)
-        println("columnWidth " + columnWidth)
+        //println("columnCombWidth: " + columnCombWidth)
+        //println("columnWidth " + columnWidth)
         create()
         val edges = 20
         g.setColor(color)

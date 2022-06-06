@@ -23,7 +23,10 @@ abstract class MyContent():
 
 abstract class MyButton() extends MyContent:
     def clicked(c: ControllerInterface): Unit
-
+    def isEntered(p: Point): Boolean
+    def enter(): Unit
+    def repaint(g: Graphics2D): Unit
+    def leaved(): Unit
 
 
 

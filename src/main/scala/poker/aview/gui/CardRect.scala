@@ -16,16 +16,20 @@ case class CardRect(topL: Point, topR: Point, bottomR: Point, bottomL: Point, co
     extends MyContent:
 
     val edges = 30
-    val darkWhite = Color.WHITE.darker
-    val stroke = new BasicStroke(5)
+    val white = new Color(215, 215, 214, 255);
+    val newWhite = new Color(249, 250, 248, 255);
+    val normalStroke = new BasicStroke(5)
+    val clickStroke = new BasicStroke(7)
     val symbolFont = new Font("Times Roman", Font.BOLD, 130)
     val pictureFont = new Font("Times Roman", Font.BOLD, 70)
 
     var isHolded = false
     var isClicked = false
     visible = false
-    var backgroundColor = darkWhite
+    var stroke = normalStroke
+    var backgroundColor = white
     var borderColor = color
+    var green = new Color(36, 109, 18).brighter
     var cardColor = Color.BLACK
     var symbol: Symbol = null
     var picture: Picture = null
@@ -38,15 +42,21 @@ case class CardRect(topL: Point, topR: Point, bottomR: Point, bottomL: Point, co
 
     def clicked(): Unit = 
         if(isClicked) 
-            borderColor = Color.RED
+            backgroundColor = white
             isClicked = false
-        else 
-            isClicked = true
             borderColor = color
+            stroke = normalStroke
+        else 
+            backgroundColor = newWhite
+            stroke = clickStroke
+            isClicked = true
+            borderColor = Color.red.darker
 
-    def enter(): Unit = backgroundColor = darkWhite.brighter
+    def enter(): Unit = backgroundColor = newWhite
 
-    def leaved(): Unit = backgroundColor = darkWhite
+    def leaved(): Unit = 
+        if(!isClicked)
+            backgroundColor = white
 
     def isEntered(p: Point): Boolean = p.x > topL.x && p.y > topL.y && p.x < topR.x && p.y < bottomL.y
         

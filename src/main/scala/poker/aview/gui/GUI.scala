@@ -171,10 +171,21 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
 
 
     private def processMouseClick(e : MouseClicked): Unit =
-        if(combBoard.isEntered(e.point))
+        if(e.point.x < 40 && e.point.y < 40)
             dispose()
-        else if(buttonMap.get("IntroButton").get.isEntered(e.point))
-            buttonMap.get("IntroButton").get.clicked(controller)
+        if(clickedButtons(e.point) || clickedCards(e.point))
+           repaint()
+    
+    private def clickedButtons(point: Point): Boolean =
+        val buttonKeys = buttonMap.keySet
+        var clicked = false
+        buttonKeys.foreach(c =>
+            if(buttonMap.get(c).get.visible)
+                if(buttonMap.get(c).get.isEntered(point))
+                    buttonMap.get(c).get.clicked(controller)
+                    clicked = true
+            )
+        clicked
     
     private def clickedCards(point: Point): Boolean =
         for(i <- 0 to 4)

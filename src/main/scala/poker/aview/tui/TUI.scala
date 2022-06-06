@@ -1,5 +1,6 @@
 package poker
 package aview
+package tui
 
 import scala.io.StdIn._
 import util.GameEvent
@@ -27,7 +28,7 @@ class TUI(controller: ControllerInterface) extends Observer:
                 println("\nGoodbye\nHonor us again\n")
                 sys.exit(0)
             }
-        } 
+        }
     
     def startTheGame(): Unit = 
         val input = readLine("Do you wanna quit (q) ?\n")
@@ -64,15 +65,13 @@ class TUI(controller: ControllerInterface) extends Observer:
         val bet = processBetInput(readLine("\nPlease place your bet :\n"))
         controller.doAndPublish(controller.setBet, bet)
     
-    def dealCards() = 
-        controller.doAndPublish(controller.dealCards())
+    def dealCards() = controller.doAndPublish(controller.dealCards())
 
     def holdCards() = 
         val input = processInput(readLine("\nWhich cards you wanna hold ?\n").split(" "))
         controller.doAndPublish(controller.holdCards, input)
 
-    def evaluation() = 
-        controller.doAndPublish(controller.evaluation())
+    def evaluation() = controller.doAndPublish(controller.evaluation())
     
     def checkCredit() = 
         controller.hasEnoughCredit() match {

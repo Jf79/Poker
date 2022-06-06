@@ -100,7 +100,6 @@ case class Round(player: PlayerInterface, var deck: Array[CardInterface]) extend
     val comb = checkCombination()
     outcome = comb.get.getMultFactor * bet.get
     player.addMoney(outcome)
-        println("Player credit: " + player.getMoney())
     this
     
 

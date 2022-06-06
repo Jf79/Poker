@@ -1,5 +1,6 @@
 package poker
 package controller
+package controller
 
 import util.Observable
 import util.Event
@@ -78,7 +79,6 @@ case class Controller(player: PlayerInterface) extends ControllerInterface:
   
   def evaluation(): RoundInterface = 
     round = round.get.state.execute(round.get.evaluation())
-    println("player credit(controller) " + player.getMoney())
     round.get
   
   def getStateOfRound(): State =

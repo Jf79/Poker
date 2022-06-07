@@ -22,12 +22,15 @@ abstract class MyContent():
     val color: Color
 
 abstract class MyButton() extends MyContent:
+    var changedColor: Color = null
     def clicked(c: ControllerInterface): Unit
-    def isEntered(p: Point): Boolean
-    def enter(): Unit
     def repaint(g: Graphics2D): Unit
-    def leaved(): Unit
-    def setVisible(b: Boolean): MyButton
+    def setVisible(b: Boolean): MyButton = 
+        visible = b 
+        this
+    def isEntered(p: Point): Boolean = p.x > topL.x && p.y > topL.y && p.x < topR.x && p.y < bottomL.y
+    def enter(): Unit = changedColor = color
+    def leaved(): Unit = changedColor = color.darker
 
 
 

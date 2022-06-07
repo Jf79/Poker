@@ -68,6 +68,8 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
         combBoard = prepareCombBoard(WIDTH, HEIGHT)
         prepareExitButton(WIDTH, HEIGHT, buttonMap, combBoard)
         prepareStartButton(WIDTH, HEIGHT, combBoard, buttonMap)
+        prepareLowButton(WIDTH, HEIGHT, combBoard, buttonMap)
+        prepareHighButton(WIDTH, HEIGHT, combBoard, buttonMap)
         cardRects = prepareCards(WIDTH, HEIGHT)
         messageBoard = prepareMessageBoard(WIDTH, HEIGHT, combBoard)
 
@@ -81,8 +83,8 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
             listenTo(mouse.clicks)
             listenTo(mouse.moves)
             reactions += {
-                case c: MouseClicked => processMouseClick(c)
-                case m: MouseMoved => processMouseMoved(m)
+                case click: MouseClicked => processMouseClick(click)
+                case move: MouseMoved => processMouseMoved(move)
             }
             preferredSize = new Dimension(WIDTH, HEIGHT)
             override def paintComponent(g: Graphics2D): Unit = 
@@ -98,11 +100,24 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
     
     private def roundState(g: Graphics2D): Unit = 
         combBoard.repaint(g, 0, null)
+        messageBoard.repaint(g, null)
+        val roundState = controller.getStateOfRound().toString
+        roundState match {
+            case "Risk" => chooseRiskType(g)
+            case "Bet" => 
+            case "Deal" => 
+            case "Hold" => 
+            case "Evaluation" => 
+            case "End" => 
+        }
+    
+    private def chooseRiskType(g: Graphics2D) = 
         buttonMap.get("ExitButton").get.setVisible(false)
         buttonMap.get("StartButton").get.setVisible(false)
-        cardRects.foreach(c => c.setVisible(true).repaint(g))
-        messageBoard.repaint(g, null)
+        buttonMap.get("LowButton").get.setVisible(true).repaint(g)
+        buttonMap.get("HighButton").get.setVisible(true).repaint(g)
 
+        cardRects.foreach(c => c.setVisible(true).repaint(g))
     
     private def startState(g: Graphics2D): Unit = 
         combBoard.repaint(g, 0, null)

@@ -23,8 +23,7 @@ case class MessageBoard(topL: Point, topR: Point, bottomR: Point, bottomL: Point
         g.setStroke(stroke)
         g.setColor(color.darker)
         g.drawRoundRect(topL.x, topL.y, topR.x - topL.x, bottomR.y - topR.y, edges, edges)
-        if(message != null)
-            ???
+        
 
     private def drawString(g: Graphics2D, message: String) = 
         g.setColor(WHITE)

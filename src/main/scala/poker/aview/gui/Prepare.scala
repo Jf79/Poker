@@ -47,7 +47,7 @@ object Prepare:
         val introButton = new IntroButton(topL, topR, bottomR, bottomL, YELLOW, "START")
         buttonMap.put("IntroButton", introButton)
     
-    def prepareExitButton(WIDTH: Int, HEIGHT: Int,buttonMap: mutable.Map[String, MyButton], combBoard: CombinationBoard): Unit = 
+    def prepareExitButton(WIDTH: Int, HEIGHT: Int ,buttonMap: mutable.Map[String, MyButton], combBoard: CombinationBoard): Unit = 
         val startX = combBoard.topR.x + 230
         val startY = combBoard.topR.y + (combBoard.height/1.5).toInt
         val xR = startX + (WIDTH/8).toInt // width 
@@ -72,6 +72,32 @@ object Prepare:
         val startButton = new StartButton(topL, topR, bottomR, bottomL, YELLOW, "YES")
         startButton.visible = false
         buttonMap.put("StartButton", startButton)
+    
+    def prepareLowButton(WIDTH: Int, HEIGHT: Int, combBoard: CombinationBoard, buttonMap: mutable.Map[String, MyButton]): Unit = 
+        val startX = combBoard.topR.x + 40
+        val startY = combBoard.topR.y + (combBoard.height/1.5).toInt
+        val xR = startX + (WIDTH/8).toInt // width 
+        val yB = startY + (combBoard.height/3.2).toInt // height
+        val topL = new Point(startX, startY)
+        val topR = new Point(xR, startY)
+        val bottomL = new Point(startX, yB)
+        val bottomR = new Point(xR, yB)
+        val lowButton = new StartButton(topL, topR, bottomR, bottomL, YELLOW, "LOW")
+        lowButton.visible = false
+        buttonMap.put("LowButton", lowButton)
+   
+    def prepareHighButton(WIDTH: Int, HEIGHT: Int, combBoard: CombinationBoard, buttonMap: mutable.Map[String, MyButton]): Unit = 
+        val startX = combBoard.topR.x + 230
+        val startY = combBoard.topR.y + (combBoard.height/1.5).toInt
+        val xR = startX + (WIDTH/8).toInt // width 
+        val yB = startY + (combBoard.height/3.2).toInt // height
+        val topL = new Point(startX, startY)
+        val topR = new Point(xR, startY)
+        val bottomL = new Point(startX, yB)
+        val bottomR = new Point(xR, yB)
+        val highButton = new HighButton(topL, topR, bottomR, bottomL, RED, "HIGH")
+        highButton.visible = false
+        buttonMap.put("HighButton", highButton)
 
     def prepareCards(WIDTH: Int, HEIGHT: Int): Array[CardRect] =
         val startX = (WIDTH/50).toInt

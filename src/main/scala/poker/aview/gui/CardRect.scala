@@ -25,7 +25,7 @@ case class CardRect(topL: Point, topR: Point, bottomR: Point, bottomL: Point, co
 
     var isHolded = false
     var isClicked = false
-    visible = false
+    var cardIsSet = false
     var stroke = normalStroke
     var backgroundColor = white
     var borderColor = color
@@ -39,6 +39,7 @@ case class CardRect(topL: Point, topR: Point, bottomR: Point, bottomL: Point, co
             cardColor = Color.RED.darker
         symbol = s
         picture = p
+        cardIsSet = true
 
     def clicked(): Unit = 
         if(isClicked) 
@@ -61,19 +62,24 @@ case class CardRect(topL: Point, topR: Point, bottomR: Point, bottomL: Point, co
     def isEntered(p: Point): Boolean = p.x > topL.x && p.y > topL.y && p.x < topR.x && p.y < bottomL.y
         
     def repaint(g: Graphics2D) =
-        g.setColor(backgroundColor)
-        g.fillRoundRect(topL.x, topL.y, width, height, edges, edges)
         g.setColor(borderColor)
         g.setStroke(stroke)
         g.drawRoundRect(topL.x, topL.y, width, height, edges, edges)
-        /*g.setColor(cardColor)
-        g.setFont(symbolFont)
-        g.drawString(symbol.paint,  topL.x + (width/3.5).toInt, topL.y + (height/1.4).toInt)   
-        g.setFont(pictureFont) //topL.x + 10, topL.y + 80
-        g.drawString(picture.toString, topL.x + 10, topL.y + 80) */    
+        if(cardIsSet)
+            g.setColor(backgroundColor)
+            g.fillRoundRect(topL.x, topL.y, width, height, edges, edges)
+            g.setColor(cardColor)
+            g.setFont(symbolFont)
+            g.drawString(symbol.paint,  topL.x + (width/3.5).toInt, topL.y + (height/1.4).toInt)   
+            g.setFont(pictureFont) //topL.x + 10, topL.y + 80
+            g.drawString(picture.toString, topL.x + 10, topL.y + 80)  
 
     def setVisible(b: Boolean): CardRect =
         visible = b
+        this
+
+    def setCardIsSet(b: Boolean): CardRect =
+        cardIsSet = b
         this
         
     private def paintCard(g: Graphics2D) = 

@@ -18,15 +18,23 @@ case class MessageBoard(topL: Point, topR: Point, bottomR: Point, bottomL: Point
     val edges = 30
 
     def repaint(g: Graphics2D, message: String): Unit =  
-        g.setColor(Color.BLACK)
+        g.setColor(Color.BLACK.brighter)
         g.fillRoundRect(topL.x, topL.y, topR.x - topL.x, bottomR.y - topR.y, edges, edges) 
         g.setStroke(stroke)
         g.setColor(color.darker)
         g.drawRoundRect(topL.x, topL.y, topR.x - topL.x, bottomR.y - topR.y, edges, edges)
-        
+        if(message != null)
+            drawString(g, message)
 
     private def drawString(g: Graphics2D, message: String) = 
-        g.setColor(WHITE)
+        val m = message.split("\n")
+        println(m.toString)
+        g.setColor(WHITE.darker)
+        g.setFont(new Font("Times Roman", Font.BOLD, 45))
+        val space = (130/m.length).toInt
+        for(i <- 0 until m.length)
+            g.drawString(m(i), topL.x + (width/12).toInt, topL.y + space + (i*50))
+            g.drawString(m(i), topL.x + (width/12).toInt, topL.y + space + (i*50))
 
 
 case class BoardRow(topL: Point, topR: Point, bottomR: Point, bottomL: Point, color: Color) 

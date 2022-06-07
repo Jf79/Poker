@@ -46,58 +46,26 @@ object Prepare:
         val bottomR = new Point(xR, yB)
         val introButton = new IntroButton(topL, topR, bottomR, bottomL, YELLOW, "START")
         buttonMap.put("IntroButton", introButton)
-    
-    def prepareExitButton(WIDTH: Int, HEIGHT: Int ,buttonMap: mutable.Map[String, MyButton], combBoard: CombinationBoard): Unit = 
+
+    def prepareFirstButtons(WIDTH: Int, HEIGHT: Int, combBoard: CombinationBoard, buttonMap: mutable.Map[String, MyButton]): Unit = 
         val startX = combBoard.topR.x + 230
-        val startY = combBoard.topR.y + (combBoard.height/1.5).toInt
+        val startX2 = combBoard.topR.x + 50
+        val startY = combBoard.topR.y + (combBoard.height/1.4).toInt
         val xR = startX + (WIDTH/8).toInt // width 
-        val yB = startY + (combBoard.height/3.2).toInt // height
+        val xR2 = startX2 + (WIDTH/8).toInt // width 
+        val yB = startY + (combBoard.height/3.4).toInt // height
         val topL = new Point(startX, startY)
+        val topL2 = new Point(startX2, startY)
         val topR = new Point(xR, startY)
+        val topR2 = new Point(xR2, startY)
         val bottomL = new Point(startX, yB)
+        val bottomL2 = new Point(startX2, yB)
         val bottomR = new Point(xR, yB)
-        val exitButton = new ExitButton(topL, topR, bottomR, bottomL, RED, "NO")
-        exitButton.visible = false
-        buttonMap.put("ExitButton", exitButton)
-    
-    def prepareStartButton(WIDTH: Int, HEIGHT: Int, combBoard: CombinationBoard, buttonMap: mutable.Map[String, MyButton]): Unit = 
-        val startX = combBoard.topR.x + 40
-        val startY = combBoard.topR.y + (combBoard.height/1.5).toInt
-        val xR = startX + (WIDTH/8).toInt // width 
-        val yB = startY + (combBoard.height/3.2).toInt // height
-        val topL = new Point(startX, startY)
-        val topR = new Point(xR, startY)
-        val bottomL = new Point(startX, yB)
-        val bottomR = new Point(xR, yB)
-        val startButton = new StartButton(topL, topR, bottomR, bottomL, YELLOW, "YES")
-        startButton.visible = false
-        buttonMap.put("StartButton", startButton)
-    
-    def prepareLowButton(WIDTH: Int, HEIGHT: Int, combBoard: CombinationBoard, buttonMap: mutable.Map[String, MyButton]): Unit = 
-        val startX = combBoard.topR.x + 40
-        val startY = combBoard.topR.y + (combBoard.height/1.5).toInt
-        val xR = startX + (WIDTH/8).toInt // width 
-        val yB = startY + (combBoard.height/3.2).toInt // height
-        val topL = new Point(startX, startY)
-        val topR = new Point(xR, startY)
-        val bottomL = new Point(startX, yB)
-        val bottomR = new Point(xR, yB)
-        val lowButton = new StartButton(topL, topR, bottomR, bottomL, YELLOW, "LOW")
-        lowButton.visible = false
-        buttonMap.put("LowButton", lowButton)
-   
-    def prepareHighButton(WIDTH: Int, HEIGHT: Int, combBoard: CombinationBoard, buttonMap: mutable.Map[String, MyButton]): Unit = 
-        val startX = combBoard.topR.x + 230
-        val startY = combBoard.topR.y + (combBoard.height/1.5).toInt
-        val xR = startX + (WIDTH/8).toInt // width 
-        val yB = startY + (combBoard.height/3.2).toInt // height
-        val topL = new Point(startX, startY)
-        val topR = new Point(xR, startY)
-        val bottomL = new Point(startX, yB)
-        val bottomR = new Point(xR, yB)
-        val highButton = new HighButton(topL, topR, bottomR, bottomL, RED, "HIGH")
-        highButton.visible = false
-        buttonMap.put("HighButton", highButton)
+        val bottomR2 = new Point(xR2, yB)
+        buttonMap.put("HighButton", new HighButton(topL, topR, bottomR, bottomL, RED, "HIGH"))
+        buttonMap.put("ExitButton", new ExitButton(topL, topR, bottomR, bottomL, RED, "NO"))
+        buttonMap.put("StartButton",  new StartButton(topL2, topR2, bottomR2, bottomL2, YELLOW, "YES"))
+        buttonMap.put("LowButton", new LowButton(topL2, topR2, bottomR2, bottomL2, YELLOW, "LOW"))
 
     def prepareCards(WIDTH: Int, HEIGHT: Int): Array[CardRect] =
         val startX = (WIDTH/50).toInt

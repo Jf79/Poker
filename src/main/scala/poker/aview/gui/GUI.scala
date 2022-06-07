@@ -66,10 +66,11 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
     private def prepare: Unit = 
         prepareIntroButton(WIDTH, HEIGHT, buttonMap)
         combBoard = prepareCombBoard(WIDTH, HEIGHT)
-        prepareExitButton(WIDTH, HEIGHT, buttonMap, combBoard)
+       /* prepareExitButton(WIDTH, HEIGHT, buttonMap, combBoard)
         prepareStartButton(WIDTH, HEIGHT, combBoard, buttonMap)
         prepareLowButton(WIDTH, HEIGHT, combBoard, buttonMap)
-        prepareHighButton(WIDTH, HEIGHT, combBoard, buttonMap)
+        prepareHighButton(WIDTH, HEIGHT, combBoard, buttonMap)*/
+        prepareFirstButtons(WIDTH, HEIGHT, combBoard, buttonMap)
         cardRects = prepareCards(WIDTH, HEIGHT)
         messageBoard = prepareMessageBoard(WIDTH, HEIGHT, combBoard)
 
@@ -116,7 +117,6 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
         buttonMap.get("StartButton").get.setVisible(false)
         buttonMap.get("LowButton").get.setVisible(true).repaint(g)
         buttonMap.get("HighButton").get.setVisible(true).repaint(g)
-
         cardRects.foreach(c => c.setVisible(true).repaint(g))
     
     private def startState(g: Graphics2D): Unit = 
@@ -125,7 +125,7 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
         buttonMap.get("ExitButton").get.setVisible(true).repaint(g)
         buttonMap.get("StartButton").get.setVisible(true).repaint(g)
         cardRects.foreach(c => c.setVisible(true).repaint(g))
-        messageBoard.repaint(g, "Do you want to\n continue ?")
+        messageBoard.repaint(g, "Do you want\nto continue ?")
     
     private def introState(g: Graphics2D): Unit = 
         g.setColor(BLACK)

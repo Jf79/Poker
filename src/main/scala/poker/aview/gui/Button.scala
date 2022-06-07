@@ -100,10 +100,10 @@ case class LowButton(topL: Point, topR: Point, bottomR: Point, bottomL: Point, c
     private def drawString(g: Graphics2D): Unit = 
         g.setColor(BLACK)
         g.setFont(new Font("Times Roman", Font.BOLD, 60))
-        g.drawString(text, topL.x + (width/7).toInt, bottomL.y - (height/3.3).toInt)
+        g.drawString(text, topL.x + (width/10).toInt, bottomL.y - (height/3.3).toInt)
 
     override def clicked(c: ControllerInterface): Unit = 
-        if(visible) c.doAndPublish(c.chooseRiskType, "low")
+        if(visible) c.doAndPublish(c.chooseRiskType,"low")
     
 case class HighButton(topL: Point, topR: Point, bottomR: Point, bottomL: Point, color: Color, text: String) 
     extends MyButton:
@@ -123,7 +123,7 @@ case class HighButton(topL: Point, topR: Point, bottomR: Point, bottomL: Point, 
     private def drawString(g: Graphics2D): Unit = 
         g.setColor(BLACK)
         g.setFont(new Font("Times Roman", Font.BOLD, 60))
-        g.drawString(text, topL.x + (width/7).toInt, bottomL.y - (height/3.3).toInt)
+        g.drawString(text, topL.x + (width/11).toInt, bottomL.y - (height/3.3).toInt)
 
     override def clicked(c: ControllerInterface): Unit = 
         if(visible) c.doAndPublish(c.chooseRiskType, "high")

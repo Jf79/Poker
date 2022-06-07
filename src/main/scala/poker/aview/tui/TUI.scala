@@ -14,45 +14,51 @@ class TUI(controller: ControllerInterface) extends Observer:
         controller.startIntro()
         readLine()
         controller.startTheGame()
+        gameLoop()
 
     override def update(event: GameEvent) = 
         event match {
             case GameEvent.INTRO => println("\nWelcome to Poker !\n")
-            case GameEvent.START => startTheGame()
+            case GameEvent.START => println("Do you wanna quit (q) ?\n")//startTheGame()
             case GameEvent.PLAY => {
                 println(controller.toString)
-                checkUndo()
-                startTheRound()
+                /*checkUndo()
+                startTheRound()*/
             }
             case GameEvent.EXIT => {
                 println("\nGoodbye\nHonor us again\n")
-                sys.exit(0)
+                //sys.exit(0)
             }
         }
     
-    def startTheGame(): Unit = 
-        val input = readLine("Do you wanna quit (q) ?\n")
+    def gameLoop(): Unit = 
+        //controller.startTheGame()
+        val input = readLine()
         input match {
             case "q" => 
             case _ => {
                 controller.clearUndoManager()
-                createRound()
+                startTheRound()
+                gameLoop()
             }
         }
 
     def startTheRound() = 
-        val state = controller.getStateOfRound().toString
-        state match {
-            case "Risk" => chooseRiskType()
-            case "Bet" =>  setBet()
-            case "Deal" => dealCards()
-            case "Hold" => holdCards()
-            case "Evaluation" => evaluation()
-            case "End" => {
-                checkCredit()
-                controller.startTheGame()
+        var running = true
+        createRound()
+        while(running)
+            val state = controller.getStateOfRound().toString
+            state match {
+                case "Risk" => chooseRiskType()
+                case "Bet" =>  setBet()
+                case "Deal" => dealCards()
+                case "Hold" => holdCards()
+                case "Evaluation" => evaluation()
+                case "End" => {
+                    checkCredit()
+                    running = false
+                }
             }
-        }
         
     def createRound() = 
         controller.doAndPublish(controller.startRound, controller.createDeck())

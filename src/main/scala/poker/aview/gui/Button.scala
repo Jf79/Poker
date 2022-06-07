@@ -156,8 +156,9 @@ case class CoinButton(topL: Point, topR: Point, bottomR: Point, bottomL: Point, 
     extends MyButton:
     
     val stroke = new BasicStroke(4)
-    changedColor = color.darker
+    var clicks = 0
 
+    changedColor = color.darker
     def repaint(g: Graphics2D): Unit = 
         val edges = 40
         g.setColor(changedColor)
@@ -166,6 +167,8 @@ case class CoinButton(topL: Point, topR: Point, bottomR: Point, bottomL: Point, 
         g.setStroke(stroke)
         g.drawRoundRect(topL.x, topL.y, width, height, edges, edges)
         drawString(g)
+    
+    def getClick: Int = clicks % 5
 
     private def drawString(g: Graphics2D): Unit = 
         g.setColor(BLACK)
@@ -173,4 +176,4 @@ case class CoinButton(topL: Point, topR: Point, bottomR: Point, bottomL: Point, 
         g.drawString(text, topL.x + (width/10).toInt, bottomL.y - (height/3.3).toInt)
 
     override def clicked(c: ControllerInterface): Unit = 
-        if(visible) println("Coin")
+        if(visible) clicks += 1

@@ -10,6 +10,8 @@ import java.awt.BasicStroke
 import java.awt.Graphics2D
 
 import util.Combination
+import poker.controller.controller.ControllerInterface
+import poker.util.RiskType
 
 case class MessageBoard(topL: Point, topR: Point, bottomR: Point, bottomL: Point, color: Color) 
     extends MyContent:
@@ -51,17 +53,18 @@ case class BoardRow(topL: Point, topR: Point, bottomR: Point, bottomL: Point, co
 case class BoardColumn(topL: Point, topR: Point, bottomR: Point, bottomL: Point, color: Color) 
     extends MyContent:
 
-    def repaint(g: Graphics2D, stroke: BasicStroke, click: Int): Unit = 
-        /*if(click > 1)
-            g.setColor(Color.RED.darker)
-            g.fillRect(topL.x, topL.y, width, height)*/
+    def repaint(g: Graphics2D, stroke: BasicStroke, click: Boolean): Unit = 
+        if(click)
+            g.setColor(Color.RED.darker.darker)
+            g.fillRect(topL.x, topL.y, width, height)
         g.setColor(color.darker)
         g.setStroke(stroke)
         //printf("topL.x: %d, topL.y: %d, bottomL.x: %d, bottomL.y: %d\n",topL.x, topL.y, bottomL.x, bottomL.y)
         g.drawLine(topL.x, topL.y, bottomL.x, bottomL.y)
 
 
-case class CombinationBoard(topL: Point, topR: Point, bottomR: Point, bottomL: Point, color: Color) extends MyContent:
+case class CombinationBoard(topL: Point, topR: Point, bottomR: Point, bottomL: Point, color: Color) 
+    extends MyContent:
 
     val stroke = new BasicStroke(6)
     val rows: Array[BoardRow] = new Array(9)  
@@ -71,6 +74,7 @@ case class CombinationBoard(topL: Point, topR: Point, bottomR: Point, bottomL: P
     val columnWidth: Int = ((width-columnCombWidth)/(columns.length - 1)).toInt
     val rowWidth: Int = width
     val rowHeight: Int = (height/ rows.length).toInt
+    var riskType: Option[RiskType] = None
 
     def create(): Unit = 
         for(i <- 0 until rows.length)
@@ -88,24 +92,31 @@ case class CombinationBoard(topL: Point, topR: Point, bottomR: Point, bottomL: P
             val bR = new Point(columns(0).bottomR.x + i * columnWidth, bottomR.y)
             val bL = new Point(columns(0).bottomR.x + (i-1) * columnWidth, bottomL.y)
             columns(i) = new BoardColumn(tL, tR, bR, bL, color)
-        rows(8).bottomL.y = rows(8).bottomL.y + 5
-        rows(8).bottomR.y = rows(8).bottomR.y + 5
+        rows(8).bottomL.y = rows(8).bottomL.y
+        rows(8).bottomR.y = rows(8).bottomR.y
 
     def isEntered(p: Point): Boolean = 
         p.x > topL.x && p.y > topL.y && p.x < topR.x && p.y < bottomL.y
     
-    def repaint(g: Graphics2D, bet: Int, combination: Combination): Unit = 
-        //println("columnCombWidth: " + columnCombWidth)
-        //println("columnWidth " + columnWidth)
+    def repaint(g: Graphics2D, click: Option[Int], combination: Combination, c: ControllerInterface): Unit = 
         create()
+        if(!c.round.isEmpty)
+            riskType = c.round.get.riskType
         val edges = 20
         g.setColor(color)
         g.setColor(Color.BLACK)
         g.fillRoundRect(topL.x, topL.y, width, height, edges, edges)
+        g.setColor(BLUE)
+        g.fillRect(rows(0).topL.x, rows(0).topL.y, rows(0).width, rows(0).height+5)
         if(combination != null)
-            if(combination.getRank < 10)
+            if(combination.getRank < 10 || riskType.get.lowestCombination().equals("Pair"))
                 rows(combination.getRank).repaint(g)
-        columns.foreach(c => if(columns.indexOf(c) != 0) c.repaint(g, stroke, 2))
+        columns.foreach(c => 
+            if(columns.indexOf(c) != 0) 
+                c.repaint(g, stroke, false)
+        )
+        if(click.isDefined)
+            columns(click.get + 1).repaint(g, stroke, true)
         drawStrings(g)
         drawValues(g)
         g.setColor(color.darker)
@@ -125,7 +136,10 @@ case class CombinationBoard(topL: Point, topR: Point, bottomR: Point, bottomL: P
         g.setFont(new Font("Time New Roman", Font.BOLD, 25))
         val comb = Combination.values
         for(i <- 1 until comb.length)
-           g.drawString(comb(10 - i).getName, topL.x + 10, rows(i - 1).bottomL.y - 10)
+            var combName = comb(10 - i).getName
+            if(!riskType.isEmpty && i == 9)
+                combName = riskType.get.lowestCombination()
+            g.drawString(combName, topL.x + 10, rows(i - 1).bottomL.y - 10)
 
 
 

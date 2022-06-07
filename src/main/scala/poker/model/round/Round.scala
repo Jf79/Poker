@@ -16,7 +16,6 @@ case class Round(player: PlayerInterface, var deck: Array[CardInterface]) extend
 
   var bet: Option[Int] = None
   var hand: Option[Array[CardInterface]] = None
-  var riskType: Option[RiskType] = None
   var updateMessage: String = ""
   var combination: Option[Combination] = None
   var combinationHand: Option[Array[CardInterface]] = None

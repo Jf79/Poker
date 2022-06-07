@@ -10,11 +10,11 @@ import card.CardInterface
 
 case class HighRisk() extends RiskType :
     
-    val MIN_BET = 30
+    val MIN_BET = 10
 
     def this(credit: Int) = 
         this()
-        if(credit < MIN_BET) throw new Exception("\nYou don't have enough credit to play HighRisk.\n")
+        if(credit < MIN_BET) throw new Exception("You don't have\nenough credit to\nplay HighRisk")
         
      
     override def message: String = "High Risk Round !"

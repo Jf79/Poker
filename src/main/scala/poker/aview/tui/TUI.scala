@@ -19,25 +19,16 @@ class TUI(controller: ControllerInterface) extends Observer:
     override def update(event: GameEvent) = 
         event match {
             case GameEvent.INTRO => println("\nWelcome to Poker !\n")
-            case GameEvent.START => println("Do you wanna quit (q) ?\n")//startTheGame()
-            case GameEvent.PLAY => {
-                println(controller.toString)
-                /*checkUndo()
-                startTheRound()*/
-            }
-            case GameEvent.EXIT => {
-                println("\nGoodbye\nHonor us again\n")
-                //sys.exit(0)
-            }
+            case GameEvent.START => println("Do you wanna quit (q) ?\n")
+            case GameEvent.PLAY => println(controller.toString)
+            case GameEvent.EXIT => println("\nGoodbye\nHonor us again\n")
         }
     
     def gameLoop(): Unit = 
-        //controller.startTheGame()
         val input = readLine()
         input match {
-            case "q" => 
+            case "q" => controller.endTheGame()
             case _ => {
-                controller.clearUndoManager()
                 startTheRound()
                 gameLoop()
             }
@@ -45,6 +36,7 @@ class TUI(controller: ControllerInterface) extends Observer:
 
     def startTheRound() = 
         var running = true
+        controller.clearUndoManager()
         createRound()
         while(running)
             val state = controller.getStateOfRound().toString
@@ -64,7 +56,7 @@ class TUI(controller: ControllerInterface) extends Observer:
         controller.doAndPublish(controller.startRound, controller.createDeck())
     
     def chooseRiskType() = 
-        val risk = readLine("\nWhich type of game you wanna play (LowRisk) or (HighRisk) ?\n")
+        val risk = readLine("\nWhich type of game you want to play (LowRisk) or (HighRisk) ?\n")
         controller.doAndPublish(controller.chooseRiskType, risk)
     
     def setBet() = 

@@ -9,6 +9,7 @@ trait Event
 
 trait Stateable:
     var state: State
+    var failed: Boolean = false
     def handle(e: Event): State
 
 trait State:

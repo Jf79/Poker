@@ -14,13 +14,12 @@ object Prepare:
     def prepareMessageBoard(WIDTH: Int, HEIGHT: Int, combBoard: CombinationBoard): MessageBoard =
         val startX = combBoard.topR.x + 50
         val startY = combBoard.topR.y
-        val xR = startX + (WIDTH/4).toInt // width 
-        val yB = startY + (combBoard.height/2.3).toInt // height
+        val xR = startX + (WIDTH/3.8).toInt // width 
+        val yB = startY + (combBoard.height/2.1).toInt // height
         val topL = new Point(startX, startY)
         val topR = new Point(xR, startY)
         val bottomL = new Point(startX, yB)
         val bottomR = new Point(xR, yB)
-        //buttonMap.put("MessageBoard", messageBoard)
         new MessageBoard(topL, topR, bottomR, bottomL, YELLOW)
 
             
@@ -50,7 +49,7 @@ object Prepare:
     def prepareFirstButtons(WIDTH: Int, HEIGHT: Int, combBoard: CombinationBoard, buttonMap: mutable.Map[String, MyButton]): Unit = 
         val startX = combBoard.topR.x + 230
         val startX2 = combBoard.topR.x + 50
-        val startY = combBoard.topR.y + (combBoard.height/1.4).toInt
+        val startY = combBoard.topR.y + (combBoard.height/0.9).toInt
         val xR = startX + (WIDTH/8).toInt // width 
         val xR2 = startX2 + (WIDTH/8).toInt // width 
         val yB = startY + (combBoard.height/3.4).toInt // height
@@ -62,10 +61,13 @@ object Prepare:
         val bottomL2 = new Point(startX2, yB)
         val bottomR = new Point(xR, yB)
         val bottomR2 = new Point(xR2, yB)
+
+        buttonMap.put("BackButton",new BackButton(topL, topR, bottomR, bottomL, RED, "BACK"))
         buttonMap.put("HighButton", new HighButton(topL, topR, bottomR, bottomL, RED, "HIGH"))
         buttonMap.put("ExitButton", new ExitButton(topL, topR, bottomR, bottomL, RED, "NO"))
         buttonMap.put("StartButton",  new StartButton(topL2, topR2, bottomR2, bottomL2, YELLOW, "YES"))
         buttonMap.put("LowButton", new LowButton(topL2, topR2, bottomR2, bottomL2, YELLOW, "LOW"))
+        buttonMap.put("CoinButton", new CoinButton(topL2, topR2, bottomR2, bottomL2, YELLOW, "COIN"))
 
     def prepareCards(WIDTH: Int, HEIGHT: Int): Array[CardRect] =
         val startX = (WIDTH/50).toInt
@@ -74,7 +76,7 @@ object Prepare:
         val cardHeight = 270
         val space = 30
         val cardRects: Array[CardRect] = new Array(5)
-       // val hand = getRandomCards(controller.createDeck(), 5)._1
+        //val hand = getRandomCards(controller.createDeck(), 5)._1
         for(i <- 0 until cardRects.length)
             val pointX = startX + i * (cardWidth + space)
             val topL = new Point(pointX, startY)

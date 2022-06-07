@@ -28,13 +28,12 @@ case class MessageBoard(topL: Point, topR: Point, bottomR: Point, bottomL: Point
 
     private def drawString(g: Graphics2D, message: String) = 
         val m = message.split("\n")
-        println(m.toString)
         g.setColor(WHITE.darker)
-        g.setFont(new Font("Times Roman", Font.BOLD, 45))
+        g.setFont(new Font("Times Roman", Font.BOLD, 40))
         val space = (130/m.length).toInt
         for(i <- 0 until m.length)
-            g.drawString(m(i), topL.x + (width/12).toInt, topL.y + space + (i*50))
-            g.drawString(m(i), topL.x + (width/12).toInt, topL.y + space + (i*50))
+            g.drawString(m(i), topL.x + (width/8).toInt, topL.y + space + (i*50))
+            g.drawString(m(i), topL.x + (width/8).toInt, topL.y + space + (i*50))
 
 
 case class BoardRow(topL: Point, topR: Point, bottomR: Point, bottomL: Point, color: Color) 

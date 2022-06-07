@@ -66,10 +66,6 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
     private def prepare: Unit = 
         prepareIntroButton(WIDTH, HEIGHT, buttonMap)
         combBoard = prepareCombBoard(WIDTH, HEIGHT)
-       /* prepareExitButton(WIDTH, HEIGHT, buttonMap, combBoard)
-        prepareStartButton(WIDTH, HEIGHT, combBoard, buttonMap)
-        prepareLowButton(WIDTH, HEIGHT, combBoard, buttonMap)
-        prepareHighButton(WIDTH, HEIGHT, combBoard, buttonMap)*/
         prepareFirstButtons(WIDTH, HEIGHT, combBoard, buttonMap)
         cardRects = prepareCards(WIDTH, HEIGHT)
         messageBoard = prepareMessageBoard(WIDTH, HEIGHT, combBoard)
@@ -105,33 +101,45 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
         val roundState = controller.getStateOfRound().toString
         roundState match {
             case "Risk" => chooseRiskType(g)
-            case "Bet" => 
+            case "Bet" => setBet(g)
             case "Deal" => 
             case "Hold" => 
             case "Evaluation" => 
             case "End" => 
         }
     
+    private def setBet(g: Graphics2D) = 
+        messageBoard.repaint(g, " Please place\n    your bet")
+        buttonMap.get("LowButton").get.setVisible(false)
+        buttonMap.get("HighButton").get.setVisible(false)
+        buttonMap.get("BackButton").get.setVisible(true).repaint(g)
+        buttonMap.get("CoinButton").get.setVisible(true).repaint(g)
+    
     private def chooseRiskType(g: Graphics2D) = 
+        messageBoard.repaint(g, handleFailure)
         buttonMap.get("ExitButton").get.setVisible(false)
         buttonMap.get("StartButton").get.setVisible(false)
         buttonMap.get("LowButton").get.setVisible(true).repaint(g)
         buttonMap.get("HighButton").get.setVisible(true).repaint(g)
-        cardRects.foreach(c => c.setVisible(true).repaint(g))
+        //cardRects.foreach(c => c.setVisible(true).repaint(g))
     
     private def startState(g: Graphics2D): Unit = 
+        messageBoard.repaint(g, " Do you want\n to continue ?")
         combBoard.repaint(g, 0, null)
         buttonMap.get("IntroButton").get.setVisible(false)
         buttonMap.get("ExitButton").get.setVisible(true).repaint(g)
         buttonMap.get("StartButton").get.setVisible(true).repaint(g)
-        cardRects.foreach(c => c.setVisible(true).repaint(g))
-        messageBoard.repaint(g, "Do you want\nto continue ?")
+        //cardRects.foreach(c => c.setVisible(true).repaint(g))
     
     private def introState(g: Graphics2D): Unit = 
         g.setColor(BLACK)
         g.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 120))
         g.drawString("Welcome to Poker", 160, 300)
         buttonMap.get("IntroButton").get.setVisible(true).repaint(g)
+    
+    private def handleFailure: String =
+        if(!controller.round.get.failed) return "Which type of\n   game you\nwant to play?"
+        controller.round.get.updateMessage
     
     private def processMouseMoved(event : MouseMoved): Unit = 
         val point = event.point

@@ -35,8 +35,10 @@ case class RiskTypeState(round: Round) extends State :
             riskTypeTry.get.updateMessage = "\nYou choose: " + round.riskType.get.message + "\n"
             stateable.handle(new BetEvent)
             returnValue = riskTypeTry.get
+            stateable.failed = false
         else
             returnValue.updateMessage = riskTypeTry.failed.get.getMessage
+            stateable.failed = true
         Some(returnValue)
     override def toString = "Risk"
 

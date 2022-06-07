@@ -67,6 +67,7 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
         prepareIntroButton(WIDTH, HEIGHT, buttonMap)
         combBoard = prepareCombBoard(WIDTH, HEIGHT)
         prepareFirstButtons(WIDTH, HEIGHT, combBoard, buttonMap)
+        prepareDealButton(WIDTH, HEIGHT, combBoard, buttonMap)
         cardRects = prepareCards(WIDTH, HEIGHT)
         messageBoard = prepareMessageBoard(WIDTH, HEIGHT, combBoard)
 
@@ -96,7 +97,7 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
         }
     
     private def roundState(g: Graphics2D): Unit = 
-        combBoard.repaint(g, None, null, controller)
+        combBoard.repaint(g, None, None, controller)
         messageBoard.repaint(g, null)
         val roundState = controller.getStateOfRound().toString
         roundState match {
@@ -113,9 +114,10 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
         buttonMap.get("LowButton").get.setVisible(false)
         buttonMap.get("HighButton").get.setVisible(false)
         buttonMap.get("BackButton").get.setVisible(true).repaint(g)
+        buttonMap.get("DealButton").get.setVisible(true).repaint(g)
         val coin = buttonMap.get("CoinButton").get.asInstanceOf[CoinButton]
         coin.setVisible(true).repaint(g)
-        combBoard.repaint(g, Some(coin.getClick), null, controller)
+        combBoard.repaint(g, Some(coin.getClick), None, controller)
     
     private def chooseRiskType(g: Graphics2D) = 
         messageBoard.repaint(g, handleFailure)
@@ -127,7 +129,7 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
     
     private def startState(g: Graphics2D): Unit = 
         messageBoard.repaint(g, " Do you want\n to continue ?")
-        combBoard.repaint(g, None, null, controller)
+        combBoard.repaint(g, None, None, controller)
         buttonMap.get("IntroButton").get.setVisible(false)
         buttonMap.get("ExitButton").get.setVisible(true).repaint(g)
         buttonMap.get("StartButton").get.setVisible(true).repaint(g)

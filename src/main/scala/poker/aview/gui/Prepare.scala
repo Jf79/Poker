@@ -32,7 +32,7 @@ object Prepare:
         val topR = new Point(xR, startY)
         val bottomL = new Point(startX, yB)
         val bottomR = new Point(xR, yB)
-        new CombinationBoard(topL, topR, bottomR, bottomL, YELLOW)
+        new CombinationBoard(topL, topR, bottomR, bottomL, YELLOW).create()
 
     def prepareIntroButton(WIDTH: Int, HEIGHT: Int, buttonMap: mutable.Map[String, MyButton]): Unit = 
         val startX = (WIDTH/2.8).toInt
@@ -67,8 +67,19 @@ object Prepare:
         buttonMap.put("ExitButton", new ExitButton(topL, topR, bottomR, bottomL, RED, "NO"))
         buttonMap.put("StartButton",  new StartButton(topL2, topR2, bottomR2, bottomL2, YELLOW, "YES"))
         buttonMap.put("LowButton", new LowButton(topL2, topR2, bottomR2, bottomL2, YELLOW, "LOW"))
-        buttonMap.put("CoinButton", new CoinButton(topL2, topR2, bottomR2, bottomL2, YELLOW, "COIN"))
+        buttonMap.put("CoinButton", new CoinButton(topL2, topR2, bottomR2, bottomL2, ORANGE, "COIN"))
 
+    def prepareDealButton(WIDTH: Int, HEIGHT: Int, combBoard: CombinationBoard, buttonMap: mutable.Map[String, MyButton]): Unit = 
+        val startX = combBoard.topR.x + 230
+        val startY = combBoard.topR.y + (combBoard.height/1.3).toInt
+        val xR = startX + (WIDTH/8).toInt // width 
+        val yB = startY + (combBoard.height/3.4).toInt // height
+        val topL = new Point(startX, startY)
+        val topR = new Point(xR, startY)
+        val bottomL = new Point(startX, yB)
+        val bottomR = new Point(xR, yB)
+        buttonMap.put("DealButton", new DealButton(topL, topR, bottomR, bottomL, YELLOW, "DEAL"))
+    
     def prepareCards(WIDTH: Int, HEIGHT: Int): Array[CardRect] =
         val startX = (WIDTH/50).toInt
         val startY = (HEIGHT/2).toInt

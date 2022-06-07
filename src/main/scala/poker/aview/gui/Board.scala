@@ -66,6 +66,7 @@ case class BoardColumn(topL: Point, topR: Point, bottomR: Point, bottomL: Point,
 case class CombinationBoard(topL: Point, topR: Point, bottomR: Point, bottomL: Point, color: Color) 
     extends MyContent:
 
+    val edges = 20
     val stroke = new BasicStroke(6)
     val rows: Array[BoardRow] = new Array(9)  
     val columns: Array[BoardColumn] = new Array(6) 
@@ -76,14 +77,13 @@ case class CombinationBoard(topL: Point, topR: Point, bottomR: Point, bottomL: P
     val rowHeight: Int = (height/ rows.length).toInt
     var riskType: Option[RiskType] = None
 
-    def create(): Unit = 
+    def create(): CombinationBoard = 
         for(i <- 0 until rows.length)
             val tL = new Point(topL.x, (topL.y + i * rowHeight))
             val tR = new Point(topR.x, (topL.y + i * rowHeight))
             val bR = new Point(topR.x, (topR.y + ((i + 1) * rowHeight)))
             val bL = new Point(topL.x, (topR.y + ((i + 1) * rowHeight)))
             rows(i) = new BoardRow(tL, tR, bR, bL, color)
-
         columns(0) = new BoardColumn(new Point(topL.x, topL.y), new Point(topL.x + columnCombWidth, topR.y), 
         new Point(topL.x + columnCombWidth, bottomR.y), new Point(bottomL.x, bottomL.y), color) 
         for(i <- 1 until columns.length)
@@ -94,29 +94,22 @@ case class CombinationBoard(topL: Point, topR: Point, bottomR: Point, bottomL: P
             columns(i) = new BoardColumn(tL, tR, bR, bL, color)
         rows(8).bottomL.y = rows(8).bottomL.y
         rows(8).bottomR.y = rows(8).bottomR.y
+        this
 
     def isEntered(p: Point): Boolean = 
         p.x > topL.x && p.y > topL.y && p.x < topR.x && p.y < bottomL.y
     
-    def repaint(g: Graphics2D, click: Option[Int], combination: Combination, c: ControllerInterface): Unit = 
-        create()
-        if(!c.round.isEmpty)
-            riskType = c.round.get.riskType
-        val edges = 20
-        g.setColor(color)
+    def repaint(g: Graphics2D, click: Option[Int], combination: Option[Combination], c: ControllerInterface): Unit = 
+        if(!c.round.isEmpty) riskType = c.round.get.riskType
         g.setColor(Color.BLACK)
         g.fillRoundRect(topL.x, topL.y, width, height, edges, edges)
-        g.setColor(BLUE)
-        g.fillRect(rows(0).topL.x, rows(0).topL.y, rows(0).width, rows(0).height+5)
-        if(combination != null)
-            if(combination.getRank < 10 || riskType.get.lowestCombination().equals("Pair"))
-                rows(combination.getRank).repaint(g)
-        columns.foreach(c => 
-            if(columns.indexOf(c) != 0) 
-                c.repaint(g, stroke, false)
-        )
-        if(click.isDefined)
-            columns(click.get + 1).repaint(g, stroke, true)
+        //g.setColor(BLUE)
+        //g.fillRect(rows(0).topL.x, rows(0).topL.y, rows(0).width, rows(0).height+5)
+        if(combination.isDefined)
+            if(combination.get.getRank < 10 || riskType.get.lowestCombination().equals("Pair"))
+                rows(combination.get.getRank).repaint(g)
+        columns.foreach(c => if(columns.indexOf(c) != 0) c.repaint(g, stroke, false))
+        if(click.isDefined) columns(click.get + 1).repaint(g, stroke, true)
         drawStrings(g)
         drawValues(g)
         g.setColor(color.darker)

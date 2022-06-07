@@ -66,9 +66,17 @@ case class CardRect(topL: Point, topR: Point, bottomR: Point, bottomL: Point, co
         g.setColor(borderColor)
         g.setStroke(stroke)
         g.drawRoundRect(topL.x, topL.y, width, height, edges, edges)
-        g.setColor(cardColor)
+        /*g.setColor(cardColor)
         g.setFont(symbolFont)
         g.drawString(symbol.paint,  topL.x + (width/3.5).toInt, topL.y + (height/1.4).toInt)   
         g.setFont(pictureFont) //topL.x + 10, topL.y + 80
-        g.drawString(picture.toString, topL.x + 10, topL.y + 80)     
+        g.drawString(picture.toString, topL.x + 10, topL.y + 80) */    
 
+    def setVisible(b: Boolean): CardRect =
+        visible = b
+        this
+        
+    private def paintCard(g: Graphics2D) = 
+        g.setColor(backgroundColor)
+        g.fillRoundRect(topL.x, topL.y, width, height, edges, edges)
+        

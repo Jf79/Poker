@@ -27,6 +27,7 @@ abstract class MyButton() extends MyContent:
     def enter(): Unit
     def repaint(g: Graphics2D): Unit
     def leaved(): Unit
+    def setVisible(b: Boolean): MyButton
 
 
 

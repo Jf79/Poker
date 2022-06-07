@@ -17,12 +17,17 @@ case class MessageBoard(topL: Point, topR: Point, bottomR: Point, bottomL: Point
     val stroke = new BasicStroke(4)
     val edges = 30
 
-    def repaint(g: Graphics2D): Unit =  
+    def repaint(g: Graphics2D, message: String): Unit =  
         g.setColor(Color.BLACK)
         g.fillRoundRect(topL.x, topL.y, topR.x - topL.x, bottomR.y - topR.y, edges, edges) 
         g.setStroke(stroke)
         g.setColor(color.darker)
-        g.drawRoundRect(topL.x, topL.y, topR.x - topL.x, bottomR.y - topR.y, edges, edges) 
+        g.drawRoundRect(topL.x, topL.y, topR.x - topL.x, bottomR.y - topR.y, edges, edges)
+        if(message != null)
+            ???
+
+    private def drawString(g: Graphics2D, message: String) = 
+        g.setColor(WHITE)
 
 
 case class BoardRow(topL: Point, topR: Point, bottomR: Point, bottomL: Point, color: Color) 

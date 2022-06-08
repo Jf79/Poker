@@ -234,7 +234,6 @@ case class DealButton(topL: Point, topR: Point, bottomR: Point, bottomL: Point, 
             if(!controller.round.get.failed)
                 controller.doAndPublish(controller.dealCards())
         else if(visible && holdState)
-            println("Nigga")
             controller.doAndPublish(controller.holdCards, processCardRects)
 
             

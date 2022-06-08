@@ -9,8 +9,10 @@ import org.scalatest.wordspec.AnyWordSpec
 import util.CardsObject._
 import util.Symbol
 import util.Picture
+import util.Combination._
 import poker.model.round.RiskType
 import poker.model.round.BetEvent
+import poker.model.card.CardInterface
 
 class RoundSpec extends AnyWordSpec with Matchers {
   val player = new Player(1000)
@@ -22,7 +24,22 @@ class RoundSpec extends AnyWordSpec with Matchers {
   round.riskType = Some(RiskType("low", 10))
   round.updateMessage = "hello"
 
-  "A Round" when {
+  "A Round " when {
+    val hand: Array[CardInterface] = Array(new Card(Symbol.DIAMOND, Picture.EIGHT, 8), new Card(Symbol.HEART, Picture.EIGHT, 8)
+    ,new Card(Symbol.DIAMOND, Picture.KING, 13),new Card(Symbol.CLUB, Picture.EIGHT, 8)
+    ,new Card(Symbol.HEART, Picture.TWO, 2))
+    val left: Array[CardInterface] = Array(new Card(Symbol.DIAMOND, Picture.KING, 13),new Card(Symbol.HEART, Picture.TWO, 2))
+    "you call filterCombination() with a valid combination" should {
+      "return the cards in the combination" in {
+        val cards = round.filterCombination((Some(PAIR), Some(left)), Some(hand))
+        cards.get.length should be(3)
+        cards.get(0).picture should be(Picture.EIGHT)
+        cards.get(1).picture should be(Picture.EIGHT)
+      }
+    }
+  }
+
+  /*"A Round" when {
     "you call the copy() method" should {
       val newRound = round.copyRound().asInstanceOf[Round]
       round.bet = Some(20)
@@ -41,7 +58,7 @@ class RoundSpec extends AnyWordSpec with Matchers {
       println(round.state.toString)
       println(newRound.state.toString)
     }
-  }
+  }*/
 
   /*"A round" when {
     "its created" should {

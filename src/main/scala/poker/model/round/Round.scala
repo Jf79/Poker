@@ -17,7 +17,6 @@ case class Round(player: PlayerInterface, var deck: Array[CardInterface]) extend
   var bet: Option[Int] = None
   var hand: Option[Array[CardInterface]] = None
   var updateMessage: String = ""
-  var combination: Option[Combination] = None
   var combinationHand: Option[Array[CardInterface]] = None
   var outcome: Int = 0
 
@@ -96,19 +95,19 @@ case class Round(player: PlayerInterface, var deck: Array[CardInterface]) extend
   // evaluation state
 
   override def evaluation(): Round = 
-    val comb = checkCombination()
-    outcome = comb.get.getMultFactor * bet.get
+    val comb = checkCombination(hand.get)
+    combination = comb._1
+    combinationHand = comb._2
+    outcome = comb._1.get.getMultFactor * bet.get
     player.addMoney(outcome)
     this
     
 
-  def checkCombination(): Option[Combination] =
-    val tuple = findCombination(hand.get)
-    combination = tuple._1
-    combinationHand = filterCombination(tuple)
-    combination
+  def checkCombination(hand: Array[CardInterface]): (Option[Combination], Option[Array[CardInterface]]) =
+    val tuple = findCombination(hand)
+    (tuple._1, filterCombination(tuple, Some(hand)))
         
-  def filterCombination(tuple: (Option[Combination], Option[Array[CardInterface]])) : Option[Array[CardInterface]]=
+  def filterCombination(tuple: (Option[Combination], Option[Array[CardInterface]]), hand: Option[Array[CardInterface]]) : Option[Array[CardInterface]]=
     if(!tuple._1.equals(Combination.NOTHING) && !tuple._2.isEmpty)
       val leftCards = tuple._2.get
       return Some(hand.get.filterNot(leftCards.contains(_)))

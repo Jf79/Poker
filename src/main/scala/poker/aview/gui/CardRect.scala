@@ -32,14 +32,14 @@ case class CardRect(topL: Point, topR: Point, bottomR: Point, bottomL: Point, co
     var borderColor = color
     var green = new Color(36, 109, 18).brighter
     var cardColor = Color.BLACK
-    var symbol: Symbol = null
-    var picture: Picture = null
+    var symbol: Option[Symbol] = None
+    var picture: Option[Picture] = None
 
     def setCard(s: Symbol, p: Picture): CardRect = 
         if(s.equals(Symbol.HEART) || s.equals(Symbol.DIAMOND))
             cardColor = Color.RED.darker.darker
-        symbol = s
-        picture = p
+        symbol = Some(s)
+        picture = Some(p)
         cardIsSet = true
         this
 
@@ -69,7 +69,9 @@ case class CardRect(topL: Point, topR: Point, bottomR: Point, bottomL: Point, co
             backgroundColor = white
 
     def isEntered(p: Point): Boolean = p.x > topL.x && p.y > topL.y && p.x < topR.x && p.y < bottomL.y
-        
+    
+    def areEquals(x: Symbol, y: Picture): Boolean = x.equals(symbol) && y.equals(picture)
+
     def repaint(g: Graphics2D) =
         g.setColor(borderColor)
         g.setStroke(stroke)
@@ -78,9 +80,9 @@ case class CardRect(topL: Point, topR: Point, bottomR: Point, bottomL: Point, co
         g.fillRoundRect(topL.x, topL.y, width, height, edges, edges)
         g.setColor(cardColor)
         g.setFont(symbolFont)
-        g.drawString(symbol.paint,  topL.x + (width/3.5).toInt, topL.y + (height/1.4).toInt)   
+        g.drawString(symbol.get.paint,  topL.x + (width/3.5).toInt, topL.y + (height/1.4).toInt)   
         g.setFont(pictureFont) //topL.x + 10, topL.y + 80
-        g.drawString(picture.toString, topL.x + 10, topL.y + 80)  
+        g.drawString(picture.get.toString, topL.x + 10, topL.y + 80)  
 
     def setVisible(b: Boolean): CardRect =
         visible = b

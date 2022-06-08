@@ -129,7 +129,8 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
         paintOldCards(g)
         paintCards(g)
         refreshCardRects
-        
+
+    private def checkCombination() = ???
     
     private def paintOldCards(g: Graphics2D) : Unit = 
         val hand = controller.getHandOfPlayer()

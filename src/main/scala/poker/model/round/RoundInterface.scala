@@ -5,6 +5,7 @@ package round
 import util.RiskType
 import util.State
 import util.Stateable
+import util.Combination
 
 import model.player.PlayerInterface
 import model.card.CardInterface
@@ -15,6 +16,7 @@ import scala.util.Try
 trait RoundInterface extends Stateable:
     var updateMessage: String
     var riskType: Option[RiskType] = None 
+    var combination: Option[Combination] = None
     def getHandOfPlayer(): Array[CardInterface]
     def copyRound() : RoundInterface
     def setRiskType(risk: String): Try[RoundInterface]

@@ -106,7 +106,7 @@ case class CombinationBoard(topL: Point, topR: Point, bottomR: Point, bottomL: P
         //g.setColor(BLUE)
         //g.fillRect(rows(0).topL.x, rows(0).topL.y, rows(0).width, rows(0).height+5)
         if(combination.isDefined)
-            if(combination.get.getRank < 10 || riskType.get.lowestCombination().equals("Pair"))
+            if(combination.get.getRank < 10 || riskType.get.lowestCombination.equals("Pair"))
                 rows(combination.get.getRank).repaint(g)
         columns.foreach(c => if(columns.indexOf(c) != 0) c.repaint(g, stroke, false))
         if(click.isDefined) columns(click.get + 1).repaint(g, stroke, true)
@@ -131,7 +131,7 @@ case class CombinationBoard(topL: Point, topR: Point, bottomR: Point, bottomL: P
         for(i <- 1 until comb.length)
             var combName = comb(10 - i).getName
             if(!riskType.isEmpty && i == 9)
-                combName = riskType.get.lowestCombination()
+                combName = riskType.get.lowestCombination
             g.drawString(combName, topL.x + 10, rows(i - 1).bottomL.y - 10)
 
 

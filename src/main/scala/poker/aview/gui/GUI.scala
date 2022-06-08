@@ -2,6 +2,8 @@ package poker
 package aview
 package gui
 
+import java.lang.Thread._
+
 import java.awt.Font
 import java.awt.Dimension
 import java.awt.Color
@@ -45,6 +47,8 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
     val displayStroke = new BasicStroke(5)
     val buttonMap = new HashMap[String, MyButton]
 
+    var cardsPainted: Option[Boolean] = None
+    var numberOfCardsPainted: Option[Int] = None
     var cardRects: Array[CardRect] = null
     var combBoard: CombinationBoard = null
     var messageBoard: MessageBoard = null
@@ -70,6 +74,8 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
         prepareDealButton(WIDTH, HEIGHT, combBoard, buttonMap)
         cardRects = prepareCards(WIDTH, HEIGHT)
         messageBoard = prepareMessageBoard(WIDTH, HEIGHT, combBoard)
+        cardsPainted = Some(false)
+        numberOfCardsPainted = Some(1)
 
     private def paintBackground(g: Graphics2D): Unit =
         g.setColor(backgroundColor.darker)
@@ -103,20 +109,44 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
         roundState match {
             case "Risk" => chooseRiskType(g)
             case "Bet" => setBet(g)
-            case "Deal" => 
-            case "Hold" => 
+            case "Hold" => holdCards(g)
             case "Evaluation" => 
             case "End" => 
         }
+    
+    private def holdCards(g: Graphics2D) = 
+        buttonMap.get("BackButton").get.setVisible(false)
+        buttonMap.get("CoinButton").get.setVisible(false)
+        buttonMap.get("DealButton").get.setVisible(true)
+        .asInstanceOf[DealButton].setCoinButton(null).setHoldState(true).repaint(g)
+        paintCards(g)
+    
+    private def paintCards(g: Graphics2D) : Unit = 
+        val hand = controller.getHandOfPlayer()
+        val size = hand.length
+        for(j <- 0 until numberOfCardsPainted.get)
+            if(!cardsPainted.get)
+                val symbol = hand(j).symbol
+                val picture = hand(j).picture
+                cardRects(j).setCard(symbol, picture).setVisible(true).repaint(g)
+                sleep(30)
+            cardRects(j).repaint(g)
+            repaint()
+        if(numberOfCardsPainted.get < 5) 
+            numberOfCardsPainted = Some(numberOfCardsPainted.get + 1)
+        else
+            cardsPainted = Some(true)
     
     private def setBet(g: Graphics2D) = 
         messageBoard.repaint(g, " Please place\n    your bet")
         buttonMap.get("LowButton").get.setVisible(false)
         buttonMap.get("HighButton").get.setVisible(false)
         buttonMap.get("BackButton").get.setVisible(true).repaint(g)
-        buttonMap.get("DealButton").get.setVisible(true).repaint(g)
-        val coin = buttonMap.get("CoinButton").get.asInstanceOf[CoinButton]
-        coin.setVisible(true).repaint(g)
+        val coin = buttonMap.get("CoinButton").get.setVisible(true).asInstanceOf[CoinButton]
+        coin.repaint(g)
+        buttonMap.get("DealButton").get.setVisible(true).asInstanceOf[DealButton]
+        .setCoinButton(coin).setHoldState(false).repaint(g)
+
         combBoard.repaint(g, Some(coin.getClick), None, controller)
     
     private def chooseRiskType(g: Graphics2D) = 

@@ -18,8 +18,8 @@ case class CardRect(topL: Point, topR: Point, bottomR: Point, bottomL: Point, co
     val edges = 30
     val white = new Color(215, 215, 214, 255);
     val newWhite = new Color(249, 250, 248, 255);
-    val normalStroke = new BasicStroke(5)
-    val clickStroke = new BasicStroke(7)
+    val normalStroke = new BasicStroke(8)
+    val clickStroke = new BasicStroke(13)
     val symbolFont = new Font("Times Roman", Font.BOLD, 130)
     val pictureFont = new Font("Times Roman", Font.BOLD, 70)
 
@@ -34,12 +34,13 @@ case class CardRect(topL: Point, topR: Point, bottomR: Point, bottomL: Point, co
     var symbol: Symbol = null
     var picture: Picture = null
 
-    def setCard(s: Symbol, p: Picture): Unit = 
+    def setCard(s: Symbol, p: Picture): CardRect = 
         if(s.equals(Symbol.HEART) || s.equals(Symbol.DIAMOND))
-            cardColor = Color.RED.darker
+            cardColor = Color.RED.darker.darker
         symbol = s
         picture = p
         cardIsSet = true
+        this
 
     def clicked(): Unit = 
         if(isClicked) 
@@ -51,7 +52,7 @@ case class CardRect(topL: Point, topR: Point, bottomR: Point, bottomL: Point, co
             backgroundColor = newWhite
             stroke = clickStroke
             isClicked = true
-            borderColor = Color.red.darker
+            borderColor = Color.BLUE
 
     def enter(): Unit = backgroundColor = newWhite
 
@@ -65,14 +66,13 @@ case class CardRect(topL: Point, topR: Point, bottomR: Point, bottomL: Point, co
         g.setColor(borderColor)
         g.setStroke(stroke)
         g.drawRoundRect(topL.x, topL.y, width, height, edges, edges)
-        if(cardIsSet)
-            g.setColor(backgroundColor)
-            g.fillRoundRect(topL.x, topL.y, width, height, edges, edges)
-            g.setColor(cardColor)
-            g.setFont(symbolFont)
-            g.drawString(symbol.paint,  topL.x + (width/3.5).toInt, topL.y + (height/1.4).toInt)   
-            g.setFont(pictureFont) //topL.x + 10, topL.y + 80
-            g.drawString(picture.toString, topL.x + 10, topL.y + 80)  
+        g.setColor(backgroundColor)
+        g.fillRoundRect(topL.x, topL.y, width, height, edges, edges)
+        g.setColor(cardColor)
+        g.setFont(symbolFont)
+        g.drawString(symbol.paint,  topL.x + (width/3.5).toInt, topL.y + (height/1.4).toInt)   
+        g.setFont(pictureFont) //topL.x + 10, topL.y + 80
+        g.drawString(picture.toString, topL.x + 10, topL.y + 80)  
 
     def setVisible(b: Boolean): CardRect =
         visible = b
@@ -81,8 +81,3 @@ case class CardRect(topL: Point, topR: Point, bottomR: Point, bottomL: Point, co
     def setCardIsSet(b: Boolean): CardRect =
         cardIsSet = b
         this
-        
-    private def paintCard(g: Graphics2D) = 
-        g.setColor(backgroundColor)
-        g.fillRoundRect(topL.x, topL.y, width, height, edges, edges)
-        

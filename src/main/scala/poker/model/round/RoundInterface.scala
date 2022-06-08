@@ -15,6 +15,7 @@ import scala.util.Try
 trait RoundInterface extends Stateable:
     var updateMessage: String
     var riskType: Option[RiskType] = None 
+    def getHandOfPlayer(): Array[CardInterface]
     def copyRound() : RoundInterface
     def setRiskType(risk: String): Try[RoundInterface]
     def setBet(b: Int): Try[RoundInterface] 

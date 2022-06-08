@@ -16,8 +16,9 @@ case class HighRisk() extends RiskType :
         this()
         if(credit < MIN_BET) throw new Exception("You don't have\nenough credit to\nplay HighRisk")
         
-    override def lowestCombination(): String = "Pair"
+    override def lowestCombination: String = "Pair"
 
+    override def getMinimumBet: Int = MIN_BET
     override def message: String = "High Risk Round !"
     
     override def setBet(bet: Int, credit: Int): Int = 
@@ -33,7 +34,11 @@ case class HighRisk() extends RiskType :
 
 case class LowRisk() extends RiskType :
     override def message: String = "Low Risk Round !"
-    override def lowestCombination(): String = "Jacks or Better"
+    
+    override def lowestCombination: String = "Jacks or Better"
+
+    override def getMinimumBet: Int = 1
+
 
     override def setBet(bet : Int, credit: Int): Int = 
         if(credit < bet) 

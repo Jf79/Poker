@@ -52,7 +52,7 @@ object Prepare:
         val startY = combBoard.topR.y + (combBoard.height/0.9).toInt
         val xR = startX + (WIDTH/8).toInt // width 
         val xR2 = startX2 + (WIDTH/8).toInt // width 
-        val yB = startY + (combBoard.height/3.4).toInt // height
+        val yB = startY + (combBoard.height/4).toInt // height
         val topL = new Point(startX, startY)
         val topL2 = new Point(startX2, startY)
         val topR = new Point(xR, startY)
@@ -62,9 +62,9 @@ object Prepare:
         val bottomR = new Point(xR, yB)
         val bottomR2 = new Point(xR2, yB)
 
-        buttonMap.put("BackButton",new BackButton(topL, topR, bottomR, bottomL, RED, "BACK"))
-        buttonMap.put("HighButton", new HighButton(topL, topR, bottomR, bottomL, RED, "HIGH"))
-        buttonMap.put("ExitButton", new ExitButton(topL, topR, bottomR, bottomL, RED, "NO"))
+        buttonMap.put("BackButton",new BackButton(topL, topR, bottomR, bottomL, MAGENTA.darker, "BACK"))
+        buttonMap.put("HighButton", new HighButton(topL, topR, bottomR, bottomL, MAGENTA.darker, "HIGH"))
+        buttonMap.put("ExitButton", new ExitButton(topL, topR, bottomR, bottomL, MAGENTA.darker, "NO"))
         buttonMap.put("StartButton",  new StartButton(topL2, topR2, bottomR2, bottomL2, YELLOW, "YES"))
         buttonMap.put("LowButton", new LowButton(topL2, topR2, bottomR2, bottomL2, YELLOW, "LOW"))
         buttonMap.put("CoinButton", new CoinButton(topL2, topR2, bottomR2, bottomL2, ORANGE, "COIN"))
@@ -73,7 +73,7 @@ object Prepare:
         val startX = combBoard.topR.x + 230
         val startY = combBoard.topR.y + (combBoard.height/1.3).toInt
         val xR = startX + (WIDTH/8).toInt // width 
-        val yB = startY + (combBoard.height/3.4).toInt // height
+        val yB = startY + (combBoard.height/4).toInt // height
         val topL = new Point(startX, startY)
         val topR = new Point(xR, startY)
         val bottomL = new Point(startX, yB)

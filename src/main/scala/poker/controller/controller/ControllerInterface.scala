@@ -33,6 +33,7 @@ trait ControllerInterface extends Observable:
     def getStateOfRound(): State 
     def createDeck(): Array[CardInterface]
     def hasEnoughCredit(): Boolean
+    def getHandOfPlayer(): Array[CardInterface]
     def clearUndoManager(): Unit
     def undo(): Unit
 

@@ -114,7 +114,9 @@ case class Round(player: PlayerInterface, var deck: Array[CardInterface]) extend
       return Some(hand.get.filterNot(leftCards.contains(_)))
     None
   
-  override def hasEnoughCredit() : Boolean =  player.getMoney() > 0
+  override def hasEnoughCredit(): Boolean =  player.getMoney() > 0
+  
+  override def getHandOfPlayer(): Array[CardInterface] = hand.get 
 
   override def toString = updateMessage
 

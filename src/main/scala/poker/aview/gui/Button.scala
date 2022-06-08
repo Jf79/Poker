@@ -38,7 +38,7 @@ case class IntroButton(topL: Point, topR: Point, bottomR: Point, bottomL: Point,
 case class ExitButton(topL: Point, topR: Point, bottomR: Point, bottomL: Point, color: Color, text: String) 
     extends MyButton:
     
-    val stroke = new BasicStroke(4)
+    val stroke = new BasicStroke(3)
     changedColor = color.darker
 
     def repaint(g: Graphics2D): Unit = 
@@ -52,7 +52,7 @@ case class ExitButton(topL: Point, topR: Point, bottomR: Point, bottomL: Point, 
 
     private def drawString(g: Graphics2D): Unit = 
         g.setColor(BLACK)
-        g.setFont(new Font("Times Roman", Font.BOLD, 50))
+        g.setFont(new Font("Times Roman", Font.BOLD, 45))
         g.drawString(text, topL.x + (width/3.5).toInt, bottomL.y - (height/3.3).toInt)
 
     override def clicked(c: ControllerInterface): Unit = 
@@ -61,7 +61,7 @@ case class ExitButton(topL: Point, topR: Point, bottomR: Point, bottomL: Point, 
 case class StartButton(topL: Point, topR: Point, bottomR: Point, bottomL: Point, color: Color, text: String) 
     extends MyButton:
     
-    val stroke = new BasicStroke(4)
+    val stroke = new BasicStroke(3)
     changedColor = color.darker
 
     def repaint(g: Graphics2D): Unit = 
@@ -75,8 +75,8 @@ case class StartButton(topL: Point, topR: Point, bottomR: Point, bottomL: Point,
 
     private def drawString(g: Graphics2D): Unit = 
         g.setColor(BLACK)
-        g.setFont(new Font("Times Roman", Font.BOLD, 50))
-        g.drawString(text, topL.x + (width/5).toInt, bottomL.y - (height/3.3).toInt)
+        g.setFont(new Font("Times Roman", Font.BOLD, 45))
+        g.drawString(text, topL.x + (width/4.5).toInt, bottomL.y - (height/3.3).toInt)
     
     override def clicked(c: ControllerInterface): Unit = 
         if(visible) 
@@ -85,7 +85,7 @@ case class StartButton(topL: Point, topR: Point, bottomR: Point, bottomL: Point,
 case class LowButton(topL: Point, topR: Point, bottomR: Point, bottomL: Point, color: Color, text: String) 
     extends MyButton:
     
-    val stroke = new BasicStroke(4)
+    val stroke = new BasicStroke(3)
     changedColor = color.darker
 
     def repaint(g: Graphics2D): Unit = 
@@ -99,8 +99,8 @@ case class LowButton(topL: Point, topR: Point, bottomR: Point, bottomL: Point, c
 
     private def drawString(g: Graphics2D): Unit = 
         g.setColor(BLACK)
-        g.setFont(new Font("Times Roman", Font.BOLD, 50))
-        g.drawString(text, topL.x + (width/7).toInt, bottomL.y - (height/3.3).toInt)
+        g.setFont(new Font("Times Roman", Font.BOLD, 45))
+        g.drawString(text, topL.x + (width/5.5).toInt, bottomL.y - (height/3.3).toInt)
 
     override def clicked(c: ControllerInterface): Unit = 
         if(visible) c.doAndPublish(c.chooseRiskType,"low")
@@ -108,7 +108,7 @@ case class LowButton(topL: Point, topR: Point, bottomR: Point, bottomL: Point, c
 case class HighButton(topL: Point, topR: Point, bottomR: Point, bottomL: Point, color: Color, text: String) 
     extends MyButton:
     
-    val stroke = new BasicStroke(4)
+    val stroke = new BasicStroke(3)
     changedColor = color.darker
 
     def repaint(g: Graphics2D): Unit = 
@@ -122,8 +122,8 @@ case class HighButton(topL: Point, topR: Point, bottomR: Point, bottomL: Point, 
 
     private def drawString(g: Graphics2D): Unit = 
         g.setColor(BLACK)
-        g.setFont(new Font("Times Roman", Font.BOLD, 50))
-        g.drawString(text, topL.x + (width/7).toInt, bottomL.y - (height/3.3).toInt)
+        g.setFont(new Font("Times Roman", Font.BOLD, 45))
+        g.drawString(text, topL.x + (width/6).toInt, bottomL.y - (height/3.3).toInt)
 
     override def clicked(c: ControllerInterface): Unit = 
         if(visible) c.doAndPublish(c.chooseRiskType, "high")
@@ -132,7 +132,7 @@ case class HighButton(topL: Point, topR: Point, bottomR: Point, bottomL: Point, 
 case class BackButton(topL: Point, topR: Point, bottomR: Point, bottomL: Point, color: Color, text: String) 
     extends MyButton:
     
-    val stroke = new BasicStroke(4)
+    val stroke = new BasicStroke(3)
     changedColor = color.darker
 
     def repaint(g: Graphics2D): Unit = 
@@ -146,8 +146,8 @@ case class BackButton(topL: Point, topR: Point, bottomR: Point, bottomL: Point, 
 
     private def drawString(g: Graphics2D): Unit = 
         g.setColor(BLACK)
-        g.setFont(new Font("Times Roman", Font.BOLD, 50))
-        g.drawString(text, topL.x + (width/11).toInt, bottomL.y - (height/3.3).toInt)
+        g.setFont(new Font("Times Roman", Font.BOLD, 45))
+        g.drawString(text, topL.x + (width/9).toInt, bottomL.y - (height/3.3).toInt)
 
     override def clicked(c: ControllerInterface): Unit = 
         if(visible) c.undo()
@@ -155,7 +155,7 @@ case class BackButton(topL: Point, topR: Point, bottomR: Point, bottomL: Point, 
 case class CoinButton(topL: Point, topR: Point, bottomR: Point, bottomL: Point, color: Color, text: String) 
     extends MyButton:
     
-    val stroke = new BasicStroke(4)
+    val stroke = new BasicStroke(3)
     var clicks = 0
 
     changedColor = color.darker
@@ -172,8 +172,8 @@ case class CoinButton(topL: Point, topR: Point, bottomR: Point, bottomL: Point, 
 
     private def drawString(g: Graphics2D): Unit = 
         g.setColor(BLACK)
-        g.setFont(new Font("Times Roman", Font.BOLD, 50))
-        g.drawString(text, topL.x + (width/9).toInt, bottomL.y - (height/3.3).toInt)
+        g.setFont(new Font("Times Roman", Font.BOLD, 45))
+        g.drawString(text, topL.x + (width/7).toInt, bottomL.y - (height/3.3).toInt)
 
     override def clicked(c: ControllerInterface): Unit = 
         if(visible) clicks += 1
@@ -181,7 +181,10 @@ case class CoinButton(topL: Point, topR: Point, bottomR: Point, bottomL: Point, 
 case class DealButton(topL: Point, topR: Point, bottomR: Point, bottomL: Point, color: Color, text: String) 
     extends MyButton:
     
-    val stroke = new BasicStroke(4)
+    var holdState = false
+    var button: CoinButton = null
+
+    val stroke = new BasicStroke(3)
 
     changedColor = color.darker
     def repaint(g: Graphics2D): Unit = 
@@ -195,8 +198,20 @@ case class DealButton(topL: Point, topR: Point, bottomR: Point, bottomL: Point, 
     
     private def drawString(g: Graphics2D): Unit = 
         g.setColor(BLACK)
-        g.setFont(new Font("Times Roman", Font.BOLD, 50))
-        g.drawString(text, topL.x + (width/10).toInt, bottomL.y - (height/3.3).toInt)
+        g.setFont(new Font("Times Roman", Font.BOLD, 45))
+        g.drawString(text, topL.x + (width/8).toInt, bottomL.y - (height/3.3).toInt)
 
-    override def clicked(c: ControllerInterface): Unit = 
-        if(visible) println("Deal")
+    def setCoinButton(b: CoinButton): DealButton = 
+        button = b
+        this
+
+    def setHoldState(b: Boolean): DealButton = 
+        holdState = b
+        this
+
+    override def clicked(controller: ControllerInterface): Unit = 
+        if(visible && !holdState) 
+            val bet = controller.round.get.riskType.get.getMinimumBet * (button.clicks + 1)
+            controller.doAndPublish(controller.setBet, bet)
+            controller.doAndPublish(controller.dealCards())
+            

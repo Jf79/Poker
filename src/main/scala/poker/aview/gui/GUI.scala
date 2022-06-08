@@ -128,6 +128,7 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
         buttonMap.get("DealButton").get.setVisible(false)
         paintOldCards(g)
         paintCards(g)
+        refreshCardRects
         
     
     private def paintOldCards(g: Graphics2D) : Unit = 
@@ -144,15 +145,27 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
             if(!cardsPainted.get && !cardRects(j).isHolded)
                 val symbol = hand(j).symbol
                 val picture = hand(j).picture
-                cardRects(j).setCard(symbol, picture).setVisible(true).repaint(g)
-                sleep(30)
+                cardRects(j).setCard(symbol, picture).setClickable(true).setVisible(true).repaint(g)
+                sleep(25)
             if(!cardRects(j).isHolded)
                 cardRects(j).repaint(g)
+        checkCardsPainted
+        
+    private def checkCardsPainted =
         if(numberOfCardsPainted.get < 5) 
             numberOfCardsPainted = Some(numberOfCardsPainted.get + 1)
         else
             cardsPainted = Some(true)
     
+    private def refreshCardRects = 
+        cardRects.foreach(card =>
+            card.isClicked = false
+            card.borderColor = card.color
+            card.stroke = card.normalStroke
+            card.setClickable(false)
+            card.backgroundColor = white
+        )
+
     private def setBet(g: Graphics2D) = 
         messageBoard.repaint(g, handleFailure(" Please place\n    your bet"))
         buttonMap.get("LowButton").get.setVisible(false)
@@ -171,7 +184,6 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
         buttonMap.get("StartButton").get.setVisible(false)
         buttonMap.get("LowButton").get.setVisible(true).repaint(g)
         buttonMap.get("HighButton").get.setVisible(true).repaint(g)
-        //cardRects.foreach(c => c.setVisible(true).repaint(g))
     
     private def startState(g: Graphics2D): Unit = 
         messageBoard.repaint(g, " Do you want\n to continue ?")
@@ -179,7 +191,6 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
         buttonMap.get("IntroButton").get.setVisible(false)
         buttonMap.get("ExitButton").get.setVisible(true).repaint(g)
         buttonMap.get("StartButton").get.setVisible(true).repaint(g)
-        //cardRects.foreach(c => c.setVisible(true).repaint(g))
     
     private def introState(g: Graphics2D): Unit = 
         g.setColor(BLACK)
@@ -240,7 +251,7 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
     private def enteredCards(point: Point): Boolean =
         var entered = false
         for(i <- 0 to 4)
-            if(cardRects(i).visible && cardRects(i).isEntered(point))
+            if(cardRects(i).visible && cardRects(i).clickAble && cardRects(i).isEntered(point))
                 cardRects(i).enter()
                 entered = true
             else

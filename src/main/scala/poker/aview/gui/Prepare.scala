@@ -95,6 +95,5 @@ object Prepare:
             val bottomR = new Point(pointX + cardWidth, startY + cardHeight)
             val bottomL = new Point(pointX , startY + cardHeight)
             cardRects(i) = new CardRect(topL, topR, bottomR, bottomL, BLACK)
-            //cardRects(i).setCard(hand(i).symbol, hand(i).picture)
         cardRects
 

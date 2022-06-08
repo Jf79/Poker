@@ -26,6 +26,7 @@ case class CardRect(topL: Point, topR: Point, bottomR: Point, bottomL: Point, co
     var isHolded = false
     var isClicked = false
     var cardIsSet = false
+    var clickAble = false
     var stroke = normalStroke
     var backgroundColor = white
     var borderColor = color
@@ -42,7 +43,9 @@ case class CardRect(topL: Point, topR: Point, bottomR: Point, bottomL: Point, co
         cardIsSet = true
         this
 
-    def clicked(): Unit = 
+    def clicked(): Unit =
+        if(!clickAble)
+            return
         if(isClicked) 
             backgroundColor = white
             isClicked = false
@@ -54,9 +57,14 @@ case class CardRect(topL: Point, topR: Point, bottomR: Point, bottomL: Point, co
             isClicked = true
             borderColor = Color.CYAN.darker.darker
 
-    def enter(): Unit = backgroundColor = newWhite
+    def enter(): Unit = 
+        if(!clickAble)
+            return
+        backgroundColor = newWhite
 
     def leaved(): Unit = 
+        if(!clickAble)
+            return
         if(!isClicked)
             backgroundColor = white
 
@@ -78,6 +86,6 @@ case class CardRect(topL: Point, topR: Point, bottomR: Point, bottomL: Point, co
         visible = b
         this
 
-    def setCardIsSet(b: Boolean): CardRect =
-        cardIsSet = b
+    def setClickable(b: Boolean): CardRect =
+        clickAble = b
         this

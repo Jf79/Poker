@@ -222,9 +222,6 @@ case class DealButton(topL: Point, topR: Point, bottomR: Point, bottomL: Point, 
             if(card.isClicked) 
                 vector = vector :+ (cardRects.indexOf(card) + 1)
                 card.isHolded = true
-            card.isClicked = false
-            card.borderColor = card.color
-            card.stroke = card.normalStroke
         )
         gui.cardsPainted = Some(false)
         gui.numberOfCardsPainted = Some(1)

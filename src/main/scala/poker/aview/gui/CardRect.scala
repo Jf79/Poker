@@ -52,7 +52,7 @@ case class CardRect(topL: Point, topR: Point, bottomR: Point, bottomL: Point, co
             backgroundColor = newWhite
             stroke = clickStroke
             isClicked = true
-            borderColor = Color.BLUE
+            borderColor = Color.CYAN.darker.darker
 
     def enter(): Unit = backgroundColor = newWhite
 

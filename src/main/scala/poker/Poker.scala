@@ -8,7 +8,7 @@ import controller.controller.Controller
 object start:
 
   @main def run: Unit =
-    val player = new Player(109)
+    val player = new Player(3)
     val controller = new Controller(player)
     val tui = new TUI(controller)
     val gui = new GUI(controller)

@@ -12,9 +12,9 @@ import scala.collection.mutable.HashMap
 object Prepare:
 
     def prepareMessageBoard(WIDTH: Int, HEIGHT: Int, combBoard: CombinationBoard): MessageBoard =
-        val startX = combBoard.topR.x + 50
+        val startX = combBoard.topR.x + 30
         val startY = combBoard.topR.y
-        val xR = startX + (WIDTH/3.8).toInt // width 
+        val xR = startX + (WIDTH/3.6).toInt // width 
         val yB = startY + (combBoard.height/2.1).toInt // height
         val topL = new Point(startX, startY)
         val topR = new Point(xR, startY)
@@ -49,7 +49,7 @@ object Prepare:
     def prepareFirstButtons(WIDTH: Int, HEIGHT: Int, combBoard: CombinationBoard, buttonMap: mutable.Map[String, MyButton]): Unit = 
         val startX = combBoard.topR.x + 230
         val startX2 = combBoard.topR.x + 50
-        val startY = combBoard.topR.y + (combBoard.height/0.9).toInt
+        val startY = combBoard.topR.y + (combBoard.height/0.96).toInt
         val xR = startX + (WIDTH/8).toInt // width 
         val xR2 = startX2 + (WIDTH/8).toInt // width 
         val yB = startY + (combBoard.height/4).toInt // height
@@ -62,12 +62,12 @@ object Prepare:
         val bottomR = new Point(xR, yB)
         val bottomR2 = new Point(xR2, yB)
 
-        buttonMap.put("BackButton",new BackButton(topL, topR, bottomR, bottomL, MAGENTA.darker, "BACK"))
-        buttonMap.put("HighButton", new HighButton(topL, topR, bottomR, bottomL, MAGENTA.darker, "HIGH"))
-        buttonMap.put("ExitButton", new ExitButton(topL, topR, bottomR, bottomL, MAGENTA.darker, "NO"))
+        buttonMap.put("BackButton",new BackButton(topL, topR, bottomR, bottomL, RED.darker, "BACK"))
+        buttonMap.put("HighButton", new HighButton(topL, topR, bottomR, bottomL, RED.darker, "HIGH"))
+        buttonMap.put("ExitButton", new ExitButton(topL, topR, bottomR, bottomL, RED, "NO"))
         buttonMap.put("StartButton",  new StartButton(topL2, topR2, bottomR2, bottomL2, YELLOW, "YES"))
         buttonMap.put("LowButton", new LowButton(topL2, topR2, bottomR2, bottomL2, YELLOW, "LOW"))
-        buttonMap.put("CoinButton", new CoinButton(topL2, topR2, bottomR2, bottomL2, ORANGE, "COIN"))
+        buttonMap.put("CoinButton", new CoinButton(topL2, topR2, bottomR2, bottomL2, YELLOW, "COIN"))
 
     def prepareDealButton(WIDTH: Int, HEIGHT: Int, combBoard: CombinationBoard, buttonMap: mutable.Map[String, MyButton]): Unit = 
         val startX = combBoard.topR.x + 230
@@ -78,7 +78,7 @@ object Prepare:
         val topR = new Point(xR, startY)
         val bottomL = new Point(startX, yB)
         val bottomR = new Point(xR, yB)
-        buttonMap.put("DealButton", new DealButton(topL, topR, bottomR, bottomL, YELLOW, "DEAL"))
+        buttonMap.put("DealButton", new DealButton(topL, topR, bottomR, bottomL, ORANGE, "DEAL"))
     
     def prepareCards(WIDTH: Int, HEIGHT: Int): Array[CardRect] =
         val startX = (WIDTH/50).toInt

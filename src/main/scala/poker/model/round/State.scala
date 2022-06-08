@@ -54,8 +54,10 @@ case class BetState(round: Round) extends State :
             betTry.get.updateMessage = "\nYour bet : " + round.bet.get + " $\n"
             stateable.handle(new DealCardsEvent)
             returnValue = betTry.get
+            stateable.failed = false
         else
             round.updateMessage = betTry.failed.get.getMessage
+            stateable.failed = true
         Some(returnValue)
     override def toString = "Bet"
 

@@ -211,7 +211,10 @@ case class DealButton(topL: Point, topR: Point, bottomR: Point, bottomL: Point, 
 
     override def clicked(controller: ControllerInterface): Unit = 
         if(visible && !holdState) 
-            val bet = controller.round.get.riskType.get.getMinimumBet * (button.clicks + 1)
+            val bet = controller.round.get.riskType.get.getMinimumBet * (button.getClick + 1)
+            println("bet: " + bet)
             controller.doAndPublish(controller.setBet, bet)
-            controller.doAndPublish(controller.dealCards())
+            if(!controller.round.get.failed)
+                println("Deal")
+                controller.doAndPublish(controller.dealCards())
             

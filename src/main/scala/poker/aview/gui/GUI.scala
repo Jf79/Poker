@@ -56,6 +56,7 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
 
     title = "Poker"
     visible = true
+    var counter = 0
     
     size = new Dimension(WIDTH, HEIGHT)
 
@@ -92,6 +93,8 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
             }
             preferredSize = new Dimension(WIDTH, HEIGHT)
             override def paintComponent(g: Graphics2D): Unit = 
+                counter += 1
+                println(counter)
                 paintBackground(g)
                 gameState match {
                     case GameEvent.INTRO => introState(g)
@@ -115,11 +118,13 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
         }
     
     private def holdCards(g: Graphics2D) = 
+        messageBoard.repaint(g, handleFailure("  Which cards\n        you\n  wanna hold ?"))
         buttonMap.get("BackButton").get.setVisible(false)
         buttonMap.get("CoinButton").get.setVisible(false)
         buttonMap.get("DealButton").get.setVisible(true)
         .asInstanceOf[DealButton].setCoinButton(null).setHoldState(true).repaint(g)
         paintCards(g)
+
     
     private def paintCards(g: Graphics2D) : Unit = 
         val hand = controller.getHandOfPlayer()
@@ -138,19 +143,19 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
             cardsPainted = Some(true)
     
     private def setBet(g: Graphics2D) = 
-        messageBoard.repaint(g, " Please place\n    your bet")
+        messageBoard.repaint(g, handleFailure(" Please place\n    your bet"))
         buttonMap.get("LowButton").get.setVisible(false)
         buttonMap.get("HighButton").get.setVisible(false)
         buttonMap.get("BackButton").get.setVisible(true).repaint(g)
         val coin = buttonMap.get("CoinButton").get.setVisible(true).asInstanceOf[CoinButton]
         coin.repaint(g)
+        println(coin.getClick)
         buttonMap.get("DealButton").get.setVisible(true).asInstanceOf[DealButton]
         .setCoinButton(coin).setHoldState(false).repaint(g)
-
         combBoard.repaint(g, Some(coin.getClick), None, controller)
     
     private def chooseRiskType(g: Graphics2D) = 
-        messageBoard.repaint(g, handleFailure)
+        messageBoard.repaint(g, handleFailure("Which type of\n   game you\nwant to play?"))
         buttonMap.get("ExitButton").get.setVisible(false)
         buttonMap.get("StartButton").get.setVisible(false)
         buttonMap.get("LowButton").get.setVisible(true).repaint(g)
@@ -171,8 +176,8 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
         g.drawString("Welcome to Poker", 160, 300)
         buttonMap.get("IntroButton").get.setVisible(true).repaint(g)
     
-    private def handleFailure: String =
-        if(!controller.round.get.failed) return "Which type of\n   game you\nwant to play?"
+    private def handleFailure(message: String): String =
+        if(!controller.round.get.failed) return message
         controller.round.get.updateMessage
     
     private def processMouseMoved(event : MouseMoved): Unit = 

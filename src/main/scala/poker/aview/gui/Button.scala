@@ -183,7 +183,9 @@ case class DealButton(topL: Point, topR: Point, bottomR: Point, bottomL: Point, 
     
     var holdState = false
     var button: CoinButton = null
-
+    var cardRects: Array[CardRect] = null
+    
+    var gui: GUI = null
     val stroke = new BasicStroke(3)
 
     changedColor = color.darker
@@ -208,13 +210,34 @@ case class DealButton(topL: Point, topR: Point, bottomR: Point, bottomL: Point, 
     def setHoldState(b: Boolean): DealButton = 
         holdState = b
         this
+    
+    def setCardRects(g: GUI): DealButton =
+        gui = g
+        cardRects = g.cardRects
+        this
+    
+    private def processCardRects: Vector[Int] =
+        var vector: Vector[Int] = Vector()
+        cardRects.foreach(card =>
+            if(card.isClicked) 
+                vector = vector :+ (cardRects.indexOf(card) + 1)
+                card.isHolded = true
+            card.isClicked = false
+            card.borderColor = card.color
+            card.stroke = card.normalStroke
+        )
+        gui.cardsPainted = Some(false)
+        gui.numberOfCardsPainted = Some(1)
+        vector
 
     override def clicked(controller: ControllerInterface): Unit = 
         if(visible && !holdState) 
             val bet = controller.round.get.riskType.get.getMinimumBet * (button.getClick + 1)
-            println("bet: " + bet)
             controller.doAndPublish(controller.setBet, bet)
             if(!controller.round.get.failed)
-                println("Deal")
                 controller.doAndPublish(controller.dealCards())
+        else if(visible && holdState)
+            println("Nigga")
+            controller.doAndPublish(controller.holdCards, processCardRects)
+
             

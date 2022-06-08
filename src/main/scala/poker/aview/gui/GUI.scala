@@ -93,8 +93,6 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
             }
             preferredSize = new Dimension(WIDTH, HEIGHT)
             override def paintComponent(g: Graphics2D): Unit = 
-                counter += 1
-                println(counter)
                 paintBackground(g)
                 gameState match {
                     case GameEvent.INTRO => introState(g)
@@ -113,7 +111,7 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
             case "Risk" => chooseRiskType(g)
             case "Bet" => setBet(g)
             case "Hold" => holdCards(g)
-            case "Evaluation" => 
+            case "Evaluation" => evaluation(g)
             case "End" => 
         }
     
@@ -122,21 +120,34 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
         buttonMap.get("BackButton").get.setVisible(false)
         buttonMap.get("CoinButton").get.setVisible(false)
         buttonMap.get("DealButton").get.setVisible(true)
-        .asInstanceOf[DealButton].setCoinButton(null).setHoldState(true).repaint(g)
+        .asInstanceOf[DealButton].setCardRects(this).setCoinButton(null).setHoldState(true).repaint(g)
         paintCards(g)
-
+    
+    private def evaluation(g: Graphics2D) =
+        messageBoard.repaint(g, null)
+        buttonMap.get("DealButton").get.setVisible(false)
+        paintOldCards(g)
+        paintCards(g)
+        
+    
+    private def paintOldCards(g: Graphics2D) : Unit = 
+        val hand = controller.getHandOfPlayer()
+        for(j <- 0 until 5)
+            if(cardRects(j).isHolded)
+                cardRects(j).repaint(g)
+            repaint()
     
     private def paintCards(g: Graphics2D) : Unit = 
         val hand = controller.getHandOfPlayer()
         val size = hand.length
         for(j <- 0 until numberOfCardsPainted.get)
-            if(!cardsPainted.get)
+            if(!cardsPainted.get && !cardRects(j).isHolded)
                 val symbol = hand(j).symbol
                 val picture = hand(j).picture
                 cardRects(j).setCard(symbol, picture).setVisible(true).repaint(g)
                 sleep(30)
-            cardRects(j).repaint(g)
-            repaint()
+            if(!cardRects(j).isHolded)
+                cardRects(j).repaint(g)
         if(numberOfCardsPainted.get < 5) 
             numberOfCardsPainted = Some(numberOfCardsPainted.get + 1)
         else

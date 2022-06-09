@@ -81,6 +81,7 @@ case class CardRect(topL: Point, topR: Point, bottomR: Point, bottomL: Point, co
         if(partOfCombination)
             g.setColor(Color.BLUE)
             g.setStroke(clickStroke)
+            backgroundColor = newWhite
         else
             g.setColor(borderColor)
             g.setStroke(stroke)

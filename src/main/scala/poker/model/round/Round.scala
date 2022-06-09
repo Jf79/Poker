@@ -123,5 +123,7 @@ case class Round(player: PlayerInterface, var deck: Array[CardInterface]) extend
 
   override def getCombinationHand(): Option[Array[CardInterface]] = combinationHand
 
+  override def getOutcome(): Int = outcome
+
   override def toString = updateMessage
 

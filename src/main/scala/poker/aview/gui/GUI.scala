@@ -117,7 +117,7 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
         }
     
     private def holdCards(g: Graphics2D) = 
-        messageBoard.repaint(g, handleFailure("  Which cards\n        you\n  wanna hold ?"))
+        messageBoard.repaint(g, handleFailure("  Which cards\n         you\n  wanna hold ?"))
         buttonMap.get("BackButton").get.setVisible(false)
         buttonMap.get("CoinButton").get.setVisible(false)
         buttonMap.get("DealButton").get.setVisible(true)
@@ -134,24 +134,33 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
         paintOldCards(g)
         paintCards(g)
         refreshCardRects
-        messageBoard.repaint(g, null)
+    
+    private def drawResult(): Option[String] =
+        val comb = controller.round.get.combination
+        val outcome = controller.round.get.getOutcome()
+        if(comb.get.getRank < 10)
+            return Some("Congratulations\n You won: " + outcome + " $")
+        Some("      No Win\nBut Good Luck\n     Next time")
 
+    
     private def checkCombination = 
         controller.doAndPublish(controller.evaluation())
         new Thread(new Runnable {
             override def run(): Unit = 
-                sleep(1000)
+                sleep(700)
                 val comb = controller.round.get.combination
-                //messageBoard.setCombination(comb)
+                messageBoard.setCombination(drawResult())
                 setHandOfCombination()
-                for(i <- 0 until 10)
-                    if(i%2 == 0)
-                        combBoard.setCombination(comb)
-                    else
-                        combBoard.setCombination(None)
-                    sleep(300)
                 combBoard.setCombination(comb)        
-                sleep(4000)
+                if(comb.get.getRank < 10)
+                    for(i <- 0 until 15)
+                        if(i%2 == 0)
+                            combBoard.setCombination(comb)
+                        else
+                            combBoard.setCombination(None)
+                        sleep(400)
+                else
+                    sleep(3000)
                 controller.startTheGame()
                 prepare
         }).start()
@@ -197,7 +206,7 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
         else
             cardsPainted = Some(true)
     
-    private def refreshCardRects = 
+    def refreshCardRects = 
         cardRects.foreach(card =>
             card.isClicked = false
             card.borderColor = card.color
@@ -207,7 +216,7 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
         )
 
     private def setBet(g: Graphics2D) = 
-        messageBoard.repaint(g, handleFailure(" Please place\n    your bet"))
+        messageBoard.repaint(g, handleFailure("  Please place\n     your bet"))
         buttonMap.get("LowButton").get.setVisible(false)
         buttonMap.get("HighButton").get.setVisible(false)
         buttonMap.get("BackButton").get.setVisible(true).repaint(g)
@@ -218,14 +227,17 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
         combBoard.repaint(g, Some(coin.getClick), controller)
     
     private def chooseRiskType(g: Graphics2D) = 
-        messageBoard.repaint(g, handleFailure("Which type of\n   game you\nwant to play?"))
+        messageBoard.repaint(g, handleFailure(" Which type of\n    game you\n want to play?"))
         buttonMap.get("ExitButton").get.setVisible(false)
         buttonMap.get("StartButton").get.setVisible(false)
         buttonMap.get("LowButton").get.setVisible(true).repaint(g)
         buttonMap.get("HighButton").get.setVisible(true).repaint(g)
     
     private def startState(g: Graphics2D): Unit = 
-        messageBoard.repaint(g, " Do you want\n to continue ?")
+        if(!controller.hasEnoughCredit())
+            notEnoughCredit(g)
+            return
+        messageBoard.repaint(g, "  Do you want\n  to continue ?")
         combBoard.repaint(g, None, controller)
         buttonMap.get("IntroButton").get.setVisible(false)
         buttonMap.get("ExitButton").get.setVisible(true).repaint(g)
@@ -236,6 +248,14 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
         g.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 120))
         g.drawString("Welcome to Poker", 160, 300)
         buttonMap.get("IntroButton").get.setVisible(true).repaint(g)
+    
+    private def notEnoughCredit(g: Graphics2D): Unit = 
+        messageBoard.repaint(g, "You dont have\n    enough\ncredit to play")
+        combBoard.repaint(g, None, controller)
+        buttonMap.get("IntroButton").get.setVisible(false)
+        buttonMap.get("ExitButton").get.setVisible(true).asInstanceOf[ExitButton]
+        .setText("EXIT").repaint(g)
+
     
     private def handleFailure(message: String): String =
         if(!controller.round.get.failed) return message

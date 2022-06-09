@@ -48,7 +48,7 @@ class TUI(controller: ControllerInterface) extends Observer:
                 case "Evaluation" => evaluation()
                 case "End" => {
                     checkCredit()
-                    //running = false
+                    running = false
                 }
             }
         

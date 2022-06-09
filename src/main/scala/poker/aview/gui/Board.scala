@@ -10,7 +10,7 @@ import java.awt.BasicStroke
 import java.awt.Graphics2D
 
 import util.Combination
-import poker.controller.controller.ControllerInterface
+import controller.controller.ControllerInterface
 import poker.util.RiskType
 
 case class MessageBoard(topL: Point, topR: Point, bottomR: Point, bottomL: Point, color: Color) 
@@ -18,9 +18,9 @@ case class MessageBoard(topL: Point, topR: Point, bottomR: Point, bottomL: Point
 
     val stroke = new BasicStroke(4)
     val edges = 30
-    var combination: Option[Combination] = None
+    var combinationMessage: Option[String] = None
 
-    def setCombination(c: Option[Combination]) = combination = c
+    def setCombination(c: Option[String]) = combinationMessage = c
 
     def repaint(g: Graphics2D, message: String): Unit =  
         g.setColor(Color.BLACK.brighter)
@@ -30,18 +30,18 @@ case class MessageBoard(topL: Point, topR: Point, bottomR: Point, bottomL: Point
         g.drawRoundRect(topL.x, topL.y, topR.x - topL.x, bottomR.y - topR.y, edges, edges)
         if(message != null)
             drawString(g, message)
-        else if(combination.isDefined)
-            drawString(g, combination.get.getName)
+        else if(combinationMessage.isDefined)
+            drawString(g, combinationMessage.get)
 
 
     private def drawString(g: Graphics2D, message: String) = 
         val m = message.split("\n")
         g.setColor(WHITE.darker)
-        g.setFont(new Font("Times Roman", Font.BOLD, 40))
+        g.setFont(new Font("Times Roman", Font.BOLD, 32))
         val space = (130/m.length).toInt
         for(i <- 0 until m.length)
-            g.drawString(m(i), topL.x + (width/8).toInt, topL.y + space + (i*50))
-            g.drawString(m(i), topL.x + (width/8).toInt, topL.y + space + (i*50))
+            //g.drawString(m(i), topL.x + (width/5).toInt, topL.y + space + (i*50))
+            g.drawString(m(i), topL.x + (width/4.8).toInt, topL.y + space + (i*50))
 
 
 case class BoardRow(topL: Point, topR: Point, bottomR: Point, bottomL: Point, color: Color) 
@@ -112,7 +112,7 @@ case class CombinationBoard(topL: Point, topR: Point, bottomR: Point, bottomL: P
         g.fillRoundRect(topL.x, topL.y, width, height, edges, edges)
         g.setColor(BLUE)
         if(combination.isDefined)
-            if(combination.get.getRank < 10 || riskType.get.lowestCombination.equals("Pair"))
+            if(combination.get.getRank < 10) //riskType.get.lowestCombination.equals("Pair")
                 rows(combination.get.getRank - 1).repaint(g)
         columns.foreach(c => if(columns.indexOf(c) != 0) c.repaint(g, stroke, false))
         if(click.isDefined) columns(click.get + 1).repaint(g, stroke, true)

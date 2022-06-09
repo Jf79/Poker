@@ -52,7 +52,7 @@ object Prepare:
         val startY = combBoard.topR.y + (combBoard.height/0.96).toInt
         val xR = startX + (WIDTH/8).toInt // width 
         val xR2 = startX2 + (WIDTH/8).toInt // width 
-        val yB = startY + (combBoard.height/4).toInt // height
+        val yB = startY + (combBoard.height/5).toInt // height
         val topL = new Point(startX, startY)
         val topL2 = new Point(startX2, startY)
         val topR = new Point(xR, startY)
@@ -64,16 +64,16 @@ object Prepare:
 
         buttonMap.put("BackButton",new BackButton(topL, topR, bottomR, bottomL, RED.darker, "BACK"))
         buttonMap.put("HighButton", new HighButton(topL, topR, bottomR, bottomL, RED.darker, "HIGH"))
-        buttonMap.put("ExitButton", new ExitButton(topL, topR, bottomR, bottomL, RED, "NO"))
-        buttonMap.put("StartButton",  new StartButton(topL2, topR2, bottomR2, bottomL2, YELLOW, "YES"))
+        buttonMap.put("ExitButton", new ExitButton(topL, topR, bottomR, bottomL, RED, "EXIT"))
+        buttonMap.put("StartButton",  new StartButton(topL2, topR2, bottomR2, bottomL2, YELLOW, "PLAY"))
         buttonMap.put("LowButton", new LowButton(topL2, topR2, bottomR2, bottomL2, YELLOW, "LOW"))
         buttonMap.put("CoinButton", new CoinButton(topL2, topR2, bottomR2, bottomL2, YELLOW, "COIN"))
 
     def prepareDealButton(WIDTH: Int, HEIGHT: Int, combBoard: CombinationBoard, buttonMap: mutable.Map[String, MyButton]): Unit = 
         val startX = combBoard.topR.x + 230
-        val startY = combBoard.topR.y + (combBoard.height/1.3).toInt
+        val startY = combBoard.topR.y + (combBoard.height/1.21).toInt
         val xR = startX + (WIDTH/8).toInt // width 
-        val yB = startY + (combBoard.height/4).toInt // height
+        val yB = startY + (combBoard.height/5).toInt // height
         val topL = new Point(startX, startY)
         val topR = new Point(xR, startY)
         val bottomL = new Point(startX, yB)

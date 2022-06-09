@@ -35,7 +35,7 @@ case class IntroButton(topL: Point, topR: Point, bottomR: Point, bottomL: Point,
     override def clicked(c: ControllerInterface): Unit = 
         if(visible) c.startTheGame()
 
-case class ExitButton(topL: Point, topR: Point, bottomR: Point, bottomL: Point, color: Color, text: String) 
+case class ExitButton(topL: Point, topR: Point, bottomR: Point, bottomL: Point, color: Color, var text: String) 
     extends MyButton:
     
     val stroke = new BasicStroke(3)
@@ -50,10 +50,14 @@ case class ExitButton(topL: Point, topR: Point, bottomR: Point, bottomL: Point, 
         g.drawRoundRect(topL.x, topL.y, width, height, edges, edges)
         drawString(g)
 
+    def setText(s: String): ExitButton = 
+        text = s
+        this
+
     private def drawString(g: Graphics2D): Unit = 
         g.setColor(BLACK)
-        g.setFont(new Font("Times Roman", Font.BOLD, 45))
-        g.drawString(text, topL.x + (width/3.5).toInt, bottomL.y - (height/3.3).toInt)
+        g.setFont(new Font("Times Roman", Font.BOLD, 40))
+        g.drawString(text, topL.x + (width/4.4).toInt, bottomL.y - (height/3.3).toInt)
 
     override def clicked(c: ControllerInterface): Unit = 
         if(visible) c.endTheGame()
@@ -75,8 +79,8 @@ case class StartButton(topL: Point, topR: Point, bottomR: Point, bottomL: Point,
 
     private def drawString(g: Graphics2D): Unit = 
         g.setColor(BLACK)
-        g.setFont(new Font("Times Roman", Font.BOLD, 45))
-        g.drawString(text, topL.x + (width/4.5).toInt, bottomL.y - (height/3.3).toInt)
+        g.setFont(new Font("Times Roman", Font.BOLD, 40))
+        g.drawString(text, topL.x + (width/5.2).toInt, bottomL.y - (height/3.3).toInt)
     
     override def clicked(c: ControllerInterface): Unit = 
         if(visible) 
@@ -99,8 +103,8 @@ case class LowButton(topL: Point, topR: Point, bottomR: Point, bottomL: Point, c
 
     private def drawString(g: Graphics2D): Unit = 
         g.setColor(BLACK)
-        g.setFont(new Font("Times Roman", Font.BOLD, 45))
-        g.drawString(text, topL.x + (width/5.5).toInt, bottomL.y - (height/3.3).toInt)
+        g.setFont(new Font("Times Roman", Font.BOLD, 40))
+        g.drawString(text, topL.x + (width/5.3).toInt, bottomL.y - (height/3.3).toInt)
 
     override def clicked(c: ControllerInterface): Unit = 
         if(visible) c.doAndPublish(c.chooseRiskType,"low")
@@ -122,8 +126,8 @@ case class HighButton(topL: Point, topR: Point, bottomR: Point, bottomL: Point, 
 
     private def drawString(g: Graphics2D): Unit = 
         g.setColor(BLACK)
-        g.setFont(new Font("Times Roman", Font.BOLD, 45))
-        g.drawString(text, topL.x + (width/6).toInt, bottomL.y - (height/3.3).toInt)
+        g.setFont(new Font("Times Roman", Font.BOLD, 40))
+        g.drawString(text, topL.x + (width/5.3).toInt, bottomL.y - (height/3.3).toInt)
 
     override def clicked(c: ControllerInterface): Unit = 
         if(visible) c.doAndPublish(c.chooseRiskType, "high")
@@ -146,8 +150,8 @@ case class BackButton(topL: Point, topR: Point, bottomR: Point, bottomL: Point, 
 
     private def drawString(g: Graphics2D): Unit = 
         g.setColor(BLACK)
-        g.setFont(new Font("Times Roman", Font.BOLD, 45))
-        g.drawString(text, topL.x + (width/9).toInt, bottomL.y - (height/3.3).toInt)
+        g.setFont(new Font("Times Roman", Font.BOLD, 40))
+        g.drawString(text, topL.x + (width/7).toInt, bottomL.y - (height/3.3).toInt)
 
     override def clicked(c: ControllerInterface): Unit = 
         if(visible) c.undo()
@@ -172,8 +176,8 @@ case class CoinButton(topL: Point, topR: Point, bottomR: Point, bottomL: Point, 
 
     private def drawString(g: Graphics2D): Unit = 
         g.setColor(BLACK)
-        g.setFont(new Font("Times Roman", Font.BOLD, 45))
-        g.drawString(text, topL.x + (width/7).toInt, bottomL.y - (height/3.3).toInt)
+        g.setFont(new Font("Times Roman", Font.BOLD, 40))
+        g.drawString(text, topL.x + (width/5.6).toInt, bottomL.y - (height/3.3).toInt)
 
     override def clicked(c: ControllerInterface): Unit = 
         if(visible) clicks += 1
@@ -200,8 +204,8 @@ case class DealButton(topL: Point, topR: Point, bottomR: Point, bottomL: Point, 
     
     private def drawString(g: Graphics2D): Unit = 
         g.setColor(BLACK)
-        g.setFont(new Font("Times Roman", Font.BOLD, 45))
-        g.drawString(text, topL.x + (width/8).toInt, bottomL.y - (height/3.3).toInt)
+        g.setFont(new Font("Times Roman", Font.BOLD, 40))
+        g.drawString(text, topL.x + (width/6).toInt, bottomL.y - (height/3.3).toInt)
 
     def setCoinButton(b: CoinButton): DealButton = 
         button = b
@@ -235,4 +239,6 @@ case class DealButton(topL: Point, topR: Point, bottomR: Point, bottomL: Point, 
                 controller.doAndPublish(controller.dealCards())
         else if(visible && holdState)
             controller.doAndPublish(controller.holdCards, processCardRects)
+            leaved()
+            gui.repaint()
             

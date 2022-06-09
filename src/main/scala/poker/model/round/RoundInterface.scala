@@ -17,6 +17,7 @@ trait RoundInterface extends Stateable:
     var updateMessage: String
     var riskType: Option[RiskType] = None 
     var combination: Option[Combination] = None
+    def getOutcome(): Int
     def getCombinationHand(): Option[Array[CardInterface]]
     def getHandOfPlayer(): Array[CardInterface]
     def copyRound() : RoundInterface

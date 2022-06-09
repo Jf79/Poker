@@ -235,5 +235,4 @@ case class DealButton(topL: Point, topR: Point, bottomR: Point, bottomL: Point, 
                 controller.doAndPublish(controller.dealCards())
         else if(visible && holdState)
             controller.doAndPublish(controller.holdCards, processCardRects)
-
             

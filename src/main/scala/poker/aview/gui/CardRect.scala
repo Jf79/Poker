@@ -38,6 +38,8 @@ case class CardRect(topL: Point, topR: Point, bottomR: Point, bottomL: Point, co
     def setCard(s: Symbol, p: Picture): CardRect = 
         if(s.equals(Symbol.HEART) || s.equals(Symbol.DIAMOND))
             cardColor = Color.RED.darker.darker
+        else
+            cardColor = Color.BLACK
         symbol = Some(s)
         picture = Some(p)
         cardIsSet = true
@@ -55,7 +57,7 @@ case class CardRect(topL: Point, topR: Point, bottomR: Point, bottomL: Point, co
             backgroundColor = newWhite
             stroke = clickStroke
             isClicked = true
-            borderColor = Color.CYAN.darker.darker
+            borderColor = Color.RED.darker
 
     def enter(): Unit = 
         if(!clickAble)

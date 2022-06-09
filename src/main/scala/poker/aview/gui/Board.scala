@@ -44,11 +44,8 @@ case class BoardRow(topL: Point, topR: Point, bottomR: Point, bottomL: Point, co
     val stroke = new BasicStroke(4)
 
     def repaint(g: Graphics2D): Unit =  
-        g.setColor(Color.BLACK)
+        g.setColor(Color.BLUE)
         g.fillRect(topL.x, topL.y, topR.x - topL.x, bottomR.y - topR.y)
-        g.setColor(color)
-        g.setStroke(stroke)
-        g.drawRect(topL.x, topL.y, topR.x - topL.x, bottomR.y - topR.y)
 
 case class BoardColumn(topL: Point, topR: Point, bottomR: Point, bottomL: Point, color: Color) 
     extends MyContent:
@@ -67,7 +64,7 @@ case class CombinationBoard(topL: Point, topR: Point, bottomR: Point, bottomL: P
     extends MyContent:
 
     val edges = 20
-    val stroke = new BasicStroke(6)
+    val stroke = new BasicStroke(8)
     val rows: Array[BoardRow] = new Array(9)  
     val columns: Array[BoardColumn] = new Array(6) 
     val columnHeight: Int = height
@@ -76,6 +73,10 @@ case class CombinationBoard(topL: Point, topR: Point, bottomR: Point, bottomL: P
     val rowWidth: Int = width
     val rowHeight: Int = (height/ rows.length).toInt
     var riskType: Option[RiskType] = None
+    var combination: Option[Combination] = None
+
+    def setCombination(comb: Combination) =
+        combination = Some(comb)
 
     def create(): CombinationBoard = 
         for(i <- 0 until rows.length)
@@ -99,15 +100,15 @@ case class CombinationBoard(topL: Point, topR: Point, bottomR: Point, bottomL: P
     def isEntered(p: Point): Boolean = 
         p.x > topL.x && p.y > topL.y && p.x < topR.x && p.y < bottomL.y
     
-    def repaint(g: Graphics2D, click: Option[Int], combination: Option[Combination], c: ControllerInterface): Unit = 
+    def repaint(g: Graphics2D, click: Option[Int], c: ControllerInterface): Unit = 
         if(!c.round.isEmpty) riskType = c.round.get.riskType
         g.setColor(Color.BLACK)
         g.fillRoundRect(topL.x, topL.y, width, height, edges, edges)
-        //g.setColor(BLUE)
+        g.setColor(BLUE)
         //g.fillRect(rows(0).topL.x, rows(0).topL.y, rows(0).width, rows(0).height+5)
         if(combination.isDefined)
             if(combination.get.getRank < 10 || riskType.get.lowestCombination.equals("Pair"))
-                rows(combination.get.getRank).repaint(g)
+                rows(combination.get.getRank - 1).repaint(g)
         columns.foreach(c => if(columns.indexOf(c) != 0) c.repaint(g, stroke, false))
         if(click.isDefined) columns(click.get + 1).repaint(g, stroke, true)
         drawStrings(g)

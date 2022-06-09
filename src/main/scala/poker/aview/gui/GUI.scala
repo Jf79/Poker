@@ -104,15 +104,19 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
         }
     
     private def roundState(g: Graphics2D): Unit = 
-        combBoard.repaint(g, None, None, controller)
+        combBoard.repaint(g, None, controller)
         messageBoard.repaint(g, null)
         val roundState = controller.getStateOfRound().toString
         roundState match {
             case "Risk" => chooseRiskType(g)
             case "Bet" => setBet(g)
             case "Hold" => holdCards(g)
-            case "Evaluation" => evaluation(g)
-            case "End" => 
+            case "Evaluation" => {
+                    paintOldCards(g)
+                    checkCombination//
+                    paintOldCards(g)
+            }
+            case "End" => evaluation(g)
         }
     
     private def holdCards(g: Graphics2D) = 
@@ -130,15 +134,21 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
         paintCards(g)
         refreshCardRects
 
-    private def checkCombination() = ???
+    private def checkCombination = 
+        controller.doAndPublish(controller.evaluation())
+        new Thread(new Runnable{
+            override def run(): Unit = 
+                Thread.sleep(1000)
+                combBoard.setCombination(controller.round.get.combination.get)
+        }).start()
     
     private def paintOldCards(g: Graphics2D) : Unit = 
         val hand = controller.getHandOfPlayer()
         for(j <- 0 until 5)
             if(cardRects(j).isHolded)
                 cardRects(j).repaint(g)
-            repaint()
-    
+        repaint()
+
     private def paintCards(g: Graphics2D) : Unit = 
         val hand = controller.getHandOfPlayer()
         val size = hand.length
@@ -147,12 +157,13 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
                 val symbol = hand(j).symbol
                 val picture = hand(j).picture
                 cardRects(j).setCard(symbol, picture).setClickable(true).setVisible(true).repaint(g)
-                sleep(25)
+                sleep(35)
             if(!cardRects(j).isHolded)
                 cardRects(j).repaint(g)
+            repaint()
         checkCardsPainted
-        
-    private def checkCardsPainted =
+    
+    private def checkCardsPainted: Unit =
         if(numberOfCardsPainted.get < 5) 
             numberOfCardsPainted = Some(numberOfCardsPainted.get + 1)
         else
@@ -174,10 +185,9 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
         buttonMap.get("BackButton").get.setVisible(true).repaint(g)
         val coin = buttonMap.get("CoinButton").get.setVisible(true).asInstanceOf[CoinButton]
         coin.repaint(g)
-        println(coin.getClick)
         buttonMap.get("DealButton").get.setVisible(true).asInstanceOf[DealButton]
         .setCoinButton(coin).setHoldState(false).repaint(g)
-        combBoard.repaint(g, Some(coin.getClick), None, controller)
+        combBoard.repaint(g, Some(coin.getClick), controller)
     
     private def chooseRiskType(g: Graphics2D) = 
         messageBoard.repaint(g, handleFailure("Which type of\n   game you\nwant to play?"))
@@ -188,7 +198,7 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
     
     private def startState(g: Graphics2D): Unit = 
         messageBoard.repaint(g, " Do you want\n to continue ?")
-        combBoard.repaint(g, None, None, controller)
+        combBoard.repaint(g, None, controller)
         buttonMap.get("IntroButton").get.setVisible(false)
         buttonMap.get("ExitButton").get.setVisible(true).repaint(g)
         buttonMap.get("StartButton").get.setVisible(true).repaint(g)

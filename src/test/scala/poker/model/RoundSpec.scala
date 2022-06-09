@@ -13,6 +13,7 @@ import util.Combination._
 import poker.model.round.RiskType
 import poker.model.round.BetEvent
 import poker.model.card.CardInterface
+import poker.util.Combination
 
 class RoundSpec extends AnyWordSpec with Matchers {
   val player = new Player(1000)
@@ -21,20 +22,31 @@ class RoundSpec extends AnyWordSpec with Matchers {
   var round = new Round(player, deck)
   round.bet = Some(10)
   round.dealCards()
-  round.riskType = Some(RiskType("low", 10))
+  round.riskType = Some(RiskType("high", 10))
   round.updateMessage = "hello"
 
   "A Round " when {
     val hand: Array[CardInterface] = Array(new Card(Symbol.DIAMOND, Picture.EIGHT, 8), new Card(Symbol.HEART, Picture.EIGHT, 8)
-    ,new Card(Symbol.DIAMOND, Picture.KING, 13),new Card(Symbol.CLUB, Picture.EIGHT, 8)
+    ,new Card(Symbol.DIAMOND, Picture.KING, 13),new Card(Symbol.CLUB, Picture.THREE, 8)
     ,new Card(Symbol.HEART, Picture.TWO, 2))
-    val left: Array[CardInterface] = Array(new Card(Symbol.DIAMOND, Picture.KING, 13),new Card(Symbol.HEART, Picture.TWO, 2))
+    val left: Array[CardInterface] = Array(new Card(Symbol.CLUB, Picture.THREE, 8),new Card(Symbol.DIAMOND, Picture.KING, 13),new Card(Symbol.HEART, Picture.TWO, 2))
     "you call filterCombination() with a valid combination" should {
       "return the cards in the combination" in {
         val cards = round.filterCombination((Some(PAIR), Some(left)), Some(hand))
-        cards.get.length should be(3)
+        cards.get.length should be(2)
         cards.get(0).picture should be(Picture.EIGHT)
         cards.get(1).picture should be(Picture.EIGHT)
+      }
+    }
+    
+    "you call checkCombination() with a valid hand" should {
+      val hand: Array[CardInterface] = Array(new Card(Symbol.DIAMOND, Picture.EIGHT, 8), new Card(Symbol.HEART, Picture.EIGHT, 8)
+      ,new Card(Symbol.DIAMOND, Picture.KING, 13),new Card(Symbol.CLUB, Picture.THREE, 3)
+      ,new Card(Symbol.HEART, Picture.TWO, 2))
+      "return the combination and the hand of the combination" in {
+        val tuple = round.checkCombination(hand)
+        tuple._1.get should be(Combination.PAIR)
+        tuple._2.get.length should be(2)
       }
     }
   }

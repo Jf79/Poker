@@ -18,6 +18,9 @@ case class MessageBoard(topL: Point, topR: Point, bottomR: Point, bottomL: Point
 
     val stroke = new BasicStroke(4)
     val edges = 30
+    var combination: Option[Combination] = None
+
+    def setCombination(c: Option[Combination]) = combination = c
 
     def repaint(g: Graphics2D, message: String): Unit =  
         g.setColor(Color.BLACK.brighter)
@@ -27,6 +30,9 @@ case class MessageBoard(topL: Point, topR: Point, bottomR: Point, bottomL: Point
         g.drawRoundRect(topL.x, topL.y, topR.x - topL.x, bottomR.y - topR.y, edges, edges)
         if(message != null)
             drawString(g, message)
+        else if(combination.isDefined)
+            drawString(g, combination.get.getName)
+
 
     private def drawString(g: Graphics2D, message: String) = 
         val m = message.split("\n")
@@ -41,11 +47,11 @@ case class MessageBoard(topL: Point, topR: Point, bottomR: Point, bottomL: Point
 case class BoardRow(topL: Point, topR: Point, bottomR: Point, bottomL: Point, color: Color) 
     extends MyContent:
     
-    val stroke = new BasicStroke(4)
+    val stroke = new BasicStroke(5)
 
     def repaint(g: Graphics2D): Unit =  
-        g.setColor(Color.BLUE)
-        g.fillRect(topL.x, topL.y, topR.x - topL.x, bottomR.y - topR.y)
+        g.setColor(Color.BLUE.darker)
+        g.fillRect(topL.x, topL.y -2, topR.x - topL.x, bottomR.y - topR.y + 4)
 
 case class BoardColumn(topL: Point, topR: Point, bottomR: Point, bottomL: Point, color: Color) 
     extends MyContent:
@@ -75,8 +81,8 @@ case class CombinationBoard(topL: Point, topR: Point, bottomR: Point, bottomL: P
     var riskType: Option[RiskType] = None
     var combination: Option[Combination] = None
 
-    def setCombination(comb: Combination) =
-        combination = Some(comb)
+    def setCombination(comb: Option[Combination]) =
+        combination = comb
 
     def create(): CombinationBoard = 
         for(i <- 0 until rows.length)
@@ -105,7 +111,6 @@ case class CombinationBoard(topL: Point, topR: Point, bottomR: Point, bottomL: P
         g.setColor(Color.BLACK)
         g.fillRoundRect(topL.x, topL.y, width, height, edges, edges)
         g.setColor(BLUE)
-        //g.fillRect(rows(0).topL.x, rows(0).topL.y, rows(0).width, rows(0).height+5)
         if(combination.isDefined)
             if(combination.get.getRank < 10 || riskType.get.lowestCombination.equals("Pair"))
                 rows(combination.get.getRank - 1).repaint(g)

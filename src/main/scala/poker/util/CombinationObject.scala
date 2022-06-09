@@ -27,9 +27,10 @@ object CombinationObject:
       leftCards = Some(hasThreeOfAKind(hand)._2)
     else if (hasTwoPair(hand)._1)
       combination = Some(TWO_PAIR)
-      leftCards = Some(hasThreeOfAKind(hand)._2)
+      leftCards = Some(Array(hasTwoPair(hand)._2))
     else if (hasPair(hand)._1)
       combination = Some(PAIR)
+      leftCards = Some(hasPair(hand)._2)
     else 
       combination = Some(NOTHING)
     (combination, leftCards)

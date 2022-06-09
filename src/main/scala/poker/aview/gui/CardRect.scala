@@ -23,6 +23,7 @@ case class CardRect(topL: Point, topR: Point, bottomR: Point, bottomL: Point, co
     val symbolFont = new Font("Times Roman", Font.BOLD, 130)
     val pictureFont = new Font("Times Roman", Font.BOLD, 70)
 
+    var partOfCombination = false
     var isHolded = false
     var isClicked = false
     var cardIsSet = false
@@ -45,6 +46,8 @@ case class CardRect(topL: Point, topR: Point, bottomR: Point, bottomL: Point, co
         cardIsSet = true
         this
 
+    def setPartOfCombination(b: Boolean) = partOfCombination = b
+    
     def clicked(): Unit =
         if(!clickAble)
             return
@@ -75,8 +78,12 @@ case class CardRect(topL: Point, topR: Point, bottomR: Point, bottomL: Point, co
     def areEquals(x: Symbol, y: Picture): Boolean = x.equals(symbol) && y.equals(picture)
 
     def repaint(g: Graphics2D) =
-        g.setColor(borderColor)
-        g.setStroke(stroke)
+        if(partOfCombination)
+            g.setColor(Color.BLUE)
+            g.setStroke(clickStroke)
+        else
+            g.setColor(borderColor)
+            g.setStroke(stroke)
         g.drawRoundRect(topL.x, topL.y, width, height, edges, edges)
         g.setColor(backgroundColor)
         g.fillRoundRect(topL.x, topL.y, width, height, edges, edges)

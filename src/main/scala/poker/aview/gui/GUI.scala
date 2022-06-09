@@ -32,6 +32,7 @@ import scala.swing.Component
 import scala.swing.event.MouseMoved
 import scala.swing.event.MousePressed
 import scala.collection.mutable.HashMap
+import poker.model.card.CardInterface
 
 
 class GUI(controller: ControllerInterface) extends Frame with Observer:
@@ -111,12 +112,8 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
             case "Risk" => chooseRiskType(g)
             case "Bet" => setBet(g)
             case "Hold" => holdCards(g)
-            case "Evaluation" => {
-                    paintOldCards(g)
-                    checkCombination//
-                    paintOldCards(g)
-            }
-            case "End" => evaluation(g)
+            case "Evaluation" => evaluation(g)
+            case "End" => end(g)
         }
     
     private def holdCards(g: Graphics2D) = 
@@ -127,21 +124,52 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
         .asInstanceOf[DealButton].setCardRects(this).setCoinButton(null).setHoldState(true).repaint(g)
         paintCards(g)
     
-    private def evaluation(g: Graphics2D) =
-        messageBoard.repaint(g, null)
+    private def evaluation(g: Graphics2D) = 
+        paintOldCards(g)
+        checkCombination
+        paintOldCards(g)
+    
+    private def end(g: Graphics2D) =
         buttonMap.get("DealButton").get.setVisible(false)
         paintOldCards(g)
         paintCards(g)
         refreshCardRects
+        messageBoard.repaint(g, null)
 
     private def checkCombination = 
         controller.doAndPublish(controller.evaluation())
-        new Thread(new Runnable{
+        new Thread(new Runnable {
             override def run(): Unit = 
-                Thread.sleep(1000)
-                combBoard.setCombination(controller.round.get.combination.get)
+                sleep(1000)
+                val comb = controller.round.get.combination
+                //messageBoard.setCombination(comb)
+                setHandOfCombination()
+                for(i <- 0 until 10)
+                    if(i%2 == 0)
+                        combBoard.setCombination(comb)
+                    else
+                        combBoard.setCombination(None)
+                    sleep(300)
+                combBoard.setCombination(comb)        
+                sleep(4000)
+                controller.startTheGame()
+                prepare
         }).start()
     
+    private def setHandOfCombination() =
+        val handOfComb = controller.round.get.getCombinationHand()
+        val hand = controller.round.get.getHandOfPlayer()
+        println(handOfComb.isDefined)
+        if(handOfComb.isDefined)
+            println(handOfComb.get)
+        if(handOfComb.isDefined)
+            handOfComb.get.foreach(card =>
+                val index = hand.indexOf(card)
+                if(index != -1)
+                    cardRects(index).setPartOfCombination(true)
+            )
+        
+
     private def paintOldCards(g: Graphics2D) : Unit = 
         val hand = controller.getHandOfPlayer()
         for(j <- 0 until 5)
@@ -226,7 +254,7 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
         if(e.point.x < 40 && e.point.y < 40)
             dispose()
         if(clickedButtons(e.point) || clickedCards(e.point))
-           repaint()
+            repaint()
     
     private def clickedButtons(point: Point): Boolean =
         val buttonKeys = buttonMap.keySet

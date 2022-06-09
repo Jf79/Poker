@@ -108,14 +108,20 @@ case class Round(player: PlayerInterface, var deck: Array[CardInterface]) extend
     (tuple._1, filterCombination(tuple, Some(hand)))
         
   def filterCombination(tuple: (Option[Combination], Option[Array[CardInterface]]), hand: Option[Array[CardInterface]]) : Option[Array[CardInterface]]=
-    if(!tuple._1.equals(Combination.NOTHING) && !tuple._2.isEmpty)
-      val leftCards = tuple._2.get
-      return Some(hand.get.filterNot(leftCards.contains(_)))
+    if(!tuple._1.get.equals(Combination.NOTHING))
+      var leftCards: Option[Array[CardInterface]] = None
+      if(!tuple._2.isEmpty)
+        leftCards = tuple._2
+      else
+        leftCards = Some(Array())
+      return Some(hand.get.filterNot(leftCards.get.contains(_)))
     None
   
   override def hasEnoughCredit(): Boolean =  player.getMoney() > 0
   
   override def getHandOfPlayer(): Array[CardInterface] = hand.get 
+
+  override def getCombinationHand(): Option[Array[CardInterface]] = combinationHand
 
   override def toString = updateMessage
 

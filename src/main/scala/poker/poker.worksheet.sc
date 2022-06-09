@@ -1,6 +1,3 @@
-import poker.model._
-import java.io
-import poker.model.CardsObject._
 
 val array = Array(10,20,30,40,50)
 array.indexOf(5)

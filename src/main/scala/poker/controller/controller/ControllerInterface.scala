@@ -20,7 +20,7 @@ trait ControllerInterface extends Observable:
     def doAndPublish(setbet: Int => RoundInterface, bet: Int): Unit 
     def doAndPublish(doThis: => RoundInterface): Unit 
     def doAndPublish(holdcards: Vector[Int] => RoundInterface, holdedCards: Vector[Int]): Unit
-   
+
     def startIntro(): Unit
     def startTheGame(): Unit
     def endTheGame(): Unit
@@ -34,6 +34,7 @@ trait ControllerInterface extends Observable:
     def createDeck(): Array[CardInterface]
     def hasEnoughCredit(): Boolean
     def getHandOfPlayer(): Array[CardInterface]
+    def getCreditOfPlayer(): Int
     def clearUndoManager(): Unit
     def undo(): Unit
 

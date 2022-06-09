@@ -12,7 +12,7 @@ class TUI(controller: ControllerInterface) extends Observer:
 
     def run =
         controller.startIntro()
-        readLine()
+        readLine
         controller.startTheGame()
         gameLoop()
 
@@ -48,6 +48,7 @@ class TUI(controller: ControllerInterface) extends Observer:
                 case "Evaluation" => evaluation()
                 case "End" => {
                     checkCredit()
+                    readLine
                     running = false
                 }
             }

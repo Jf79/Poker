@@ -117,6 +117,7 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
         }
     
     private def holdCards(g: Graphics2D) = 
+        //drawBet(g)
         messageBoard.repaint(g, handleFailure("  Which cards\n         you\n  wanna hold ?"))
         buttonMap.get("BackButton").get.setVisible(false)
         buttonMap.get("CoinButton").get.setVisible(false)
@@ -154,7 +155,7 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
                 combBoard.setCombination(comb)        
                 if(comb.get.getRank < 10)
                     for(i <- 0 until 15)
-                        if(i%2 == 0)
+                        if(i % 2 == 0)
                             combBoard.setCombination(comb)
                         else
                             combBoard.setCombination(None)
@@ -216,6 +217,8 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
         )
 
     private def setBet(g: Graphics2D) = 
+        drawPlayerCredit(g)
+        drawCoin(g)
         messageBoard.repaint(g, handleFailure("  Please place\n     your bet"))
         buttonMap.get("LowButton").get.setVisible(false)
         buttonMap.get("HighButton").get.setVisible(false)
@@ -227,6 +230,7 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
         combBoard.repaint(g, Some(coin.getClick), controller)
     
     private def chooseRiskType(g: Graphics2D) = 
+        drawPlayerCredit(g)
         messageBoard.repaint(g, handleFailure(" Which type of\n    game you\n want to play?"))
         buttonMap.get("ExitButton").get.setVisible(false)
         buttonMap.get("StartButton").get.setVisible(false)
@@ -234,6 +238,7 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
         buttonMap.get("HighButton").get.setVisible(true).repaint(g)
     
     private def startState(g: Graphics2D): Unit = 
+        drawPlayerCredit(g)
         if(!controller.hasEnoughCredit())
             notEnoughCredit(g)
             return
@@ -256,6 +261,28 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
         buttonMap.get("ExitButton").get.setVisible(true).asInstanceOf[ExitButton]
         .setText("EXIT").repaint(g)
 
+    private def drawPlayerCredit(g: Graphics2D) =
+        g.setColor(BLACK)
+        g.setFont(new Font("Arial", Font.BOLD, 42))
+        val credit = controller.getCreditOfPlayer()
+        g.drawString("CREDIT:    ", messageBoard.bottomL.x + 10, messageBoard.bottomL.y + 55)
+        g.drawString(credit.toString, messageBoard.bottomL.x + 260, messageBoard.bottomL.y + 55)
+
+    private def drawCoin(g: Graphics2D) =
+        g.setColor(BLACK)
+        g.setFont(new Font("Arial", Font.BOLD, 42))
+        val credit = controller.getCreditOfPlayer()
+        g.drawString("COIN:    ", messageBoard.bottomL.x + 60, messageBoard.bottomL.y + 100)
+        g.drawString(controller.round.get.riskType.get.getMinimumBet.toString, messageBoard.bottomL.x + 260, messageBoard.bottomL.y + 100)
+
+    private def drawBet(g: Graphics2D) =
+        g.setColor(BLACK)
+        g.setFont(new Font("Arial", Font.BOLD, 42))
+        val bet = controller.round.get.getBet().toString
+        g.drawString("BET:    ", messageBoard.bottomL.x + 10, messageBoard.bottomL.y + 55)
+        g.drawString(bet, messageBoard.bottomL.x + 260, messageBoard.bottomL.y + 55)
+
+ 
     
     private def handleFailure(message: String): String =
         if(!controller.round.get.failed) return message

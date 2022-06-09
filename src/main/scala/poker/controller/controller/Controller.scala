@@ -96,6 +96,8 @@ case class Controller(player: PlayerInterface) extends ControllerInterface:
   def undo() = round = Some(undoManager.undoStep(round.get))
 
   def getHandOfPlayer(): Array[CardInterface] = round.get.getHandOfPlayer()
+
+  def getCreditOfPlayer(): Int = player.getMoney()
   
   // toString
   override def toString =

@@ -125,5 +125,7 @@ case class Round(player: PlayerInterface, var deck: Array[CardInterface]) extend
 
   override def getOutcome(): Int = outcome
 
+  override def getBet(): Int = bet.get
+
   override def toString = updateMessage
 

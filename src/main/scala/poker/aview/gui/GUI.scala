@@ -117,7 +117,6 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
         }
     
     private def holdCards(g: Graphics2D) = 
-        //drawBet(g)
         messageBoard.repaint(g, handleFailure("  Which cards\n         you\n  wanna hold ?"))
         buttonMap.get("BackButton").get.setVisible(false)
         buttonMap.get("CoinButton").get.setVisible(false)
@@ -148,7 +147,7 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
         controller.doAndPublish(controller.evaluation())
         new Thread(new Runnable {
             override def run(): Unit = 
-                sleep(700)
+                sleep(800)
                 val comb = controller.round.get.combination
                 messageBoard.setCombination(drawResult())
                 setHandOfCombination()

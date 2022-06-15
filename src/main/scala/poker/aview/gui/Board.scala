@@ -59,7 +59,7 @@ case class BoardColumn(topL: Point, topR: Point, bottomR: Point, bottomL: Point,
     def repaint(g: Graphics2D, stroke: BasicStroke, click: Boolean): Unit = 
         if(click)
             g.setColor(Color.RED.darker.darker)
-            g.fillRect(topL.x, topL.y, width, height)
+            g.fillRect(topL.x, topL.y, width - 4, height)
         g.setColor(color.darker)
         g.setStroke(stroke)
         //printf("topL.x: %d, topL.y: %d, bottomL.x: %d, bottomL.y: %d\n",topL.x, topL.y, bottomL.x, bottomL.y)
@@ -70,7 +70,7 @@ case class CombinationBoard(topL: Point, topR: Point, bottomR: Point, bottomL: P
     extends MyContent:
 
     val edges = 20
-    val stroke = new BasicStroke(8)
+    val stroke = new BasicStroke(9)
     val rows: Array[BoardRow] = new Array(9)  
     val columns: Array[BoardColumn] = new Array(6) 
     val columnHeight: Int = height

@@ -87,7 +87,6 @@ object Prepare:
         val cardHeight = 270
         val space = 30
         val cardRects: Array[CardRect] = new Array(5)
-        //val hand = getRandomCards(controller.createDeck(), 5)._1
         for(i <- 0 until cardRects.length)
             val pointX = startX + i * (cardWidth + space)
             val topL = new Point(pointX, startY)

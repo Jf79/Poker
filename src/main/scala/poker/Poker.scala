@@ -12,4 +12,5 @@ object start:
     val controller = new Controller(player)
     val tui = new TUI(controller)
     val gui = new GUI(controller)
-    gui.run
+    //gui.run
+    tui.run

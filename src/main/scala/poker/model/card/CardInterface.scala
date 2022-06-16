@@ -9,6 +9,7 @@ trait CardInterface:
     val symbol: Symbol
     val picture: Picture
     val value: Int
+    def toXml(): String
     def toString(): String
 
 object CreateCard :

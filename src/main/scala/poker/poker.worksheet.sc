@@ -1,8 +1,10 @@
+import scala.xml
 
 val array = Array(10,20,30,40,50)
 array.indexOf(5)
 val out = new java.io.PrintStream(System.out, true, "UTF-8");
 out.print("\u2660\uFE0F")
+
 
 /*
 

@@ -1,10 +1,14 @@
-package poker.model
+package poker
+package model
+
+import util.Symbol
+import util.Picture
 
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import scala.util.Random
 
-import CardsObject._
+import util.CardsObject._
 
 
 class CardsObject_Spec extends AnyWordSpec with Matchers { 

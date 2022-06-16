@@ -1,10 +1,11 @@
 package poker
 package aview
+package tui
 
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
-import controller.Controller
-import model.CardsObject._
+import controller.controller.Controller
+import util.CardsObject._
 
 class TUISpec extends AnyWordSpec with Matchers {
   "The TUI " when {

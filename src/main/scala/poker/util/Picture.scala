@@ -1,4 +1,5 @@
-package poker.model
+package poker
+package util
 
 enum Picture {
   case TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE,

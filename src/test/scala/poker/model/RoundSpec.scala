@@ -1,19 +1,78 @@
 package poker
 package model
 
+import player.Player
+import round.Round
+import round.State._
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
-import CardsObject._
-import Symbol._
-import Picture._
+import util.CardsObject._
+import util.Symbol
+import util.Picture
+import util.Combination._
+import poker.model.round.RiskType
+import poker.model.round.BetEvent
+import poker.model.card.CardInterface
+import poker.util.Combination
 
 class RoundSpec extends AnyWordSpec with Matchers {
   val player = new Player(1000)
   val bet = 100
   val deck = createCards()
   var round = new Round(player, deck)
+  round.bet = Some(10)
+  round.dealCards()
+  round.riskType = Some(RiskType("high", 10))
+  round.updateMessage = "hello"
 
-  "A round" when {
+  "A Round " when {
+    val hand: Array[CardInterface] = Array(new Card(Symbol.DIAMOND, Picture.EIGHT, 8), new Card(Symbol.HEART, Picture.EIGHT, 8)
+    ,new Card(Symbol.DIAMOND, Picture.KING, 13),new Card(Symbol.CLUB, Picture.THREE, 8)
+    ,new Card(Symbol.HEART, Picture.TWO, 2))
+    val left: Array[CardInterface] = Array(new Card(Symbol.CLUB, Picture.THREE, 8),new Card(Symbol.DIAMOND, Picture.KING, 13),new Card(Symbol.HEART, Picture.TWO, 2))
+    "you call filterCombination() with a valid combination" should {
+      "return the cards in the combination" in {
+        val cards = round.filterCombination((Some(PAIR), Some(left)), Some(hand))
+        cards.get.length should be(2)
+        cards.get(0).picture should be(Picture.EIGHT)
+        cards.get(1).picture should be(Picture.EIGHT)
+      }
+    }
+    
+    "you call checkCombination() with a valid hand" should {
+      val hand: Array[CardInterface] = Array(new Card(Symbol.DIAMOND, Picture.EIGHT, 8), new Card(Symbol.HEART, Picture.EIGHT, 8)
+      ,new Card(Symbol.DIAMOND, Picture.KING, 13),new Card(Symbol.CLUB, Picture.THREE, 3)
+      ,new Card(Symbol.HEART, Picture.TWO, 2))
+      "return the combination and the hand of the combination" in {
+        val tuple = round.checkCombination(hand)
+        tuple._1.get should be(Combination.PAIR)
+        tuple._2.get.length should be(2)
+      }
+    }
+  }
+
+  /*"A Round" when {
+    "you call the copy() method" should {
+      val newRound = round.copyRound().asInstanceOf[Round]
+      round.bet = Some(20)
+      round.dealCards()
+      round.riskType = Some(RiskType("high", 50))
+      round.updateMessage = "helloooooooooo"
+      round.player.addMoney(100)
+      println(newRound.bet.get)
+      newRound.hand.get.foreach(c => println(c.toString))
+      round.hand.get.foreach(c => println(c.toString))
+      println(newRound.riskType.get.message)
+      println(newRound.updateMessage)
+      println(newRound.player.getMoney())
+      println(round.player.getMoney())
+      round.handle(new BetEvent)
+      println(round.state.toString)
+      println(newRound.state.toString)
+    }
+  }*/
+
+  /*"A round" when {
     "its created" should {
       "have a player with money" in {
         round.player.money should be(1000)
@@ -29,14 +88,14 @@ class RoundSpec extends AnyWordSpec with Matchers {
   "The method setRiskType" when {
     "its called with 'high'" should {
       val round = new Round(new Player(300), createCards())
-      val newRound = round.setRiskType("high")
+      val newRound = round.setRiskType("high").get
       "choose the HighRisk strategy" in {
-        newRound.riskType.get should be(new HighRisk(null))
+        newRound.riskType.get should be(new HighRisk(30))
       }
     }
     "its called with 'low'" should {
       val round = new Round(new Player(300), createCards())
-      val newRound = round.setRiskType("low")
+      val newRound = round.setRiskType("low").get
       "choose the LowRisk strategy" in {
         newRound.riskType.get should be(new LowRisk())
       }
@@ -46,7 +105,7 @@ class RoundSpec extends AnyWordSpec with Matchers {
     val bet = 5
     "its called at LowRisk" should {
       val round = new Round(new Player(300), createCards())
-      val newRound = round.setRiskType("low")
+      val newRound = round.setRiskType("low").get
       newRound.setBet(bet)
       "set bet to the value of argument" in {
         newRound.bet.get should be(bet)
@@ -54,7 +113,7 @@ class RoundSpec extends AnyWordSpec with Matchers {
     }
     "its called at HighRisk" should {
       val round = new Round(new Player(300), createCards())
-      val newRound = round.setRiskType("high")
+      val newRound = round.setRiskType("high").get
       newRound.setBet(bet)
       "set bet to the value of argument, but at least 30 $" in {
         newRound.bet.get should be(30)
@@ -80,7 +139,7 @@ class RoundSpec extends AnyWordSpec with Matchers {
       round.dealCards()
       val oldHand = round.hand.get.clone
       "replace all cards" in {
-        val newRound = round.holdCards(Vector())
+        val newRound = round.holdCards(Vector()).get
         newRound.hand.get should not be(oldHand)
       }
     }
@@ -89,7 +148,7 @@ class RoundSpec extends AnyWordSpec with Matchers {
       round.dealCards()
       val oldHand = round.hand.get.clone
       "hold all cards" in {
-        val newRound = round.holdCards(Vector(1, 2, 3, 4, 5))
+        val newRound = round.holdCards(Vector(1, 2, 3, 4, 5)).get
         newRound.hand.get should be(oldHand)
       }
     }
@@ -161,9 +220,9 @@ class RoundSpec extends AnyWordSpec with Matchers {
     }
     "its called with an EndEvent" should {
       "return a BetState" in {
-        round.handle(new EndEvent) should be(new EndState(round))
+        round.handle(new EvaluationEvent) should be(new EvaluationState(round))
       }
     }
-  }
+  }*/
 
 }

@@ -1,4 +1,8 @@
-package poker.model
+package poker
+package model
+
+import util.Symbol
+import util.Picture
 
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec

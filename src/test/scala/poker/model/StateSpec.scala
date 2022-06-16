@@ -56,7 +56,7 @@ class StateSpec extends AnyWordSpec with Matchers {
             val newRound : Option[Round] = state.execute[Round, String](round.setRiskType,"low").
             asInstanceOf[Option[Round]]
             "set the riskType of the round to low" in {
-                newRound.get.riskType.get should be(RiskType("low"))
+                newRound.get.riskType.get should be (RiskType("low", null))
             }
         }
         "its executed with the argument 'high'" should {
@@ -66,7 +66,7 @@ class StateSpec extends AnyWordSpec with Matchers {
             execute[Round, String](round.setRiskType,"high").
             asInstanceOf[Option[Round]]
             "set the riskType of the round to high" in {
-                newRound.get.riskType.get should be(RiskType("high"))
+                newRound.get.riskType.get should be(RiskType("high", null))
             }
         }
         "its executed with the argument 'high' and not enough money" should {

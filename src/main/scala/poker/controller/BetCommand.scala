@@ -14,7 +14,6 @@ class BetCommand(bet: Int) extends Command[Round]:
         val nRound = round.state.execute(round.setBet, bet).get
         redo = Some(nRound) 
         nRound
-
     def undoStep(round: Round): Round = 
         if(undo.isEmpty) return round
         undo.get

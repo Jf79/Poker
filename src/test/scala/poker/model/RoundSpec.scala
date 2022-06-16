@@ -31,14 +31,14 @@ class RoundSpec extends AnyWordSpec with Matchers {
       val round = new Round(new Player(300), createCards())
       val newRound = round.setRiskType("high")
       "choose the HighRisk strategy" in {
-        newRound.riskType.get should be(new HighRisk)
+        newRound.riskType.get should be(new HighRisk(null))
       }
     }
     "its called with 'low'" should {
       val round = new Round(new Player(300), createCards())
       val newRound = round.setRiskType("low")
       "choose the LowRisk strategy" in {
-        newRound.riskType.get should be(new LowRisk)
+        newRound.riskType.get should be(new LowRisk())
       }
     }
   }

@@ -1,6 +1,6 @@
 package poker
 package controller
-package controller
+package controllerBaseImpl
 
 import util.Observable
 import util.Event
@@ -20,8 +20,9 @@ import util.State
 import util._
 import model.round.{BetState, RiskTypeState, DealCardsState, HoldCardsState, EvaluationState}
 import controller.ControllerInterface
+import com.google.inject.Inject
 
-case class Controller(player: PlayerInterface) extends ControllerInterface:
+case class Controller @Inject() (player: PlayerInterface) extends ControllerInterface:
 
   val undoManager = new UndoManager[RoundInterface]
   var round: Option[RoundInterface] = None

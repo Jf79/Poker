@@ -2,7 +2,7 @@ package poker
 package model
 
 import util.RiskType
-import player.Player
+import player.playerBaseImpl.Player
 import round.RiskType
 import scala.util.{Try, Success, Failure}
 import org.scalatest._

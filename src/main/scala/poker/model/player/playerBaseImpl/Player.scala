@@ -1,6 +1,7 @@
 package poker
 package model
 package player
+package playerBaseImpl
 
 case class Player(var money: Int) extends PlayerInterface:
   override def addMoney(m: Int): Int = 

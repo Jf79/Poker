@@ -217,7 +217,7 @@ case class DealButton(topL: Point, topR: Point, bottomR: Point, bottomL: Point, 
     
     def setCardRects(g: GUI): DealButton =
         gui = g
-        cardRects = g.cardRects
+        cardRects = g.cardRects.get
         this
     
     private def processCardRects: Vector[Int] =

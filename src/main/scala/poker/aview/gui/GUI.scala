@@ -35,7 +35,7 @@ import scala.collection.mutable.HashMap
 import poker.model.card.CardInterface
 
 
-class GUI(controller: ControllerInterface) extends Frame with Observer:
+class GUI(controller: ControllerInterface) extends Frame with UserInterface:
     controller.add(this)
 
     val WIDTH = 1400
@@ -50,10 +50,10 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
 
     var cardsPainted: Option[Boolean] = None
     var numberOfCardsPainted: Option[Int] = None
-    var cardRects: Array[CardRect] = null
-    var combBoard: CombinationBoard = null
-    var messageBoard: MessageBoard = null
-    var gameState: GameEvent = null
+    var cardRects: Option[Array[CardRect]] = None
+    var combBoard: Option[CombinationBoard] = None
+    var messageBoard: Option[MessageBoard] = None
+    var gameState: Option[GameEvent] = None
 
     title = "Poker"
     visible = true
@@ -62,20 +62,20 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
     size = new Dimension(WIDTH, HEIGHT)
 
     def run: Unit = 
-        gameState = GameEvent.INTRO
+        gameState = Some(GameEvent.INTRO)
         setPanel
 
     override def update(event: GameEvent) = 
-        gameState = event
+        gameState = Some(event)
         repaint()
 
     private def prepare: Unit = 
         prepareIntroButton(WIDTH, HEIGHT, buttonMap)
-        combBoard = prepareCombBoard(WIDTH, HEIGHT)
-        prepareFirstButtons(WIDTH, HEIGHT, combBoard, buttonMap)
-        prepareDealButton(WIDTH, HEIGHT, combBoard, buttonMap)
-        cardRects = prepareCards(WIDTH, HEIGHT)
-        messageBoard = prepareMessageBoard(WIDTH, HEIGHT, combBoard)
+        combBoard = Some(prepareCombBoard(WIDTH, HEIGHT))
+        prepareFirstButtons(WIDTH, HEIGHT, combBoard.get, buttonMap)
+        prepareDealButton(WIDTH, HEIGHT, combBoard.get, buttonMap)
+        cardRects = Some(prepareCards(WIDTH, HEIGHT))
+        messageBoard = Some(prepareMessageBoard(WIDTH, HEIGHT, combBoard.get))
         cardsPainted = Some(false)
         numberOfCardsPainted = Some(1)
 
@@ -95,7 +95,7 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
             preferredSize = new Dimension(WIDTH, HEIGHT)
             override def paintComponent(g: Graphics2D): Unit = 
                 paintBackground(g)
-                gameState match {
+                gameState.get match {
                     case GameEvent.INTRO => introState(g)
                     case GameEvent.START => startState(g)
                     case GameEvent.PLAY => roundState(g)
@@ -105,8 +105,8 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
         }
     
     private def roundState(g: Graphics2D): Unit = 
-        combBoard.repaint(g, None, controller)
-        messageBoard.repaint(g, null)
+        combBoard.get.repaint(g, None, controller)
+        messageBoard.get.repaint(g, null)
         val roundState = controller.getStateOfRound().toString
         roundState match {
             case "Risk" => chooseRiskType(g)
@@ -117,7 +117,7 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
         }
     
     private def holdCards(g: Graphics2D) = 
-        messageBoard.repaint(g, handleFailure("  Which cards\n         you\n  wanna hold ?"))
+        messageBoard.get.repaint(g, handleFailure("  Which cards\n         you\n  wanna hold ?"))
         buttonMap.get("BackButton").get.setVisible(false)
         buttonMap.get("CoinButton").get.setVisible(false)
         buttonMap.get("DealButton").get.setVisible(true)
@@ -145,24 +145,23 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
     
     private def checkCombination = 
         controller.doAndPublish(controller.evaluation())
-        new Thread(new Runnable {
-            override def run(): Unit = 
-                sleep(800)
-                val comb = controller.round.get.combination
-                messageBoard.setCombination(drawResult())
-                setHandOfCombination()
-                combBoard.setCombination(comb)        
-                if(comb.get.getRank < 10)
-                    for(i <- 0 until 15)
-                        if(i % 2 == 0)
-                            combBoard.setCombination(comb)
-                        else
-                            combBoard.setCombination(None)
-                        sleep(400)
-                else
-                    sleep(3000)
-                controller.startTheGame()
-                prepare
+        new Thread(() => {
+            sleep(800)
+            val comb = controller.round.get.combination
+            messageBoard.get.setCombination(drawResult())
+            setHandOfCombination()
+            combBoard.get.setCombination(comb)        
+            if(comb.get.getRank < 10)
+                for(i <- 0 until 15)
+                    if(i % 2 == 0)
+                        combBoard.get.setCombination(comb)
+                    else
+                        combBoard.get.setCombination(None)
+                    sleep(400)
+            else
+                sleep(3000)
+            controller.startTheGame()
+            prepare
         }).start()
     
     private def setHandOfCombination() =
@@ -175,28 +174,28 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
             handOfComb.get.foreach(card =>
                 val index = hand.indexOf(card)
                 if(index != -1)
-                    cardRects(index).setPartOfCombination(true)
+                    cardRects.get(index).setPartOfCombination(true)
             )
         
 
     private def paintOldCards(g: Graphics2D) : Unit = 
         val hand = controller.getHandOfPlayer()
         for(j <- 0 until 5)
-            if(cardRects(j).isHolded)
-                cardRects(j).repaint(g)
+            if(cardRects.get(j).isHolded)
+                cardRects.get(j).repaint(g)
         repaint()
 
     private def paintCards(g: Graphics2D) : Unit = 
         val hand = controller.getHandOfPlayer()
         val size = hand.length
         for(j <- 0 until numberOfCardsPainted.get)
-            if(!cardsPainted.get && !cardRects(j).isHolded)
+            if(!cardsPainted.get && !cardRects.get(j).isHolded)
                 val symbol = hand(j).symbol
                 val picture = hand(j).picture
-                cardRects(j).setCard(symbol, picture).setClickable(true).setVisible(true).repaint(g)
+                cardRects.get(j).setCard(symbol, picture).setClickable(true).setVisible(true).repaint(g)
                 sleep(35)
-            if(!cardRects(j).isHolded)
-                cardRects(j).repaint(g)
+            if(!cardRects.get(j).isHolded)
+                cardRects.get(j).repaint(g)
             repaint()
         checkCardsPainted
     
@@ -207,7 +206,7 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
             cardsPainted = Some(true)
     
     def refreshCardRects = 
-        cardRects.foreach(card =>
+        cardRects.get.foreach(card =>
             card.isClicked = false
             card.borderColor = card.color
             card.stroke = card.normalStroke
@@ -218,7 +217,7 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
     private def setBet(g: Graphics2D) = 
         drawPlayerCredit(g)
         drawCoin(g)
-        messageBoard.repaint(g, handleFailure("  Please place\n     your bet"))
+        messageBoard.get.repaint(g, handleFailure("  Please place\n     your bet"))
         buttonMap.get("LowButton").get.setVisible(false)
         buttonMap.get("HighButton").get.setVisible(false)
         buttonMap.get("BackButton").get.setVisible(true).repaint(g)
@@ -226,11 +225,11 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
         coin.repaint(g)
         buttonMap.get("DealButton").get.setVisible(true).asInstanceOf[DealButton]
         .setCoinButton(coin).setHoldState(false).repaint(g)
-        combBoard.repaint(g, Some(coin.getClick), controller)
+        combBoard.get.repaint(g, Some(coin.getClick), controller)
     
     private def chooseRiskType(g: Graphics2D) = 
         drawPlayerCredit(g)
-        messageBoard.repaint(g, handleFailure(" Which type of\n    game you\n want to play?"))
+        messageBoard.get.repaint(g, handleFailure(" Which type of\n    game you\n want to play?"))
         buttonMap.get("ExitButton").get.setVisible(false)
         buttonMap.get("StartButton").get.setVisible(false)
         buttonMap.get("LowButton").get.setVisible(true).repaint(g)
@@ -241,8 +240,8 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
         if(!controller.hasEnoughCredit())
             notEnoughCredit(g)
             return
-        messageBoard.repaint(g, "  Do you want\n  to continue ?")
-        combBoard.repaint(g, None, controller)
+        messageBoard.get.repaint(g, "  Do you want\n  to continue ?")
+        combBoard.get.repaint(g, None, controller)
         buttonMap.get("IntroButton").get.setVisible(false)
         buttonMap.get("ExitButton").get.setVisible(true).repaint(g)
         buttonMap.get("StartButton").get.setVisible(true).repaint(g)
@@ -254,8 +253,8 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
         buttonMap.get("IntroButton").get.setVisible(true).repaint(g)
     
     private def notEnoughCredit(g: Graphics2D): Unit = 
-        messageBoard.repaint(g, "You dont have\n    enough\ncredit to play")
-        combBoard.repaint(g, None, controller)
+        messageBoard.get.repaint(g, "You dont have\n    enough\ncredit to play")
+        combBoard.get.repaint(g, None, controller)
         buttonMap.get("IntroButton").get.setVisible(false)
         buttonMap.get("ExitButton").get.setVisible(true).asInstanceOf[ExitButton]
         .setText("EXIT").repaint(g)
@@ -264,22 +263,22 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
         g.setColor(BLACK)
         g.setFont(new Font("Arial", Font.BOLD, 42))
         val credit = controller.getCreditOfPlayer()
-        g.drawString("CREDIT:    ", messageBoard.bottomL.x + 10, messageBoard.bottomL.y + 55)
-        g.drawString(credit.toString, messageBoard.bottomL.x + 260, messageBoard.bottomL.y + 55)
+        g.drawString("CREDIT:    ", messageBoard.get.bottomL.x + 10, messageBoard.get.bottomL.y + 55)
+        g.drawString(credit.toString, messageBoard.get.bottomL.x + 260, messageBoard.get.bottomL.y + 55)
 
     private def drawCoin(g: Graphics2D) =
         g.setColor(BLACK)
         g.setFont(new Font("Arial", Font.BOLD, 42))
         val credit = controller.getCreditOfPlayer()
-        g.drawString("COIN:    ", messageBoard.bottomL.x + 60, messageBoard.bottomL.y + 100)
-        g.drawString(controller.round.get.riskType.get.getMinimumBet.toString, messageBoard.bottomL.x + 260, messageBoard.bottomL.y + 100)
+        g.drawString("COIN:    ", messageBoard.get.bottomL.x + 60, messageBoard.get.bottomL.y + 100)
+        g.drawString(controller.round.get.riskType.get.getMinimumBet.toString, messageBoard.get.bottomL.x + 260, messageBoard.get.bottomL.y + 100)
 
     private def drawBet(g: Graphics2D) =
         g.setColor(BLACK)
         g.setFont(new Font("Arial", Font.BOLD, 42))
         val bet = controller.round.get.getBet().toString
-        g.drawString("BET:    ", messageBoard.bottomL.x + 10, messageBoard.bottomL.y + 55)
-        g.drawString(bet, messageBoard.bottomL.x + 260, messageBoard.bottomL.y + 55)
+        g.drawString("BET:    ", messageBoard.get.bottomL.x + 10, messageBoard.get.bottomL.y + 55)
+        g.drawString(bet, messageBoard.get.bottomL.x + 260, messageBoard.get.bottomL.y + 55)
 
  
     
@@ -315,8 +314,8 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
     
     private def clickedCards(point: Point): Boolean =
         for(i <- 0 to 4)
-            if(cardRects(i).visible && cardRects(i).isEntered(point))
-                cardRects(i).clicked()
+            if(cardRects.get(i).visible && cardRects.get(i).isEntered(point))
+                cardRects.get(i).clicked()
                 return true
         false
     
@@ -336,9 +335,9 @@ class GUI(controller: ControllerInterface) extends Frame with Observer:
     private def enteredCards(point: Point): Boolean =
         var entered = false
         for(i <- 0 to 4)
-            if(cardRects(i).visible && cardRects(i).clickAble && cardRects(i).isEntered(point))
-                cardRects(i).enter()
+            if(cardRects.get(i).visible && cardRects.get(i).clickAble && cardRects.get(i).isEntered(point))
+                cardRects.get(i).enter()
                 entered = true
             else
-                cardRects(i).leaved()
+                cardRects.get(i).leaved()
         entered

@@ -1,6 +1,6 @@
 package poker
 package controller
-package controller
+package controllerBaseImpl
 
 import util.Command
 import model.round.RoundInterface

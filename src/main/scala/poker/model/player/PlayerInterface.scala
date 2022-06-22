@@ -2,6 +2,8 @@ package poker
 package model
 package player
 
+import playerBaseImpl.Player 
+
 trait PlayerInterface :
     def addMoney(m: Int): Int
     def getMoney(): Int

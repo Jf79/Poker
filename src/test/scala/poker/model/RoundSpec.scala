@@ -1,7 +1,7 @@
 package poker
 package model
 
-import player.Player
+import player.playerBaseImpl.Player
 import round.Round
 import round.State._
 import org.scalatest.matchers.should.Matchers

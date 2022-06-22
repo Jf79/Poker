@@ -3,7 +3,7 @@ package model
 
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
-import player.Player
+import player.playerBaseImpl.Player
 
 class PlayerSpec extends AnyWordSpec with Matchers {
   "A Player" when {

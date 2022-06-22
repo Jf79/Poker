@@ -7,7 +7,7 @@ import util.GameEvent
 import util._
 import controller.controller.ControllerInterface
 
-class TUI(controller: ControllerInterface) extends Observer:
+class TUI(controller: ControllerInterface) extends UserInterface:
     controller.add(this)
 
     def run =
@@ -25,7 +25,7 @@ class TUI(controller: ControllerInterface) extends Observer:
         }
     
     def gameLoop(): Unit = 
-        val input = readLine()
+        val input = readLine
         input match {
             case "q" => controller.endTheGame()
             case _ => {

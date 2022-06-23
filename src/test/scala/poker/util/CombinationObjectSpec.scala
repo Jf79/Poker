@@ -1,9 +1,10 @@
 package poker
-package model
+package util
 
 import util.Symbol
 import util.Picture
 
+import poker.model.card.cardBaseImpl.Card
 import util.CombinationObject._
 import util.Combination._
 import org.scalatest.matchers.should.Matchers

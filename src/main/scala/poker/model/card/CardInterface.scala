@@ -5,11 +5,14 @@ package card
 import util.Symbol
 import util.Picture
 
+
+import card.cardBaseImpl.Card
+import scala.xml.Elem
+
 trait CardInterface:
     val symbol: Symbol
     val picture: Picture
     val value: Int
-    def toXml(): String
     def toString(): String
 
 object CreateCard :

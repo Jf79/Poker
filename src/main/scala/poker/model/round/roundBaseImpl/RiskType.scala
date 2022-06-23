@@ -1,6 +1,7 @@
 package poker
 package model
 package round
+package roundBaseImpl
 
 import util.RiskType
 import util.Combination
@@ -31,6 +32,8 @@ case class HighRisk() extends RiskType :
         if(!c.isEmpty) return c
         None
     
+    override def toString(): String = "high"
+    
 
 case class LowRisk() extends RiskType :
     override def message: String = "Low Risk Round !"
@@ -59,6 +62,9 @@ case class LowRisk() extends RiskType :
             if(pair(0).value < 11)
                 return false
         true
+    
+    override def toString(): String = "low"
+
             
 
 object RiskType :

@@ -3,7 +3,6 @@ package util
 
 import Combination._
 import model.card.CardInterface
-
 object CombinationObject:
 
   def findCombination(hand: Array[CardInterface]): (Option[Combination], Option[Array[CardInterface]]) =

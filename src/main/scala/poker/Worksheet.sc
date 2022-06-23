@@ -4,8 +4,11 @@ val array = Array(10,20,30,40,50)
 array.indexOf(5)
 val out = new java.io.PrintStream(System.out, true, "UTF-8");
 out.print("\u2660\uFE0F")
-
-
+println("ko")
+println(3 + 5)
+val file = scala.xml.XML.loadFile("round.xml")
+val bet = (file \ "bet").text.toInt
+val hand = (file \ "hand")
 /*
 
 val card = new Card(Symbol.HEART, Picture.TWO, 2)

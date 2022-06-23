@@ -5,7 +5,7 @@ package tui
 import scala.io.StdIn._
 import util.GameEvent
 import util._
-import controller.controller.ControllerInterface
+import controller.ControllerInterface
 
 class TUI(controller: ControllerInterface) extends UserInterface:
     controller.add(this)

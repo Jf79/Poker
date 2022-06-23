@@ -1,19 +1,21 @@
 package poker
 package model
+package round
 
 import player.playerBaseImpl.Player
-import round.Round
-import round.State._
+import round.roundBaseImpl.Round
+import round.roundBaseImpl.State._
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import util.CardsObject._
 import util.Symbol
 import util.Picture
 import util.Combination._
-import poker.model.round.RiskType
-import poker.model.round.BetEvent
+import poker.model.round.roundBaseImpl.{RiskType,BetEvent}
 import poker.model.card.CardInterface
 import poker.util.Combination
+import poker.model.card.cardBaseImpl.Card
+import poker.model.round.roundBaseImpl.RiskType
 
 class RoundSpec extends AnyWordSpec with Matchers {
   val player = new Player(1000)

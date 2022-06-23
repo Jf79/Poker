@@ -21,7 +21,7 @@ import util.Symbol._
 import util.CardsObject._
 import gui.Prepare._
 
-import controller.controller.ControllerInterface
+import controller.ControllerInterface
 import scala.swing.Button
 import scala.swing.BorderPanel
 import scala.swing.event.MouseClicked

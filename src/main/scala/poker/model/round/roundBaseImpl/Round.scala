@@ -1,6 +1,7 @@
 package poker
 package model
 package round
+package roundBaseImpl
 
 import util.CardsObject._
 import util.CombinationObject._
@@ -10,16 +11,12 @@ import player.PlayerInterface
 import card.CardInterface
 
 import scala.util.{Try, Success, Failure}
+import scala.xml.Elem
 
 
 case class Round(player: PlayerInterface, var deck: Array[CardInterface]) extends RoundInterface:
 
-  var bet: Option[Int] = None
-  var hand: Option[Array[CardInterface]] = None
   var updateMessage: String = ""
-  var combinationHand: Option[Array[CardInterface]] = None
-  var outcome: Int = 0
-
   // stateable
   var state = StartState(this)
 
@@ -126,6 +123,8 @@ case class Round(player: PlayerInterface, var deck: Array[CardInterface]) extend
   override def getOutcome(): Int = outcome
 
   override def getBet(): Int = bet.get
+
+  override def getPlayer: PlayerInterface = player
 
   override def toString = updateMessage
 

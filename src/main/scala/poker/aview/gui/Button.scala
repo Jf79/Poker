@@ -8,7 +8,7 @@ import java.awt.Color._
 import java.awt.Graphics2D
 import java.awt.Font
 import java.awt.BasicStroke
-import controller.controller.ControllerInterface
+import controller.ControllerInterface
 
 
 case class IntroButton(topL: Point, topR: Point, bottomR: Point, bottomL: Point, color: Color, text: String) 

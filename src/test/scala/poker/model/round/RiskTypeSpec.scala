@@ -3,7 +3,7 @@ package model
 
 import util.RiskType
 import player.playerBaseImpl.Player
-import round.RiskType
+import round.roundBaseImpl.RiskType
 import scala.util.{Try, Success, Failure}
 import org.scalatest._
 import org.scalatest.wordspec.AnyWordSpec

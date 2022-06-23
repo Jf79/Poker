@@ -1,0 +1,61 @@
+{
+  "Round" : {
+    "Bet" : 40,
+    "Hand" : [ {
+      "Card" : {
+        "Symbol" : "Spade",
+        "Picture" : "NINE",
+        "Value" : 9
+      }
+    }, {
+      "Card" : {
+        "Symbol" : "Spade",
+        "Picture" : "QUEEN",
+        "Value" : 12
+      }
+    }, {
+      "Card" : {
+        "Symbol" : "Diamond",
+        "Picture" : "NINE",
+        "Value" : 9
+      }
+    }, {
+      "Card" : {
+        "Symbol" : "Diamond",
+        "Picture" : "QUEEN",
+        "Value" : 12
+      }
+    } ],
+    "RiskType" : "high",
+    "CombinationHand" : [ {
+      "Card" : {
+        "Symbol" : "Spade",
+        "Picture" : "NINE",
+        "Value" : 9
+      }
+    }, {
+      "Card" : {
+        "Symbol" : "Spade",
+        "Picture" : "QUEEN",
+        "Value" : 12
+      }
+    }, {
+      "Card" : {
+        "Symbol" : "Diamond",
+        "Picture" : "NINE",
+        "Value" : 9
+      }
+    }, {
+      "Card" : {
+        "Symbol" : "Diamond",
+        "Picture" : "QUEEN",
+        "Value" : 12
+      }
+    } ],
+    "Combination" : "TWO_PAIR",
+    "Outcome" : 80,
+    "Player" : {
+      "Money" : 281
+    }
+  }
+}

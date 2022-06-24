@@ -9,12 +9,13 @@ import controller.controllerBaseImpl.Controller
 import poker.model.player.PlayerInterface
 import poker.controller.ControllerInterface
 import poker.aview.UserInterface
+import poker.model.fileIO.fileIOjson.FileIO
 
 object Poker:
 
   @main def run: Unit =
     val injector = Guice.createInjector(new PokerModule)
-    val player = injector.getInstance(classOf[PlayerInterface])
-    val controller = injector.getInstance(classOf[ControllerInterface])
     val ui = injector.getInstance(classOf[UserInterface])
     ui.run
+
+

@@ -52,6 +52,7 @@ class TUI(controller: ControllerInterface) extends UserInterface:
                     running = false
                 }
             }
+            checkUndo()
         
     def createRound() = 
         controller.doAndPublish(controller.startRound, controller.createDeck())
@@ -83,7 +84,7 @@ class TUI(controller: ControllerInterface) extends UserInterface:
         
     def checkUndo() = 
         val s = controller.round.get.state
-        if(s.toString.equals("Deal"))
+        if(s.toString.equals("Deal")||s.toString.equals("Bet"))
             if(readLine("\nUndo ? (Y)(N)\n").equalsIgnoreCase("Y")) controller.undo()
 
     def processInput(input: Array[String]): Vector[Int] =

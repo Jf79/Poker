@@ -92,7 +92,7 @@ case class Round(player: PlayerInterface, var deck: Array[CardInterface]) extend
   // evaluation state
 
   override def evaluation(): Round = 
-    val comb = checkCombination(hand.get)
+    val comb = riskType.get.checkCombination(hand.get)
     combination = comb._1
     combinationHand = comb._2
     outcome = comb._1.get.getMultFactor * bet.get

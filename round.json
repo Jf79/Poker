@@ -3,54 +3,54 @@
     "Bet" : 10,
     "Hand" : [ {
       "Card" : {
-        "Symbol" : "Club",
-        "Picture" : "SEVEN",
-        "Value" : 7
+        "Symbol" : "Spade",
+        "Picture" : "JACK",
+        "Value" : 11
       }
     }, {
       "Card" : {
         "Symbol" : "Spade",
-        "Picture" : "TEN",
-        "Value" : 10
+        "Picture" : "EIGHT",
+        "Value" : 8
+      }
+    }, {
+      "Card" : {
+        "Symbol" : "Heart",
+        "Picture" : "ACE",
+        "Value" : 14
       }
     }, {
       "Card" : {
         "Symbol" : "Spade",
-        "Picture" : "FOUR",
-        "Value" : 4
+        "Picture" : "NINE",
+        "Value" : 9
       }
     }, {
       "Card" : {
-        "Symbol" : "Diamond",
-        "Picture" : "FIVE",
-        "Value" : 5
-      }
-    }, {
-      "Card" : {
-        "Symbol" : "Club",
-        "Picture" : "FIVE",
-        "Value" : 5
+        "Symbol" : "Heart",
+        "Picture" : "JACK",
+        "Value" : 11
       }
     } ],
     "RiskType" : "high",
     "CombinationCards" : 2,
     "CombinationHand" : [ {
       "Card" : {
-        "Symbol" : "Diamond",
-        "Picture" : "FIVE",
-        "Value" : 5
+        "Symbol" : "Spade",
+        "Picture" : "JACK",
+        "Value" : 11
       }
     }, {
       "Card" : {
-        "Symbol" : "Club",
-        "Picture" : "FIVE",
-        "Value" : 5
+        "Symbol" : "Heart",
+        "Picture" : "JACK",
+        "Value" : 11
       }
     } ],
     "Combination" : "PAIR",
     "Outcome" : 10,
     "Player" : {
-      "Money" : 210
+      "Money" : 1088
     }
   }
 }

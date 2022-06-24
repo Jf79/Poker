@@ -60,11 +60,10 @@ case class Controller @Inject() (player: PlayerInterface, fileIo: FileIOInterfac
     round.get
 
   def chooseRiskType(risk: String): RoundInterface =   // Risk Type State
-    round = round.get.state.execute(round.get.setRiskType, risk)
+    round = Some(undoManager.doStep(round.get, ChooseRiskTypeCommand(risk)))
     round.get
   
   def setBet(bet: Int) : RoundInterface =  // Bet State
-    //round = round.get.state.execute(round.get.setBet, bet)
     round = Some(undoManager.doStep(round.get, BetCommand(bet)))
     round.get
   

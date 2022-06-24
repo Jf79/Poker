@@ -27,9 +27,18 @@ case class HighRisk() extends RiskType :
         if(bet >= MIN_BET) return bet
         MIN_BET
 
-    override def checkCombination(hand: Array[CardInterface]): Option[Combination] = 
-        val c = findCombination(hand)._1
-        if(!c.isEmpty) return c
+    override def checkCombination(hand: Array[CardInterface]):(Option[Combination], Option[Array[CardInterface]]) = 
+        val tuple = findCombination(hand)
+        (tuple._1, filterCombination(tuple, Some(hand)))
+    
+    def filterCombination(tuple: (Option[Combination], Option[Array[CardInterface]]), hand: Option[Array[CardInterface]]) : Option[Array[CardInterface]]=
+        if(!tuple._1.get.equals(Combination.NOTHING))
+            var leftCards: Option[Array[CardInterface]] = None
+            if(!tuple._2.isEmpty)
+                leftCards = tuple._2
+            else
+                leftCards = Some(Array())
+            return Some(hand.get.filterNot(leftCards.get.contains(_)))
         None
     
     override def toString(): String = "high"
@@ -48,20 +57,26 @@ case class LowRisk() extends RiskType :
             throw new Exception("You dont have\nenough credit\nreduce your Bet")
         bet
 
-    override def checkCombination(hand: Array[CardInterface]): Option[Combination] = 
-        val comb = findCombination(hand)
-        val leftCards = comb._2
-        if(!comb._1.isEmpty && !leftCards.isEmpty)
-            if(isUsefulPair(comb._1.get, hand, comb._2.get))
-                return None
-        comb._1
-    
-    def isUsefulPair(c: Combination, hand: Array[CardInterface], leftCards: Array[CardInterface]) : Boolean = 
-        if(c.equals(Combination.PAIR))
-            val pair = hand.filterNot(leftCards.contains(_))
-            if(pair(0).value < 11)
-                return false
-        true
+    override def checkCombination(hand: Array[CardInterface]): (Option[Combination], Option[Array[CardInterface]]) =
+        val tuple = findCombination(hand)
+        val comb = filterCombination(tuple, Some(hand))
+        if(comb.isEmpty)
+            return (Some(Combination.NOTHING), comb)
+        (tuple._1, comb)
+        
+    def filterCombination(tuple: (Option[Combination], Option[Array[CardInterface]]), hand: Option[Array[CardInterface]]) : Option[Array[CardInterface]]=
+        if(!tuple._1.get.equals(Combination.NOTHING))
+            var leftCards: Option[Array[CardInterface]] = None
+            if(!tuple._2.isEmpty)
+                leftCards = tuple._2
+            else
+                leftCards = Some(Array())
+            val combHand = hand.get.filterNot(leftCards.get.contains(_))
+            if(tuple._1.get.equals(Combination.PAIR))
+                if(combHand(0).value < 11)
+                    return None
+            return Some(combHand)
+        None
     
     override def toString(): String = "low"
 

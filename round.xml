@@ -1,48 +1,48 @@
 <round>
-    <bet>20</bet>
+    <bet>10</bet>
     <hand>
         <card>
-            <symbol>Spade</symbol>
-            <picture>SIX</picture>
-            <value>6</value>
-        </card>
-        <card>
             <symbol>Diamond</symbol>
-            <picture>SEVEN</picture>
-            <value>7</value>
+            <picture>FIVE</picture>
+            <value>5</value>
         </card>
         <card>
             <symbol>Heart</symbol>
-            <picture>TWO</picture>
-            <value>2</value>
-        </card>
-        <card>
-            <symbol>Spade</symbol>
-            <picture>TWO</picture>
-            <value>2</value>
+            <picture>FIVE</picture>
+            <value>5</value>
         </card>
         <card>
             <symbol>Diamond</symbol>
-            <picture>ACE</picture>
-            <value>14</value>
+            <picture>NINE</picture>
+            <value>9</value>
+        </card>
+        <card>
+            <symbol>Club</symbol>
+            <picture>THREE</picture>
+            <value>3</value>
+        </card>
+        <card>
+            <symbol>Heart</symbol>
+            <picture>EIGHT</picture>
+            <value>8</value>
         </card>
     </hand>
     <riskType>high</riskType>
     <combinationHand>
         <card>
-            <symbol>Heart</symbol>
-            <picture>TWO</picture>
-            <value>2</value>
+            <symbol>Diamond</symbol>
+            <picture>FIVE</picture>
+            <value>5</value>
         </card>
         <card>
-            <symbol>Spade</symbol>
-            <picture>TWO</picture>
-            <value>2</value>
+            <symbol>Heart</symbol>
+            <picture>FIVE</picture>
+            <value>5</value>
         </card>
     </combinationHand>
     <combination>PAIR</combination>
-    <outcome>20</outcome>
+    <outcome>10</outcome>
     <player>
-        <money>220</money>
+        <money>210</money>
     </player>
 </round>

@@ -25,7 +25,7 @@ import poker.model.round.roundBaseImpl.RiskType
 class FileIO extends FileIOInterface:
     
     override def save(round: RoundInterface, filename: String): Unit = 
-        saveString(round, filename)
+        saveString(round, filename + ".xml")
 
     override def load: RoundInterface = 
         var round: RoundInterface = null
@@ -63,10 +63,6 @@ class FileIO extends FileIOInterface:
         round.bet = Some(bet)
         round.combinationHand = Some(combHandArray)
         round
-
-
-    def saveXml(round: RoundInterface): Unit = 
-        scala.xml.XML.save("round.xml", roundToXml(round))
 
     def saveString(round: RoundInterface, filename: String): Unit = 
         val pw = new PrintWriter(new File(filename))

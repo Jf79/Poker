@@ -32,7 +32,7 @@
         "Value" : 5
       }
     } ],
-    "RiskType" : "high",
+    "RiskType" : "low",
     "CombinationCards" : 2,
     "CombinationHand" : [ {
       "Card" : {

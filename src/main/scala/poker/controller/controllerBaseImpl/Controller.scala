@@ -79,7 +79,7 @@ case class Controller @Inject() (player: PlayerInterface, fileIo: FileIOInterfac
   def evaluation(): RoundInterface = 
     round = round.get.state.execute(round.get.evaluation())
     fileIo.save(round.get, "round")
-    //fileIo.save(fileIo.load, "copy.xml")
+    fileIo.save(fileIo.load, "copy")
     round.get
   
   def getStateOfRound(): State =

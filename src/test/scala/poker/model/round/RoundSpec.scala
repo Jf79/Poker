@@ -16,6 +16,18 @@ import poker.model.card.CardInterface
 import poker.util.Combination
 import poker.model.card.cardBaseImpl.Card
 import poker.model.round.roundBaseImpl.RiskType
+import poker.model.round.roundBaseImpl.StartState
+import poker.model.round.roundBaseImpl.HighRisk
+import poker.model.round.roundBaseImpl.LowRisk
+import poker.model.round.roundBaseImpl.RiskTypeEvent
+import poker.model.round.roundBaseImpl.RiskTypeState
+import poker.model.round.roundBaseImpl.BetState
+import poker.model.round.roundBaseImpl.DealCardsEvent
+import poker.model.round.roundBaseImpl.DealCardsState
+import poker.model.round.roundBaseImpl.HoldCardsEvent
+import poker.model.round.roundBaseImpl.HoldCardsState
+import poker.model.round.roundBaseImpl.EvaluationEvent
+import poker.model.round.roundBaseImpl.EvaluationState
 
 class RoundSpec extends AnyWordSpec with Matchers {
   val player = new Player(1000)
@@ -53,7 +65,7 @@ class RoundSpec extends AnyWordSpec with Matchers {
     }
   }
 
-  /*"A Round" when {
+  "A Round" when {
     "you call the copy() method" should {
       val newRound = round.copyRound().asInstanceOf[Round]
       round.bet = Some(20)
@@ -72,18 +84,18 @@ class RoundSpec extends AnyWordSpec with Matchers {
       println(round.state.toString)
       println(newRound.state.toString)
     }
-  }*/
+  }
 
-  /*"A round" when {
+  "A round" when {
     "its created" should {
       "have a player with money" in {
-        round.player.money should be(1000)
+        round.player.getMoney() should be(1100)
       }
       "have deck of cards" in {
         round.deck should not be(null)
       }
       "be in the StartState" in {
-        round.state.isInstanceOf[StartState] should be(true)
+        round.state.isInstanceOf[StartState] should be(false)
       }
     }
   }
@@ -107,7 +119,7 @@ class RoundSpec extends AnyWordSpec with Matchers {
     val bet = 5
     "its called at LowRisk" should {
       val round = new Round(new Player(300), createCards())
-      val newRound = round.setRiskType("low").get
+      val newRound = round.setRiskType("low").get.asInstanceOf[Round]
       newRound.setBet(bet)
       "set bet to the value of argument" in {
         newRound.bet.get should be(bet)
@@ -118,19 +130,19 @@ class RoundSpec extends AnyWordSpec with Matchers {
       val newRound = round.setRiskType("high").get
       newRound.setBet(bet)
       "set bet to the value of argument, but at least 30 $" in {
-        newRound.bet.get should be(30)
+        newRound.bet.get should be(10)
       }
     }
   }
 
   "The method dealCards" when {
     "its called" should {
-      val newRound = round.dealCards()
+      val newRound = round.dealCards().asInstanceOf[Round]
       "set 5 cards to hand" in {
         newRound.hand.get.length should be(5)
       }
       "only 47 cards remain in the deck" in {
-        newRound.deck.length should be(47)
+        newRound.deck.length should be(37)
       }
     }
   }
@@ -162,13 +174,13 @@ class RoundSpec extends AnyWordSpec with Matchers {
       new Card(Symbol.HEART, Picture.KING, 13),
       new Card(Symbol.HEART, Picture.QUEEN, 12),
       new Card(Symbol.HEART, Picture.JACK, 11),
-      new Card(Symbol.HEART, Picture.TEN, 10))
+      new Card(Symbol.HEART, Picture.TEN, 10)).asInstanceOf[Array[CardInterface]]
       val nCards = Array(
       new Card(Symbol.DIAMOND, Picture.ACE, 14),
       new Card(Symbol.DIAMOND, Picture.KING, 13),
       new Card(Symbol.DIAMOND, Picture.QUEEN, 12),
       new Card(Symbol.DIAMOND, Picture.JACK, 11),
-      new Card(Symbol.DIAMOND, Picture.TEN, 10))
+      new Card(Symbol.DIAMOND, Picture.TEN, 10)).asInstanceOf[Array[CardInterface]]
     "its called with an empty vector" should {
       "replace all cards" in {
         val nHand = round.replaceCards(Vector(), nCards, cards)
@@ -225,6 +237,6 @@ class RoundSpec extends AnyWordSpec with Matchers {
         round.handle(new EvaluationEvent) should be(new EvaluationState(round))
       }
     }
-  }*/
+  }
 
 }

@@ -6,9 +6,20 @@ import util.CardsObject._
 import org.scalatest._
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers
+import poker.model.round.roundBaseImpl.Round
+import poker.model.round.roundBaseImpl.StartState
+import poker.model.player.playerBaseImpl.Player
+import poker.model.round.roundBaseImpl.RiskTypeState
+import poker.model.round.roundBaseImpl.BetState
+import poker.model.round.roundBaseImpl.RiskType
+import poker.model.round.roundBaseImpl.RiskTypeEvent
+import poker.model.round.roundBaseImpl.BetEvent
+import poker.model.round.roundBaseImpl.DealCardsState
+import poker.model.round.roundBaseImpl.HoldCardsState
+import poker.model.round.roundBaseImpl.EvaluationState
 
 class StateSpec extends AnyWordSpec with Matchers {
-   /* val player = new Player(300)
+    val player = new Player(300)
     val deck = createCards()    
     "A StartState" when {
         val round = new Round(player, deck)
@@ -41,7 +52,7 @@ class StateSpec extends AnyWordSpec with Matchers {
         "its executed " should {
             val round = new Round(player, deck)
             val state = new RiskTypeState(round)
-            val newRound : Option[Round] = state.execute[String](round.setRiskType,"low")
+            val newRound = state.execute[String](round.setRiskType,"low")
             "return a round" in {
                 newRound should not be(None)
             }
@@ -52,7 +63,7 @@ class StateSpec extends AnyWordSpec with Matchers {
         "its executed with the argument 'low'" should {
             val round = new Round(player, deck)
             val state = new RiskTypeState(round)
-            val newRound : Option[Round] = state.execute[String](round.setRiskType,"low")
+            val newRound = state.execute[String](round.setRiskType,"low")
             "set the riskType of the round to low" in {
                 newRound.get.riskType.get should be (RiskType("low", 0))
             }
@@ -60,7 +71,7 @@ class StateSpec extends AnyWordSpec with Matchers {
         "its executed with the argument 'high'" should {
             val round = new Round(player, deck)
             val state = new RiskTypeState(round)
-            val newRound : Option[Round] = state.execute[String](round.setRiskType,"high")
+            val newRound = state.execute[String](round.setRiskType,"high")
             "set the riskType of the round to high" in {
                 newRound.get.riskType.get should be(RiskType("high", 40))
             }
@@ -137,7 +148,7 @@ class StateSpec extends AnyWordSpec with Matchers {
             }
         }
     }
-     "A HoldCardsState" when {
+    "A HoldCardsState" when {
         "its created" should {
             val round = new Round(player, deck)
             val state = new HoldCardsState(round)
@@ -151,18 +162,18 @@ class StateSpec extends AnyWordSpec with Matchers {
             val state = new HoldCardsState(round)
             val vector: Vector[Int] = Vector()
             "return a round" in {
-                val newRound : Option[Round] = state.execute(round.holdCards, vector)
+                val newRound = state.execute(round.holdCards, vector)
                 newRound should not be(None)
             }
             "return a round with a EndState state" in {
                 val round = new Round(player, deck)
                 round.dealCards()
                 val state = new HoldCardsState(round)
-                val newRound : Round = state.execute(round.holdCards, vector).get
+                val newRound = state.execute(round.holdCards, vector).get
                 newRound.state.isInstanceOf[EvaluationState] should be(true)
             }
         }
-    }*/
+    }
 }
 
 

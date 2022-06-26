@@ -23,7 +23,7 @@ class CardSpec extends AnyWordSpec with Matchers {
     }
     "when its printed" should {
       "is printed" in {
-        card.toString should be("A (HEART)")
+        card.toString should be("A (Heart)")
       }
     }
   }

@@ -14,7 +14,7 @@ class RiskTypeSpec extends AnyWordSpec with Matchers {
     "High Risk Type" when {
         "you create it, with a player who dont have enough credit" should {
             "throw an Exception " in {
-                val t = Try{RiskType("high", 10)}
+                val t = Try{RiskType("high", 5)}
                 t.isFailure should be(true)
             }
         }

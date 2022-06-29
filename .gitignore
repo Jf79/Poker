@@ -12,4 +12,9 @@ target/
 null/
 .history
 .scala_dependencies
-.cache-main
+.cache
+.worksheet
+copy.json
+copy.xml
+round.json
+round.xml

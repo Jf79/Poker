@@ -7,15 +7,12 @@ project/metals.sbt
 .vscode
 .tasty
 project/project/
-copy.json
-copy.xml
-round.json
-round.xml
 project/target/
 target/
 null/
 .history
 .scala_dependencies
-.cache
+.cache-main
+
 
 

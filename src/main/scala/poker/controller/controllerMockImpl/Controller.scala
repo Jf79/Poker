@@ -11,15 +11,11 @@ import model.round.CreateRound
 import model.player.PlayerInterface
 
 import model.card.CardInterface
-import controller.ControllerInterface
-
-
 
 import util.CardsObject._
 import util.State
 import util._
-import model.round.{BetState, RiskTypeState, DealCardsState, HoldCardsState, EvaluationState}
-import controller.ControllerInterface
+import model.round.roundBaseImpl.{BetState, RiskTypeState, DealCardsState, HoldCardsState, EvaluationState}
 
 case class Controller(player: PlayerInterface) extends ControllerInterface:
 

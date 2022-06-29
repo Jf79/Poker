@@ -11,15 +11,12 @@ import player.PlayerInterface
 import card.CardInterface
 
 import scala.util.{Try, Success, Failure}
+import scala.xml.Elem
 
 
 case class Round(player: PlayerInterface, var deck: Array[CardInterface]) extends RoundInterface:
 
-  var bet: Option[Int] = null
-  var hand: Option[Array[CardInterface]] = null
   var updateMessage: String = null
-  var combinationHand: Option[Array[CardInterface]] = null
-  var outcome: Int = 0
 
   // stateable
   var state = null
@@ -73,6 +70,8 @@ case class Round(player: PlayerInterface, var deck: Array[CardInterface]) extend
   override def getOutcome(): Int = 0
 
   override def getBet(): Int = 0
+
+  override def getPlayer = null
 
   override def toString = null
 

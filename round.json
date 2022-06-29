@@ -1,0 +1,56 @@
+{
+  "Round" : {
+    "Bet" : 10,
+    "Hand" : [ {
+      "Card" : {
+        "Symbol" : "Spade",
+        "Picture" : "JACK",
+        "Value" : 11
+      }
+    }, {
+      "Card" : {
+        "Symbol" : "Spade",
+        "Picture" : "EIGHT",
+        "Value" : 8
+      }
+    }, {
+      "Card" : {
+        "Symbol" : "Heart",
+        "Picture" : "ACE",
+        "Value" : 14
+      }
+    }, {
+      "Card" : {
+        "Symbol" : "Spade",
+        "Picture" : "NINE",
+        "Value" : 9
+      }
+    }, {
+      "Card" : {
+        "Symbol" : "Heart",
+        "Picture" : "JACK",
+        "Value" : 11
+      }
+    } ],
+    "RiskType" : "high",
+    "CombinationCards" : 2,
+    "CombinationHand" : [ {
+      "Card" : {
+        "Symbol" : "Spade",
+        "Picture" : "JACK",
+        "Value" : 11
+      }
+    }, {
+      "Card" : {
+        "Symbol" : "Heart",
+        "Picture" : "JACK",
+        "Value" : 11
+      }
+    } ],
+    "Combination" : "PAIR",
+    "Outcome" : 10,
+    "Player" : {
+      "Money" : 1088
+    }
+  }
+}

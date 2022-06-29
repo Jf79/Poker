@@ -9,7 +9,7 @@ trait RiskType :
     def lowestCombination : String
     def message: String
     def setBet(bet: Int, credit: Int): Int
-    def checkCombination(hand: Array[CardInterface]): Option[Combination]
+    def checkCombination(hand: Array[CardInterface]): (Option[Combination], Option[Array[CardInterface]])
 
 
 

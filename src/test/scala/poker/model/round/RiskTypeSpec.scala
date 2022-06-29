@@ -3,7 +3,7 @@ package model
 
 import util.RiskType
 import player.playerBaseImpl.Player
-import round.RiskType
+import round.roundBaseImpl.RiskType
 import scala.util.{Try, Success, Failure}
 import org.scalatest._
 import org.scalatest.wordspec.AnyWordSpec
@@ -14,7 +14,7 @@ class RiskTypeSpec extends AnyWordSpec with Matchers {
     "High Risk Type" when {
         "you create it, with a player who dont have enough credit" should {
             "throw an Exception " in {
-                val t = Try{RiskType("high", 10)}
+                val t = Try{RiskType("high", 5)}
                 t.isFailure should be(true)
             }
         }

@@ -11,18 +11,16 @@ import model.round.CreateRound
 import model.player.PlayerInterface
 
 import model.card.CardInterface
-import controller.ControllerInterface
-
-
 
 import util.CardsObject._
 import util.State
 import util._
-import model.round.{BetState, RiskTypeState, DealCardsState, HoldCardsState, EvaluationState}
-import controller.ControllerInterface
+import model.round.roundBaseImpl.{BetState, RiskTypeState, DealCardsState, HoldCardsState, EvaluationState}
 import com.google.inject.Inject
+import poker.model.fileIO.fileIOxml.FileIO
+import poker.model.fileIO.FileIOInterface
 
-case class Controller @Inject() (player: PlayerInterface) extends ControllerInterface:
+case class Controller @Inject() (player: PlayerInterface, fileIo: FileIOInterface) extends ControllerInterface:
 
   val undoManager = new UndoManager[RoundInterface]
   var round: Option[RoundInterface] = None
@@ -62,11 +60,10 @@ case class Controller @Inject() (player: PlayerInterface) extends ControllerInte
     round.get
 
   def chooseRiskType(risk: String): RoundInterface =   // Risk Type State
-    round = round.get.state.execute(round.get.setRiskType, risk)
+    round = Some(undoManager.doStep(round.get, ChooseRiskTypeCommand(risk)))
     round.get
   
   def setBet(bet: Int) : RoundInterface =  // Bet State
-    //round = round.get.state.execute(round.get.setBet, bet)
     round = Some(undoManager.doStep(round.get, BetCommand(bet)))
     round.get
   
@@ -80,6 +77,8 @@ case class Controller @Inject() (player: PlayerInterface) extends ControllerInte
   
   def evaluation(): RoundInterface = 
     round = round.get.state.execute(round.get.evaluation())
+    fileIo.save(round.get, "round")
+    fileIo.save(fileIo.load, "copy")
     round.get
   
   def getStateOfRound(): State =
@@ -91,8 +90,7 @@ case class Controller @Inject() (player: PlayerInterface) extends ControllerInte
   def hasEnoughCredit(): Boolean = 
     player.getMoney() > 0
   
-  def clearUndoManager() = 
-    undoManager.clear()
+  def clearUndoManager() =  undoManager.clear()
   
   def undo() = round = Some(undoManager.undoStep(round.get))
 

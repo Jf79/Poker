@@ -4,7 +4,7 @@ package gui
 import util.CardsObject._
 import java.awt.Point
 
-import controller.controller.ControllerInterface
+import controller.ControllerInterface
 import java.awt.Color._
 import scala.collection.mutable
 import scala.collection.mutable.HashMap

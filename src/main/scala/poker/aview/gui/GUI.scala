@@ -21,7 +21,7 @@ import util.Symbol._
 import util.CardsObject._
 import gui.Prepare._
 
-import controller.controller.ControllerInterface
+import controller.ControllerInterface
 import scala.swing.Button
 import scala.swing.BorderPanel
 import scala.swing.event.MouseClicked
@@ -56,12 +56,12 @@ class GUI(controller: ControllerInterface) extends Frame with UserInterface:
     var gameState: Option[GameEvent] = None
 
     title = "Poker"
-    visible = true
+    visible = true 
     var counter = 0
     
     size = new Dimension(WIDTH, HEIGHT)
 
-    def run: Unit = 
+    def run: Unit =
         gameState = Some(GameEvent.INTRO)
         setPanel
 
@@ -111,6 +111,7 @@ class GUI(controller: ControllerInterface) extends Frame with UserInterface:
         roundState match {
             case "Risk" => chooseRiskType(g)
             case "Bet" => setBet(g)
+            case "Deal" => setBet(g)
             case "Hold" => holdCards(g)
             case "Evaluation" => evaluation(g)
             case "End" => end(g)
@@ -230,6 +231,9 @@ class GUI(controller: ControllerInterface) extends Frame with UserInterface:
     private def chooseRiskType(g: Graphics2D) = 
         drawPlayerCredit(g)
         messageBoard.get.repaint(g, handleFailure(" Which type of\n    game you\n want to play?"))
+        buttonMap.get("BackButton").get.setVisible(false)
+        buttonMap.get("CoinButton").get.setVisible(false)
+        buttonMap.get("DealButton").get.setVisible(false)
         buttonMap.get("ExitButton").get.setVisible(false)
         buttonMap.get("StartButton").get.setVisible(false)
         buttonMap.get("LowButton").get.setVisible(true).repaint(g)

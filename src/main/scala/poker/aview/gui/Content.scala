@@ -9,7 +9,7 @@ import java.awt.event.ActionListener
 import java.awt.Graphics2D
 import java.awt.Font
 import java.awt.BasicStroke
-import controller.controller.ControllerInterface
+import controller.ControllerInterface
 
 abstract class MyContent():
     var visible: Boolean = false

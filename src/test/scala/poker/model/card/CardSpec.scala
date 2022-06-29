@@ -6,6 +6,7 @@ import util.Picture
 
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
+import poker.model.card.cardBaseImpl.Card
 
 //import model._
 
@@ -22,7 +23,7 @@ class CardSpec extends AnyWordSpec with Matchers {
     }
     "when its printed" should {
       "is printed" in {
-        card.toString should be("A (HEART)")
+        card.toString should be("A (Heart)")
       }
     }
   }

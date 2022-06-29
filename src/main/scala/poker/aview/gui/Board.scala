@@ -10,7 +10,7 @@ import java.awt.BasicStroke
 import java.awt.Graphics2D
 
 import util.Combination
-import controller.controller.ControllerInterface
+import controller.ControllerInterface
 import util.RiskType
 
 case class MessageBoard(topL: Point, topR: Point, bottomR: Point, bottomL: Point, color: Color) 

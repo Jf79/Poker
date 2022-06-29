@@ -1,6 +1,5 @@
 package poker
 package controller
-package controller
 
 import util.Observable
 import util.State
@@ -9,7 +8,7 @@ import model.round.RoundInterface
 import model.round.CreateRound
 import model.player.PlayerInterface
 import model.card.CardInterface
-import poker.model.round.Round
+import poker.model.round.roundBaseImpl.Round
 
 trait ControllerInterface extends Observable:
     

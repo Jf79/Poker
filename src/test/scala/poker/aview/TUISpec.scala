@@ -4,7 +4,7 @@ package tui
 
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
-import controller.controllerBaseImpl.Controller
+import controller.controllerMockImpl.Controller
 import util.CardsObject._
 
 class TUISpec extends AnyWordSpec with Matchers {
@@ -13,7 +13,7 @@ class TUISpec extends AnyWordSpec with Matchers {
       val array = Array("1", "2", "3", "4", "5")
       val vector = Vector(1, 2, 3, 4, 5)
       "return a Vector of integers " in {
-        val tui = new TUI(null)
+        val tui = new TUI(new Controller(null))
         val result = tui.processInput(array)
         result should be(vector)
       }

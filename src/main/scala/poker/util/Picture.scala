@@ -4,7 +4,25 @@ package util
 enum Picture {
   case TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE,
     TEN, JACK, QUEEN, KING, ACE
+  
+  def value = 
+    this match {
+      case TWO   => "TWO"
+      case THREE => "THREE"
+      case FOUR  => "FOUR"
+      case FIVE  => "FIVE"
+      case SIX   => "SIX"
+      case SEVEN => "SEVEN"
+      case EIGHT => "EIGHT"
+      case NINE  => "NINE"
+      case TEN   => "TEN"
+      case JACK  => "JACK"
+      case QUEEN => "QUEEN"
+      case KING  => "KING"
+      case ACE   => "ACE"
+    }
 
+  
   override def toString = {
     this match {
       case TWO   => "2"

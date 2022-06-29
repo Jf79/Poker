@@ -1,0 +1,56 @@
+{
+  "Round" : {
+    "Bet" : 20,
+    "Hand" : [ {
+      "Card" : {
+        "Symbol" : "Diamond",
+        "Picture" : "NINE",
+        "Value" : 9
+      }
+    }, {
+      "Card" : {
+        "Symbol" : "Spade",
+        "Picture" : "NINE",
+        "Value" : 9
+      }
+    }, {
+      "Card" : {
+        "Symbol" : "Heart",
+        "Picture" : "FOUR",
+        "Value" : 4
+      }
+    }, {
+      "Card" : {
+        "Symbol" : "Club",
+        "Picture" : "KING",
+        "Value" : 13
+      }
+    }, {
+      "Card" : {
+        "Symbol" : "Heart",
+        "Picture" : "QUEEN",
+        "Value" : 12
+      }
+    } ],
+    "RiskType" : "high",
+    "CombinationCards" : 2,
+    "CombinationHand" : [ {
+      "Card" : {
+        "Symbol" : "Diamond",
+        "Picture" : "NINE",
+        "Value" : 9
+      }
+    }, {
+      "Card" : {
+        "Symbol" : "Spade",
+        "Picture" : "NINE",
+        "Value" : 9
+      }
+    } ],
+    "Combination" : "PAIR",
+    "Outcome" : 20,
+    "Player" : {
+      "Money" : 220
+    }
+  }
+}

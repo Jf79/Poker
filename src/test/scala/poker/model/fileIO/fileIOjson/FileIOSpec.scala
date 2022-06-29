@@ -40,7 +40,7 @@ class FileIOSpec extends AnyWordSpec with Matchers {
 
     "The method roundToJson()" when {
         val hand = Array(Card(Symbol.HEART, Picture.ACE, 14),Card(Symbol.DIAMOND, Picture.ACE, 14))
-        val fileIO = new poker.model.fileIO.fileIOxml.FileIO()
+        val fileIO = new poker.model.fileIO.fileIOjson.FileIO()
         val fileIOjson = new FileIO()
         "its called with card as an argument" should {
             "return a suitable json object" in {

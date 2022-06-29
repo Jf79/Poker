@@ -49,41 +49,4 @@ class FileIOSpec extends AnyWordSpec with Matchers {
             }
         }
     }
-    "The method load()" when {
-        var round: RoundInterface = null
-        val source: String = Source.fromFile("round.json").getLines.mkString
-        val json: JsValue = Json.parse(source)
-        "its called" should {
-            "return a suitable round" in {
-                println("+++++")
-                println((json \ "Round" \ "Bet").get)
-                println((json \ "Round" \ "Hand").get)
-                val hand = (json \ "Round" \ "Hand").get
-                for(i <- 0 to 4) {
-                    println("xxxxxxxxxxxxxxxx")
-                    println(((hand(i))\ "Card" \ "Symbol").get)
-                    println(((hand(i))\ "Card" \ "Picture").get)
-                    println(((hand(i))\ "Card" \ "Value").get)
-                    println("xxxxxxxxxxxxxxxx")
-                }
-                val riskType = (json \ "Round" \ "RiskType").get
-                println(riskType)
-                val combLength = (json \ "Round" \ "CombinationCards").get.toString.toInt
-                val combHand = (json \ "Round" \ "CombinationHand").get
-                for(i <- 0 to combLength - 1) {
-                    println("-------------------------------")
-                    println(((combHand(i))\ "Card" \ "Symbol").get.toString.toUpperCase)
-                    println(((combHand(i))\ "Card" \ "Picture").get)
-                    println(((combHand(i))\ "Card" \ "Value").get)
-                    println("-------------------------------")
-                }
-                val combination = (json \"Round" \"Combination").get
-                val outcome = (json \"Round" \ "Outcome").get.toString.toInt
-                val money = (json \ "Round" \ "Player" \ "Money").get.toString.toInt
-                println(combination)
-                println(outcome)
-                println(money)
-            }
-        }
-    }
 }

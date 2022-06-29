@@ -14,7 +14,7 @@ null/
 .scala_dependencies
 .cache
 .worksheet
-copy.json
-copy.xml
-round.json
-round.xml
+.copy.json
+.copy.xml
+.round.json
+.round.xml

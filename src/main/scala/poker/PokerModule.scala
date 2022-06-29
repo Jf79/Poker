@@ -16,6 +16,6 @@ class PokerModule extends AbstractModule:
     override def configure(): Unit = 
         bind(classOf[PlayerInterface]).toInstance(new Player(200))
         bind(classOf[ControllerInterface]).toInstance(new Controller(new Player(200), new FileIO()))
-        bind(classOf[UserInterface]).toInstance(new GUI(new Controller(new Player(200), new FileIO())))
+        bind(classOf[UserInterface]).toInstance(new TUI(new Controller(new Player(200), new FileIO())))
 
 
